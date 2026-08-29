@@ -1,0 +1,107 @@
+site_name: NodeMCU/IoT Mastery Path
+site_description: A structured, module-wise NodeMCU and IoT development training program from entry level to master level — ESP8266/ESP32 with the Arduino IDE, WiFi, MQTT, and production IoT device design.
+site_url: https://sigilipelli.github.io/nodemcu-mastery-path/
+repo_url: https://github.com/SIGILIPELLI/nodemcu-mastery-path
+repo_name: nodemcu-mastery-path
+
+theme:
+  name: material
+  custom_dir: docs/overrides
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - content.code.copy
+    - content.code.annotate
+    - search.suggest
+    - search.highlight
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+
+extra_css:
+  - stylesheets/extra.css
+
+# --- auto-pruned stub levels (see AdSense low-value-content fix) ---
+exclude_docs: |
+  level-2/*
+  level-3/*
+  level-4/*
+# --- end auto-pruned stub levels ---
+
+nav:
+  - Home: index.md
+  - Privacy Policy: privacy.md
+  - "Level 1 · Entry":
+      - Overview: level-1/index.md
+      - "01 · What Is NodeMCU (ESP8266 vs ESP32)": level-1/01-what-is-nodemcu.md
+      - "02 · Setting Up the Arduino IDE for ESP Boards": level-1/02-arduino-ide-setup.md
+      - "03 · First Blink Sketch": level-1/03-first-blink-sketch.md
+      - "04 · GPIO Basics: Digital Read & Write": level-1/04-gpio-basics.md
+      - "05 · Analog Input (ADC)": level-1/05-analog-input-adc.md
+      - "06 · PWM Basics": level-1/06-pwm-basics.md
+      - "07 · Serial Monitor Debugging": level-1/07-serial-monitor-debugging.md
+      - "08 · Connecting to WiFi": level-1/08-connecting-to-wifi.md
+      - "09 · Reading a Sensor (DHT11 Temperature)": level-1/09-reading-a-sensor-dht11.md
+      - "10 · Capstone — WiFi Sensor Node & Web Server": level-1/10-capstone-wifi-sensor-node.md
+  - "Level 2 · Intermediate":
+      - Overview: level-2/index.md
+      - "01 · MQTT Basics for IoT Messaging": level-2/01-mqtt-basics.md
+      - "02 · Connecting to a Cloud IoT Platform": level-2/02-cloud-iot-platform.md
+      - "03 · Deep Sleep & Power Management": level-2/03-deep-sleep-power-management.md
+      - "04 · OTA (Over-the-Air) Updates": level-2/04-ota-updates.md
+      - "05 · Interrupts & Debouncing": level-2/05-interrupts-debouncing.md
+      - "06 · I2C Peripherals": level-2/06-i2c-peripherals.md
+      - "07 · SPI Peripherals": level-2/07-spi-peripherals.md
+      - "08 · JSON Data & Config Storage": level-2/08-json-data-config-storage.md
+      - "09 · Multi-Device Networking Patterns": level-2/09-multi-device-networking.md
+      - "10 · Capstone — MQTT Sensor-to-Cloud Bridge": level-2/10-capstone-mqtt-sensor-bridge.md
+  - "Level 3 · Advanced":
+      - Overview: level-3/index.md
+      - "01 · Building a REST API on the ESP32": level-3/01-rest-api-esp32.md
+      - "02 · Securing IoT Communication (TLS Basics)": level-3/02-securing-iot-tls-basics.md
+      - "03 · Multi-Sensor Data Aggregation & Buffering": level-3/03-multi-sensor-aggregation-buffering.md
+      - "04 · Watchdog Timers & Reliability": level-3/04-watchdog-timers-reliability.md
+      - "05 · Task Scheduling on a Single Core": level-3/05-task-scheduling-single-core.md
+      - "06 · Local Data Logging (SPIFFS/LittleFS)": level-3/06-local-data-logging.md
+      - "07 · Captive Portal & WiFi Provisioning": level-3/07-captive-portal-provisioning.md
+      - "08 · Firmware Versioning & Rollback": level-3/08-firmware-versioning-rollback.md
+      - "09 · Diagnostics & Remote Logging": level-3/09-diagnostics-remote-logging.md
+      - "10 · Capstone — Secure Multi-Sensor IoT Gateway": level-3/10-capstone-iot-gateway.md
+  - "Level 4 · Master":
+      - Overview: level-4/index.md
+      - "01 · Designing a Production IoT Device": level-4/01-production-iot-device-design.md
+      - "02 · Provisioning at Scale": level-4/02-provisioning-at-scale.md
+      - "03 · Fleet Management Concepts": level-4/03-fleet-management-concepts.md
+      - "04 · OTA Update Strategy at Scale": level-4/04-ota-strategy-at-scale.md
+      - "05 · Power Budget Design for Battery Devices": level-4/05-power-budget-design.md
+      - "06 · Edge Processing vs. Cloud Offload": level-4/06-edge-vs-cloud-offload.md
+      - "07 · Security Hardening for Production IoT": level-4/07-security-hardening.md
+      - "08 · Certification & Regulatory Basics": level-4/08-certification-regulatory-basics.md
+      - "09 · Cost Engineering & BOM Optimization": level-4/09-cost-engineering-bom.md
+      - "10 · Capstone — Production IoT Product Design": level-4/10-capstone-production-iot-product.md

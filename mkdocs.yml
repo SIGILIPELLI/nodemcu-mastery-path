@@ -47,12 +47,6 @@ markdown_extensions:
 extra_css:
   - stylesheets/extra.css
 
-# --- auto-pruned stub levels (see AdSense low-value-content fix) ---
-exclude_docs: |
-  level-2/*
-  level-3/*
-  level-4/*
-# --- end auto-pruned stub levels ---
 
 nav:
   - Home: index.md

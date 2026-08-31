@@ -92,7 +92,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#spi-peripherals" class="md-skip">
+        <a href="#07-spi-peripherals" class="md-skip">
           Skip to content
         </a>
       
@@ -1110,6 +1110,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07 · SPI Peripherals
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1126,6 +1144,91 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#i2c-vs-spi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        I2C vs. SPI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-spi-transaction-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic SPI transaction pattern
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#driving-an-st7735-color-tft-display" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Driving an ST7735 color TFT display
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#readingwriting-an-sd-card-over-spi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reading/writing an SD card over SPI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sharing-an-spi-bus-between-two-devices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sharing an SPI bus between two devices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2094,80 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#i2c-vs-spi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        I2C vs. SPI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-spi-transaction-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic SPI transaction pattern
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#driving-an-st7735-color-tft-display" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Driving an ST7735 color TFT display
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#readingwriting-an-sd-card-over-spi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reading/writing an SD card over SPI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sharing-an-spi-bus-between-two-devices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sharing an SPI bus between two devices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2009,9 +2186,136 @@
   
 
 
-<h1 id="spi-peripherals">SPI Peripherals<a class="headerlink" href="#spi-peripherals" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 2 · Intermediate.</p>
-<p>More lessons are on the way — check back soon.</p>
+<h1 id="07-spi-peripherals">07 · SPI Peripherals<a class="headerlink" href="#07-spi-peripherals" title="Permanent link">&para;</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Not flashed to hardware</p>
+<p>Reasoned through against the Arduino core's documented <code>SPI</code> library
+API (<code>SPI.begin()</code>, <code>SPI.beginTransaction()</code>, <code>SPISettings</code>) shared by
+ESP8266 and ESP32, and Adafruit's documented <code>Adafruit_ST7735</code>/SD
+library APIs as representative SPI peripheral drivers. Not compiled
+or flashed to physical hardware in this environment.</p>
+</div>
+<h2 id="i2c-vs-spi">I2C vs. SPI<a class="headerlink" href="#i2c-vs-spi" title="Permanent link">&para;</a></h2>
+<p>Where I2C (module 06) shares two wires among many addressed devices,
+<strong>SPI</strong> ("Serial Peripheral Interface") uses more wires but moves data
+much faster and doesn't need addressing at all — each device gets its
+own dedicated <strong>CS/SS</strong> (Chip Select) line, while <code>MOSI</code>, <code>MISO</code>, and
+<code>SCK</code> are shared. SPI is the standard choice for anything that needs
+higher throughput than I2C comfortably provides: SD cards, TFT/color
+displays, and fast ADCs.</p>
+<p>On NodeMCU-style ESP8266 boards, hardware SPI pins are fixed:
+<code>D7</code>=MOSI, <code>D6</code>=MISO, <code>D5</code>=SCK, and you choose any free GPIO as CS. ESP32
+defaults to GPIO23=MOSI, GPIO19=MISO, GPIO18=SCK (VSPI), also with a
+free-choice CS pin.</p>
+<h2 id="basic-spi-transaction-pattern">Basic SPI transaction pattern<a class="headerlink" href="#basic-spi-transaction-pattern" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// spi-basic-transaction.ino</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;SPI.h&gt;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">CS_PIN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">D8</span><span class="p">;</span><span class="w"> </span><span class="c1">// ESP8266; pick any free GPIO on ESP32</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">CS_PIN</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">CS_PIN</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span><span class="w"> </span><span class="c1">// deselected by default (active-low CS)</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">  </span><span class="n">SPI</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="p">}</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="kt">byte</span><span class="w"> </span><span class="nf">readRegister</span><span class="p">(</span><span class="kt">byte</span><span class="w"> </span><span class="n">reg</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">  </span><span class="c1">// SPISettings documents clock speed, bit order, and SPI mode --</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">  </span><span class="c1">// wrapping each transaction lets multiple SPI devices at different</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">  </span><span class="c1">// speeds share the same bus safely.</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">  </span><span class="n">SPI</span><span class="p">.</span><span class="n">beginTransaction</span><span class="p">(</span><span class="n">SPISettings</span><span class="p">(</span><span class="mi">1000000</span><span class="p">,</span><span class="w"> </span><span class="n">MSBFIRST</span><span class="p">,</span><span class="w"> </span><span class="n">SPI_MODE0</span><span class="p">));</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">CS_PIN</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span><span class="w"> </span><span class="c1">// select this device</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">  </span><span class="n">SPI</span><span class="p">.</span><span class="n">transfer</span><span class="p">(</span><span class="n">reg</span><span class="p">);</span><span class="w">          </span><span class="c1">// send the register address to read</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">  </span><span class="kt">byte</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SPI</span><span class="p">.</span><span class="n">transfer</span><span class="p">(</span><span class="mh">0x00</span><span class="p">);</span><span class="w"> </span><span class="c1">// clock out a dummy byte, read the reply</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">CS_PIN</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span><span class="w"> </span><span class="c1">// deselect</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">  </span><span class="n">SPI</span><span class="p">.</span><span class="n">endTransaction</span><span class="p">();</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="p">}</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">  </span><span class="kt">byte</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readRegister</span><span class="p">(</span><span class="mh">0x0F</span><span class="p">);</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s">"Register 0x0F: 0x%02X</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">);</span>
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="p">}</span>
+</code></pre></div>
+<p>The exact register protocol (what byte to send, what comes back) is
+chip-specific and documented per datasheet — the pattern above (select,
+transfer, deselect, wrapped in a transaction) is the universal shape
+almost every SPI driver library follows internally.</p>
+<h2 id="driving-an-st7735-color-tft-display">Driving an ST7735 color TFT display<a class="headerlink" href="#driving-an-st7735-color-tft-display" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// spi-tft-display.ino</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;SPI.h&gt;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Adafruit_GFX.h&gt;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Adafruit_ST7735.h&gt;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="cp">#define TFT_CS   D8</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="cp">#define TFT_DC   D3  </span><span class="c1">// data/command select line, SPI displays need this too</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="cp">#define TFT_RST  D4</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="n">Adafruit_ST7735</span><span class="w"> </span><span class="nf">tft</span><span class="p">(</span><span class="n">TFT_CS</span><span class="p">,</span><span class="w"> </span><span class="n">TFT_DC</span><span class="p">,</span><span class="w"> </span><span class="n">TFT_RST</span><span class="p">);</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">  </span><span class="c1">// INITR_BLACKTAB is documented as the common default for most</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">  </span><span class="c1">// 1.8" ST7735 breakout modules; other tab colors exist for other</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">  </span><span class="c1">// manufacturing runs of the same chip.</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">  </span><span class="n">tft</span><span class="p">.</span><span class="n">initR</span><span class="p">(</span><span class="n">INITR_BLACKTAB</span><span class="p">);</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">  </span><span class="n">tft</span><span class="p">.</span><span class="n">fillScreen</span><span class="p">(</span><span class="n">ST77XX_BLACK</span><span class="p">);</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">  </span><span class="n">tft</span><span class="p">.</span><span class="n">setTextColor</span><span class="p">(</span><span class="n">ST77XX_WHITE</span><span class="p">);</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">  </span><span class="n">tft</span><span class="p">.</span><span class="n">setTextSize</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">  </span><span class="n">tft</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">  </span><span class="n">tft</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Hello SPI!"</span><span class="p">);</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="p">}</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+</code></pre></div>
+<h2 id="readingwriting-an-sd-card-over-spi">Reading/writing an SD card over SPI<a class="headerlink" href="#readingwriting-an-sd-card-over-spi" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// spi-sd-card.ino</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;SPI.h&gt;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;SD.h&gt;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">SD_CS_PIN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">D8</span><span class="p">;</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span><span class="c1">// SD.begin(csPin) documents returning false on a missing/unformatted</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">  </span><span class="c1">// card or wrong CS pin -- always guard on it before using the card.</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">SD</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">SD_CS_PIN</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"SD card init failed!"</span><span class="p">);</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">  </span><span class="n">File</span><span class="w"> </span><span class="n">logFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SD</span><span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="s">"/log.txt"</span><span class="p">,</span><span class="w"> </span><span class="n">FILE_WRITE</span><span class="p">);</span><span class="w"> </span><span class="c1">// FILE_WRITE appends</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">logFile</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">    </span><span class="n">logFile</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Sensor node booted"</span><span class="p">);</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">    </span><span class="n">logFile</span><span class="p">.</span><span class="n">close</span><span class="p">();</span><span class="w"> </span><span class="c1">// must close to flush -- data can be lost otherwise</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Wrote to log.txt"</span><span class="p">);</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Failed to open log.txt"</span><span class="p">);</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="p">}</span>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+</code></pre></div>
+<h2 id="sharing-an-spi-bus-between-two-devices">Sharing an SPI bus between two devices<a class="headerlink" href="#sharing-an-spi-bus-between-two-devices" title="Permanent link">&para;</a></h2>
+<p>Both the TFT and SD card examples can share <code>MOSI</code>/<code>MISO</code>/<code>SCK</code> since
+each uses its own CS pin — the key rule (documented by the <code>SPI</code> library
+and followed above) is that only one device's CS should ever be <code>LOW</code>
+at a time, which <code>beginTransaction()</code>/<code>endTransaction()</code> pairs make easy
+to guarantee.</p>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Write the basic register-read sketch and explain what each of
+   <code>SPISettings</code>'s three arguments controls.</li>
+<li>Write the TFT sketch and explain why <code>TFT_DC</code> is needed for SPI
+   displays but not for something like an SD card.</li>
+<li>Write the SD card sketch and explain the documented failure mode when
+   <code>SD.begin()</code> returns false.</li>
+<li>Sketch (in comments) how you'd wire a TFT and SD card on the same SPI
+   bus with two separate CS pins, and confirm both <code>beginTransaction()</code>
+   calls never overlap.</li>
+</ol>
 
 
 

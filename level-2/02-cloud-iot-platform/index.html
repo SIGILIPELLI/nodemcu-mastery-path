@@ -92,7 +92,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#connecting-to-a-cloud-iot-platform" class="md-skip">
+        <a href="#02-connecting-to-a-cloud-iot-platform" class="md-skip">
           Skip to content
         </a>
       
@@ -970,6 +970,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 · Connecting to a Cloud IoT Platform
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -986,6 +1004,80 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#from-a-local-broker-to-the-internet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        From a local broker to the internet
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting credentials
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#publishing-to-adafruit-io-over-mqtt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publishing to Adafruit IO over MQTT
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subscribing-to-a-feed-for-remote-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subscribing to a feed for remote control
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2083,69 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#from-a-local-broker-to-the-internet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        From a local broker to the internet
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Getting credentials
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#publishing-to-adafruit-io-over-mqtt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Publishing to Adafruit IO over MQTT
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subscribing-to-a-feed-for-remote-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subscribing to a feed for remote control
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2009,9 +2164,121 @@
   
 
 
-<h1 id="connecting-to-a-cloud-iot-platform">Connecting to a Cloud IoT Platform<a class="headerlink" href="#connecting-to-a-cloud-iot-platform" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 2 · Intermediate.</p>
-<p>More lessons are on the way — check back soon.</p>
+<h1 id="02-connecting-to-a-cloud-iot-platform">02 · Connecting to a Cloud IoT Platform<a class="headerlink" href="#02-connecting-to-a-cloud-iot-platform" title="Permanent link">&para;</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Not flashed to hardware</p>
+<p>Reasoned through against Adafruit IO's publicly documented MQTT API
+(host <code>io.adafruit.com</code>, port <code>8883</code> TLS / <code>1883</code> plain, feed-based
+topic naming <code>&lt;username&gt;/feeds/&lt;feedname&gt;</code>) and the <code>PubSubClient</code>
+library's documented API. Not compiled or flashed to physical
+hardware in this environment.</p>
+</div>
+<h2 id="from-a-local-broker-to-the-internet">From a local broker to the internet<a class="headerlink" href="#from-a-local-broker-to-the-internet" title="Permanent link">&para;</a></h2>
+<p>Level 2's first module used a broker on your LAN. Real IoT projects
+usually publish to a <strong>cloud IoT platform</strong> instead, so data is reachable
+from anywhere and you get dashboards, storage, and alerting for free.
+<strong>Adafruit IO</strong> is a good learning platform: free tier, plain MQTT
+support, and a simple feed model — every value you publish belongs to a
+named "feed," and each feed gets an auto-generated web dashboard.</p>
+<h2 id="getting-credentials">Getting credentials<a class="headerlink" href="#getting-credentials" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Create a free account at Adafruit IO and note your <strong>username</strong> and
+   <strong>AIO Key</strong> (Adafruit IO's API key, found under "My Key").</li>
+<li>Create a feed named <code>temperature</code> in the dashboard — Adafruit IO auto-
+   creates feeds on first publish too, but creating one explicitly first
+   makes topic naming obvious.</li>
+</ol>
+<h2 id="publishing-to-adafruit-io-over-mqtt">Publishing to Adafruit IO over MQTT<a class="headerlink" href="#publishing-to-adafruit-io-over-mqtt" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// cloud-publish-adafruitio.ino</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ESP8266WiFi.h&gt;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;PubSubClient.h&gt;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">WIFI_SSID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"your-ssid"</span><span class="p">;</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">WIFI_PASS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"your-password"</span><span class="p">;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">AIO_SERVER</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"io.adafruit.com"</span><span class="p">;</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w">   </span><span class="n">AIO_PORT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1883</span><span class="p">;</span><span class="w"> </span><span class="c1">// plain MQTT; use 8883 + WiFiClientSecure for TLS</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">AIO_USERNAME</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"your-aio-username"</span><span class="p">;</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">AIO_KEY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"your-aio-key"</span><span class="p">;</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1">// Adafruit IO's documented topic convention: &lt;username&gt;/feeds/&lt;feedname&gt;</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="n">String</span><span class="w"> </span><span class="n">feedTopic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">String</span><span class="p">(</span><span class="n">AIO_USERNAME</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">"/feeds/temperature"</span><span class="p">;</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="n">WiFiClient</span><span class="w"> </span><span class="n">espClient</span><span class="p">;</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="n">PubSubClient</span><span class="w"> </span><span class="nf">mqtt</span><span class="p">(</span><span class="n">espClient</span><span class="p">);</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="kt">void</span><span class="w"> </span><span class="nf">connectWiFi</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">  </span><span class="n">WiFi</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">WIFI_SSID</span><span class="p">,</span><span class="w"> </span><span class="n">WIFI_PASS</span><span class="p">);</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">WiFi</span><span class="p">.</span><span class="n">status</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">WL_CONNECTED</span><span class="p">)</span><span class="w"> </span><span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="p">}</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="kt">void</span><span class="w"> </span><span class="nf">connectMQTT</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="w">  </span><span class="n">mqtt</span><span class="p">.</span><span class="n">setServer</span><span class="p">(</span><span class="n">AIO_SERVER</span><span class="p">,</span><span class="w"> </span><span class="n">AIO_PORT</span><span class="p">);</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">mqtt</span><span class="p">.</span><span class="n">connected</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">    </span><span class="c1">// Adafruit IO authenticates via MQTT username/password fields, not</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">    </span><span class="c1">// a separate handshake -- username is your AIO username, password</span>
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="w">    </span><span class="c1">// is your AIO key.</span>
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mqtt</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="s">"esp-node-01"</span><span class="p">,</span><span class="w"> </span><span class="n">AIO_USERNAME</span><span class="p">,</span><span class="w"> </span><span class="n">AIO_KEY</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Adafruit IO connected"</span><span class="p">);</span>
+<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s">"failed, rc=%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">mqtt</span><span class="p">.</span><span class="n">state</span><span class="p">());</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="w">      </span><span class="n">delay</span><span class="p">(</span><span class="mi">5000</span><span class="p">);</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a><span class="p">}</span>
+<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>
+<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a><span class="w">  </span><span class="n">connectWiFi</span><span class="p">();</span>
+<a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a><span class="w">  </span><span class="n">connectMQTT</span><span class="p">();</span>
+<a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a><span class="p">}</span>
+<a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>
+<a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">mqtt</span><span class="p">.</span><span class="n">connected</span><span class="p">())</span><span class="w"> </span><span class="n">connectMQTT</span><span class="p">();</span>
+<a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a><span class="w">  </span><span class="n">mqtt</span><span class="p">.</span><span class="n">loop</span><span class="p">();</span>
+<a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a>
+<a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a><span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">last</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-0-50" name="__codelineno-0-50" href="#__codelineno-0-50"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">millis</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">last</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">15000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// Adafruit IO's free tier rate-limits publishes</span>
+<a id="__codelineno-0-51" name="__codelineno-0-51" href="#__codelineno-0-51"></a><span class="w">    </span><span class="n">last</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span>
+<a id="__codelineno-0-52" name="__codelineno-0-52" href="#__codelineno-0-52"></a><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">tempC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">23.4</span><span class="p">;</span>
+<a id="__codelineno-0-53" name="__codelineno-0-53" href="#__codelineno-0-53"></a><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">payload</span><span class="p">[</span><span class="mi">16</span><span class="p">];</span>
+<a id="__codelineno-0-54" name="__codelineno-0-54" href="#__codelineno-0-54"></a><span class="w">    </span><span class="n">dtostrf</span><span class="p">(</span><span class="n">tempC</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">payload</span><span class="p">);</span>
+<a id="__codelineno-0-55" name="__codelineno-0-55" href="#__codelineno-0-55"></a><span class="w">    </span><span class="n">mqtt</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="n">feedTopic</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span><span class="w"> </span><span class="n">payload</span><span class="p">);</span>
+<a id="__codelineno-0-56" name="__codelineno-0-56" href="#__codelineno-0-56"></a><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s">"Published %s to %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">payload</span><span class="p">,</span><span class="w"> </span><span class="n">feedTopic</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+<a id="__codelineno-0-57" name="__codelineno-0-57" href="#__codelineno-0-57"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-0-58" name="__codelineno-0-58" href="#__codelineno-0-58"></a><span class="p">}</span>
+</code></pre></div>
+<p>The 15-second publish interval isn't arbitrary — Adafruit IO's free tier
+documents a rate limit (roughly 30 data points/minute), and publishing
+faster gets throttled or dropped.</p>
+<h2 id="subscribing-to-a-feed-for-remote-control">Subscribing to a feed for remote control<a class="headerlink" href="#subscribing-to-a-feed-for-remote-control" title="Permanent link">&para;</a></h2>
+<p>The same feed topic works both ways — publish sensor data on one feed,
+subscribe to a different feed (e.g. <code>led</code>) so the dashboard's toggle
+switch can control the device:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// cloud-subscribe-adafruitio.ino</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">onMessage</span><span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">topic</span><span class="p">,</span><span class="w"> </span><span class="kt">byte</span><span class="o">*</span><span class="w"> </span><span class="n">payload</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">length</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="n">String</span><span class="w"> </span><span class="n">message</span><span class="p">;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">length</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="kt">char</span><span class="p">)</span><span class="n">payload</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s">"[%s] %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">topic</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">LED_BUILTIN</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">"ON"</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">LOW</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">}</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1">// In setup(), after connectMQTT():</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1">//   mqtt.setCallback(onMessage);</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="c1">//   mqtt.subscribe((String(AIO_USERNAME) + "/feeds/led").c_str());</span>
+</code></pre></div>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Sign up for Adafruit IO, create a <code>temperature</code> feed, and confirm the
+   publish sketch's values appear on its dashboard chart.</li>
+<li>Add a toggle-switch block to an <code>led</code> feed in the dashboard and wire
+   up the subscribe sketch so flipping it (conceptually) drives an LED.</li>
+<li>Deliberately use a wrong AIO key and confirm <code>mqtt.state()</code> reports a
+   non-zero code consistent with an authorization failure (Adafruit IO
+   and PubSubClient both document this behavior).</li>
+<li>Note where this design is insecure (<code>AIO_PORT 1883</code>, plain-text key
+   over the network) — Level 3's TLS module addresses it directly.</li>
+</ol>
 
 
 

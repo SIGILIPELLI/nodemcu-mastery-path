@@ -1690,6 +1690,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 · Designing a Production IoT Device
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1706,6 +1724,102 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#from-sketch-that-works-on-my-desk-to-product" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        From "sketch that works on my desk" to "product"
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-pick-the-right-module-for-the-product-not-the-prototype" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Pick the right module for the product, not the prototype
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-boot-time-invariants-a-production-sketch-must-handle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Boot-time invariants a production sketch must handle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-power-input-realities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Power input realities
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-enclosure-and-antenna-considerations-that-affect-firmware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Enclosure and antenna considerations that affect firmware
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-the-production-readiness-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. The production readiness checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2105,91 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#from-sketch-that-works-on-my-desk-to-product" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        From "sketch that works on my desk" to "product"
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-pick-the-right-module-for-the-product-not-the-prototype" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Pick the right module for the product, not the prototype
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-boot-time-invariants-a-production-sketch-must-handle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Boot-time invariants a production sketch must handle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-power-input-realities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Power input realities
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-enclosure-and-antenna-considerations-that-affect-firmware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Enclosure and antenna considerations that affect firmware
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-the-production-readiness-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. The production readiness checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2010,8 +2209,149 @@
 
 
 <h1 id="designing-a-production-iot-device">Designing a Production IoT Device<a class="headerlink" href="#designing-a-production-iot-device" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 4 · Master.</p>
-<p>More lessons are on the way — check back soon.</p>
+<div class="admonition note">
+<p class="admonition-title">Not flashed to hardware</p>
+<p>Reasoned through against documented ESP8266/ESP32 hardware
+reference specs (datasheets, Arduino-core boot behavior) rather than
+a physical build in this environment.</p>
+</div>
+<h2 id="from-sketch-that-works-on-my-desk-to-product">From "sketch that works on my desk" to "product"<a class="headerlink" href="#from-sketch-that-works-on-my-desk-to-product" title="Permanent link">&para;</a></h2>
+<p>Everything in Levels 1-3 assumed a dev board, USB power, and you
+watching the Serial Monitor. A production device removes all three:
+it's a custom PCB, powered however the enclosure allows, and no one is
+watching it boot. This module is the checklist that bridges the gap.</p>
+<h2 id="1-pick-the-right-module-for-the-product-not-the-prototype">1. Pick the right module for the product, not the prototype<a class="headerlink" href="#1-pick-the-right-module-for-the-product-not-the-prototype" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Concern</th>
+<th>ESP8266</th>
+<th>ESP32</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPIO count</td>
+<td>Limited (~9 usable)</td>
+<td>Generous (~25+ usable)</td>
+</tr>
+<tr>
+<td>Peripherals</td>
+<td>I2C, SPI, 1x ADC</td>
+<td>I2C, SPI, multiple ADC, BLE, CAN (TWAI), touch</td>
+</tr>
+<tr>
+<td>RAM headroom</td>
+<td>~50KB free typical</td>
+<td>~300KB+ free typical</td>
+</tr>
+<tr>
+<td>Power modes</td>
+<td>Deep sleep only</td>
+<td>Deep/light/modem sleep, per-peripheral gating</td>
+</tr>
+<tr>
+<td>Cost</td>
+<td>Lower</td>
+<td>Higher</td>
+</tr>
+</tbody>
+</table>
+<p>A production BOM decision should be justified by the product's actual
+GPIO/peripheral/RAM needs, not by "what I prototyped on."</p>
+<h2 id="2-boot-time-invariants-a-production-sketch-must-handle">2. Boot-time invariants a production sketch must handle<a class="headerlink" href="#2-boot-time-invariants-a-production-sketch-must-handle" title="Permanent link">&para;</a></h2>
+<p>A dev-board sketch usually assumes: USB is present, a human resets it
+on failure, and Serial exists to debug. None hold in the field.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// production-boot.ino</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;esp_task_wdt.h&gt;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="c1">// Serial may or may not be attached in the field (no USB host) —</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="c1">// never block waiting on it, unlike some dev-board examples do.</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span><span class="n">esp_task_wdt_init</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span><span class="w"> </span><span class="c1">// watchdog from first instruction, not "eventually"</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">  </span><span class="n">esp_task_wdt_add</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">bringUpStorage</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">    </span><span class="c1">// A device that can't mount its config filesystem still needs a</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="c1">// defined behavior — don't silently continue into undefined state.</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">    </span><span class="n">enterSafeMode</span><span class="p">();</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">    </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">  </span><span class="n">loadConfig</span><span class="p">();</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">  </span><span class="n">connectWithBoundedRetry</span><span class="p">();</span><span class="w"> </span><span class="c1">// never an unbounded while(true) retry loop</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="p">}</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">bringUpStorage</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"> </span><span class="cm">/* LittleFS.begin(true) etc. */</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loadConfig</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="kt">void</span><span class="w"> </span><span class="nf">connectWithBoundedRetry</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="kt">void</span><span class="w"> </span><span class="nf">enterSafeMode</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">  </span><span class="c1">// Minimal mode: keep the watchdog fed, blink an error pattern,</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">  </span><span class="c1">// stay reachable for recovery (e.g. captive portal) instead of</span>
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="w">  </span><span class="c1">// looping forever on a failed subsystem.</span>
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="p">}</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>
+<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">esp_task_wdt_reset</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<h2 id="3-power-input-realities">3. Power input realities<a class="headerlink" href="#3-power-input-realities" title="Permanent link">&para;</a></h2>
+<p>A prototype runs off a USB cable that never sags. A product might run
+off a wall adapter shared with other loads, a battery under load, or a
+long cable with voltage drop. Two documented, code-relevant
+consequences:</p>
+<ul>
+<li><strong>Brownout resets</strong>: both cores document a brownout detector that
+  resets the chip below a voltage threshold (ESP32: configurable via
+  <code>esp_bootloader</code>/<code>board_init</code>; ESP8266: a fixed hardware BOD). Expect
+  a "why did it reboot" reset-reason of "Brownout" under marginal
+  power, and design the enclosure's power supply with headroom, not
+  just firmware.</li>
+<li><strong>Inrush at boot</strong>: WiFi TX draws current spikes (documented up to
+  ~300-400mA on both chips during transmission) that a thin USB cable
+  or weak regulator can't supply, causing resets that look like
+  software bugs but are power design bugs.</li>
+</ul>
+<h2 id="4-enclosure-and-antenna-considerations-that-affect-firmware">4. Enclosure and antenna considerations that affect firmware<a class="headerlink" href="#4-enclosure-and-antenna-considerations-that-affect-firmware" title="Permanent link">&para;</a></h2>
+<ul>
+<li>A metal enclosure attenuates the onboard PCB antenna; if the product
+  design requires one, code should degrade gracefully (retry with
+  backoff, surface a "poor signal" status) rather than assume WiFi
+  always succeeds quickly, since RSSI will be worse than on the bench.</li>
+<li>Thermal buildup in a sealed enclosure can push the chip toward its
+  documented operating temperature ceiling (typically 85°C on both
+  chips) under sustained WiFi TX + sensor polling — firmware that
+  reduces duty cycle if internal temperature (if measurable) trends
+  high is a legitimate mitigation.</li>
+</ul>
+<h2 id="5-the-production-readiness-checklist">5. The production readiness checklist<a class="headerlink" href="#5-the-production-readiness-checklist" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Every network call has a timeout and a bounded retry (Level 3 wired
+   this in per-subsystem — production means auditing <em>all</em> of them).</li>
+<li>The watchdog covers 100% of code paths, not just <code>loop()</code>'s happy
+   path (Level 3.04).</li>
+<li>First boot with no config lands in provisioning mode, not a crash
+   loop (Level 3.07).</li>
+<li>OTA updates self-validate and can roll back (Level 3.08).</li>
+<li>Diagnostics ship off-device so a bug is debuggable without physical
+   access (Level 3.09).</li>
+<li>Reset reason and boot count are logged, so a brownout-reset loop is
+   visible in aggregate across the fleet, not just per-device.</li>
+</ol>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Take the <code>production-boot.ino</code> skeleton and implement
+   <code>connectWithBoundedRetry()</code> with exponential backoff, capped at 5
+   attempts before falling back to <code>enterSafeMode()</code>.</li>
+<li>Explain, using the documented brownout-reset behavior, why a device
+   that reboots repeatedly under load might be a power-supply problem
+   even when the firmware itself has no bugs.</li>
+<li>Propose two firmware-level mitigations for reduced WiFi range caused
+   by a metal enclosure, without changing the antenna hardware.</li>
+<li>Design a boot counter stored in LittleFS/NVS that trips
+   <code>enterSafeMode()</code> after 3 crash-reboots in a row, and resets to 0
+   after 10 minutes of stable uptime.</li>
+</ol>
 
 
 

@@ -1858,6 +1858,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07 · Security Hardening for Production IoT
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1874,6 +1892,113 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#threats-specific-to-a-device-you-dont-physically-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Threats specific to a device you don't physically control
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-stop-shipping-setinsecure-in-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Stop shipping setInsecure() in production
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-flash-encryption-and-secure-boot-esp32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Flash encryption and secure boot (ESP32)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-nvs-encryption-for-stored-secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. NVS encryption for stored secrets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-disable-or-gate-the-debug-uartjtag-in-the-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Disable or gate the debug UART/JTAG in the field
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-validate-everything-that-arrives-over-the-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Validate everything that arrives over the network
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-a-minimal-hardening-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. A minimal hardening checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2116,102 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#threats-specific-to-a-device-you-dont-physically-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Threats specific to a device you don't physically control
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-stop-shipping-setinsecure-in-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Stop shipping setInsecure() in production
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-flash-encryption-and-secure-boot-esp32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Flash encryption and secure boot (ESP32)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-nvs-encryption-for-stored-secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. NVS encryption for stored secrets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-disable-or-gate-the-debug-uartjtag-in-the-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Disable or gate the debug UART/JTAG in the field
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-validate-everything-that-arrives-over-the-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Validate everything that arrives over the network
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-a-minimal-hardening-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. A minimal hardening checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2010,8 +2231,134 @@
 
 
 <h1 id="security-hardening-for-production-iot">Security Hardening for Production IoT<a class="headerlink" href="#security-hardening-for-production-iot" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 4 · Master.</p>
-<p>More lessons are on the way — check back soon.</p>
+<div class="admonition note">
+<p class="admonition-title">Not flashed to hardware</p>
+<p>Reasoned through against the documented ESP32 <code>esp_flash_encrypt</code>/
+<code>esp_secure_boot</code>/NVS-encryption APIs and the ESP8266/ESP32
+<code>WiFiClientSecure</code> TLS API. Not compiled or flashed to physical
+hardware in this environment.</p>
+</div>
+<h2 id="threats-specific-to-a-device-you-dont-physically-control">Threats specific to a device you don't physically control<a class="headerlink" href="#threats-specific-to-a-device-you-dont-physically-control" title="Permanent link">&para;</a></h2>
+<p>A cloud server sits in a datacenter you control access to. A field IoT
+device sits on someone else's shelf, reachable by anyone with a
+screwdriver and a UART adapter. The threat model changes accordingly:
+physical access to the flash chip, the debug UART, and the local
+network are all in scope.</p>
+<h2 id="1-stop-shipping-setinsecure-in-production">1. Stop shipping <code>setInsecure()</code> in production<a class="headerlink" href="#1-stop-shipping-setinsecure-in-production" title="Permanent link">&para;</a></h2>
+<p>Every TLS example earlier in this path used
+<code>WiFiClientSecure::setInsecure()</code> to skip certificate validation — fine
+for a bench sketch, a real vulnerability in production because it
+accepts any TLS certificate, including an attacker's, enabling
+man-in-the-middle interception of MQTT credentials and OTA payloads.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// pinned-ca-cert.ino</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;WiFiClientSecure.h&gt;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1">// The broker/server's CA certificate, PEM-encoded, embedded at build</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1">// time — documented as the setCACert() input format on both cores.</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">ROOT_CA</span><span class="w"> </span><span class="n">PROGMEM</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sa">R</span><span class="s">"</span><span class="dl">EOF(</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="s">-----BEGIN CERTIFICATE-----</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="s">... actual CA cert content goes here ...</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="s">-----END CERTIFICATE-----</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="dl">)EOF</span><span class="s">"</span><span class="p">;</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="n">WiFiClientSecure</span><span class="w"> </span><span class="n">secureClient</span><span class="p">;</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="kt">void</span><span class="w"> </span><span class="nf">setupTls</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">  </span><span class="n">secureClient</span><span class="p">.</span><span class="n">setCACert</span><span class="p">(</span><span class="n">ROOT_CA</span><span class="p">);</span><span class="w"> </span><span class="c1">// documented on both cores' WiFiClientSecure</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>setCACert()</code> validates the server's certificate chain against the
+provided CA, which is what actually defends against interception —
+<code>setInsecure()</code> provides none of that guarantee regardless of the TLS
+version or cipher used underneath.</p>
+<h2 id="2-flash-encryption-and-secure-boot-esp32">2. Flash encryption and secure boot (ESP32)<a class="headerlink" href="#2-flash-encryption-and-secure-boot-esp32" title="Permanent link">&para;</a></h2>
+<p>The ESP32 documents two independent protections against a physical
+attacker reading the flash chip directly:</p>
+<ul>
+<li><strong>Flash encryption</strong> (<code>esp_flash_encrypt</code> subsystem): the running
+  firmware and stored data are encrypted at rest using a key burned
+  into eFuse (one-time-programmable, not re-readable by software) —
+  documented to prevent copying the flash chip's contents and reading
+  secrets or cloning the firmware.</li>
+<li><strong>Secure Boot</strong>: the bootloader documented to verify a cryptographic
+  signature on the application image before executing it, preventing a
+  physically-flashed malicious firmware image from running even if an
+  attacker has full flash write access.</li>
+</ul>
+<p>Both are enabled via build-time configuration (<code>menuconfig</code>/<code>idf.py</code>
+options surfaced through <code>Tools</code> menu entries in recent Arduino-ESP32
+core releases) rather than runtime API calls, and both are documented
+as <strong>one-way</strong>: enabling them is not reversible, and losing the
+associated keys bricks the device's ability to accept new signed
+images. This is a manufacturing-time decision, not something toggled
+per-sketch.</p>
+<h2 id="3-nvs-encryption-for-stored-secrets">3. NVS encryption for stored secrets<a class="headerlink" href="#3-nvs-encryption-for-stored-secrets" title="Permanent link">&para;</a></h2>
+<p>Even without full flash encryption, the ESP32's <code>Preferences</code>/NVS
+layer documents an NVS-encryption option (a separate encryption key
+partition) so per-device secrets (Level 4.02's provisioned credentials)
+aren't stored in plaintext even if flash encryption isn't fully
+enabled. This is weaker than full flash encryption (the firmware
+binary itself remains unencrypted) but cheaper to adopt on an existing
+product.</p>
+<h2 id="4-disable-or-gate-the-debug-uartjtag-in-the-field">4. Disable or gate the debug UART/JTAG in the field<a class="headerlink" href="#4-disable-or-gate-the-debug-uartjtag-in-the-field" title="Permanent link">&para;</a></h2>
+<p>Both chips document UART-based programming/monitoring as always
+available unless explicitly disabled. For a product where physical
+tampering is a real threat, documented options include:
+ESP32's eFuse-based <strong>UART download mode disable</strong> (irreversible,
+prevents re-flashing over UART entirely — pair only with a working OTA
+path, since it removes your own recovery method too) and, less
+drastically, requiring a physical jumper/button combination to enter
+programming mode rather than leaving it always accessible.</p>
+<h2 id="5-validate-everything-that-arrives-over-the-network">5. Validate everything that arrives over the network<a class="headerlink" href="#5-validate-everything-that-arrives-over-the-network" title="Permanent link">&para;</a></h2>
+<p>Firmware that trusts MQTT command payloads or OTA URLs without
+validation is exploitable even with TLS in place (TLS proves <em>who</em>
+you're talking to, not that <em>what</em> they sent is safe):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// validate-commands.ino</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">handleCommand</span><span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">topic</span><span class="p">,</span><span class="w"> </span><span class="kt">byte</span><span class="o">*</span><span class="w"> </span><span class="n">payload</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">len</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">len</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">256</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="c1">// reject oversized payloads outright</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="n">String</span><span class="w"> </span><span class="n">cmd</span><span class="p">((</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">payload</span><span class="p">,</span><span class="w"> </span><span class="n">len</span><span class="p">);</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="c1">// Allow-list, not a free-form eval of the payload.</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cmd</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">"reboot"</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">cmd</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">"report_status"</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">cmd</span><span class="p">.</span><span class="n">startsWith</span><span class="p">(</span><span class="s">"set_interval:"</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="n">executeCommand</span><span class="p">(</span><span class="n">cmd</span><span class="p">);</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="n">logRejectedCommand</span><span class="p">(</span><span class="n">cmd</span><span class="p">);</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="p">}</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="kt">void</span><span class="w"> </span><span class="nf">executeCommand</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">String</span><span class="o">&amp;</span><span class="w"> </span><span class="n">cmd</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="kt">void</span><span class="w"> </span><span class="nf">logRejectedCommand</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">String</span><span class="o">&amp;</span><span class="w"> </span><span class="n">cmd</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+</code></pre></div>
+<h2 id="6-a-minimal-hardening-checklist">6. A minimal hardening checklist<a class="headerlink" href="#6-a-minimal-hardening-checklist" title="Permanent link">&para;</a></h2>
+<ol>
+<li><code>setCACert()</code> (or certificate pinning) everywhere <code>setInsecure()</code>
+   was used during development.</li>
+<li>Per-device credentials (Level 4.02), never one shared secret baked
+   into every unit.</li>
+<li>Command/config payloads validated against an allow-list, not parsed
+   and trusted blindly.</li>
+<li>Flash/NVS encryption enabled if the product's threat model includes
+   physical access to units in the field.</li>
+<li>OTA images signature-verified before flashing (secure boot on ESP32,
+   or an application-level signature check on ESP8266 where hardware
+   secure boot isn't available).</li>
+</ol>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Explain, in terms of what each actually verifies, why <code>setCACert()</code>
+   defends against MITM interception but a valid-looking but
+   attacker-controlled OTA URL still needs separate mitigation.</li>
+<li>Why is enabling ESP32 flash encryption described as irreversible,
+   and what operational risk does that create if the eFuse key is lost
+   before a device ships?</li>
+<li>Extend <code>handleCommand()</code>'s allow-list to support a signed command
+   format: <code>command|hmac</code>, verifying the HMAC against a per-device
+   secret (from <code>Preferences</code>) before executing.</li>
+<li>The ESP8266 has no documented secure-boot equivalent to the ESP32's.
+   Propose an application-level mitigation (checked before applying an
+   OTA update) that approximates signature verification using tools
+   already covered in this path.</li>
+</ol>
 
 
 

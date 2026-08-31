@@ -92,7 +92,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#capstone-mqtt-sensor-to-cloud-bridge" class="md-skip">
+        <a href="#10-capstone-mqtt-sensor-to-cloud-bridge" class="md-skip">
           Skip to content
         </a>
       
@@ -1194,6 +1194,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10 · Capstone — MQTT Sensor-to-Cloud Bridge
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1210,6 +1228,80 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-this-capstone-builds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What this capstone builds
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Design
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#full-sketch-esp8266" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full sketch (ESP8266)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-each-guard-exists" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why each guard exists
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2083,69 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-this-capstone-builds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What this capstone builds
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Design
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#full-sketch-esp8266" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full sketch (ESP8266)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-each-guard-exists" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why each guard exists
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2009,9 +2164,151 @@
   
 
 
-<h1 id="capstone-mqtt-sensor-to-cloud-bridge">Capstone — MQTT Sensor-to-Cloud Bridge<a class="headerlink" href="#capstone-mqtt-sensor-to-cloud-bridge" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 2 · Intermediate.</p>
-<p>More lessons are on the way — check back soon.</p>
+<h1 id="10-capstone-mqtt-sensor-to-cloud-bridge">10 · Capstone — MQTT Sensor-to-Cloud Bridge<a class="headerlink" href="#10-capstone-mqtt-sensor-to-cloud-bridge" title="Permanent link">&para;</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Not flashed to hardware</p>
+<p>Combines the documented APIs from modules 01-08 of this level
+(<code>PubSubClient</code>, <code>ArduinoJson</code>, <code>DHT</code> sensor library, <code>ESP.deepSleep</code>)
+into one integrated sketch. Not compiled or flashed to physical
+hardware in this environment.</p>
+</div>
+<h2 id="what-this-capstone-builds">What this capstone builds<a class="headerlink" href="#what-this-capstone-builds" title="Permanent link">&para;</a></h2>
+<p>A battery-friendly sensor node that: reads a DHT11 temperature/humidity
+sensor, packages the reading as a JSON payload, publishes it to an MQTT
+broker, and then deep-sleeps between readings — combining modules 01
+(MQTT), 03 (deep sleep), 05 (interrupts, for a manual wake button), and
+08 (JSON) into one coherent device.</p>
+<h2 id="design">Design<a class="headerlink" href="#design" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>[DHT11] --&gt; [ESP8266/ESP32] --wifi--&gt; [MQTT broker] --&gt; [dashboard/subscriber]
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>                   |
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>                   +-- deep sleep between reads (module 03)
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>                   +-- JSON payload (module 08)
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>                   +-- retry-tolerant MQTT connect (module 01)
+</code></pre></div>
+<h2 id="full-sketch-esp8266">Full sketch (ESP8266)<a class="headerlink" href="#full-sketch-esp8266" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// capstone-mqtt-sensor-bridge.ino</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ESP8266WiFi.h&gt;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;PubSubClient.h&gt;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ArduinoJson.h&gt;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;DHT.h&gt;</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">WIFI_SSID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"your-ssid"</span><span class="p">;</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">WIFI_PASS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"your-password"</span><span class="p">;</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">MQTT_BROKER</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"192.168.1.50"</span><span class="p">;</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w">   </span><span class="n">MQTT_PORT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1883</span><span class="p">;</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">CLIENT_ID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"esp-bridge-01"</span><span class="p">;</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">TOPIC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"sensors/bridge01/reading"</span><span class="p">;</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">DHT_PIN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">D3</span><span class="p">;</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="cp">#define DHT_TYPE DHT11</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="k">const</span><span class="w"> </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">SLEEP_US</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">60ULL</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000000ULL</span><span class="p">;</span><span class="w"> </span><span class="c1">// 60 seconds between readings</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="n">DHT</span><span class="w"> </span><span class="nf">dht</span><span class="p">(</span><span class="n">DHT_PIN</span><span class="p">,</span><span class="w"> </span><span class="n">DHT_TYPE</span><span class="p">);</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="n">WiFiClient</span><span class="w"> </span><span class="n">espClient</span><span class="p">;</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="n">PubSubClient</span><span class="w"> </span><span class="nf">mqtt</span><span class="p">(</span><span class="n">espClient</span><span class="p">);</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">connectWiFi</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">timeoutMs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">15000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">  </span><span class="n">WiFi</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">WIFI_SSID</span><span class="p">,</span><span class="w"> </span><span class="n">WIFI_PASS</span><span class="p">);</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">WiFi</span><span class="p">.</span><span class="n">status</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">WL_CONNECTED</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">millis</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">timeoutMs</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"> </span><span class="c1">// don't hang forever on a bad network</span>
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="w">    </span><span class="n">delay</span><span class="p">(</span><span class="mi">250</span><span class="p">);</span>
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="p">}</span>
+<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>
+<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">connectMQTT</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">timeoutMs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="w">  </span><span class="n">mqtt</span><span class="p">.</span><span class="n">setServer</span><span class="p">(</span><span class="n">MQTT_BROKER</span><span class="p">,</span><span class="w"> </span><span class="n">MQTT_PORT</span><span class="p">);</span>
+<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span>
+<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a><span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">mqtt</span><span class="p">.</span><span class="n">connected</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">millis</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">timeoutMs</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a><span class="w">    </span><span class="n">mqtt</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">CLIENT_ID</span><span class="p">);</span>
+<a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">mqtt</span><span class="p">.</span><span class="n">connected</span><span class="p">())</span><span class="w"> </span><span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+<a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a><span class="p">}</span>
+<a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a>
+<a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a><span class="kt">void</span><span class="w"> </span><span class="nf">goToSleep</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Sleeping..."</span><span class="p">);</span>
+<a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">flush</span><span class="p">();</span><span class="w"> </span><span class="c1">// ensure the serial buffer is sent before power-down</span>
+<a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a><span class="w">  </span><span class="n">ESP</span><span class="p">.</span><span class="n">deepSleep</span><span class="p">(</span><span class="n">SLEEP_US</span><span class="p">);</span>
+<a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a><span class="p">}</span>
+<a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a>
+<a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a><span class="w">  </span><span class="n">dht</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+<a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a>
+<a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a><span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">humidity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dht</span><span class="p">.</span><span class="n">readHumidity</span><span class="p">();</span>
+<a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a><span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">tempC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dht</span><span class="p">.</span><span class="n">readTemperature</span><span class="p">();</span>
+<a id="__codelineno-1-56" name="__codelineno-1-56" href="#__codelineno-1-56"></a>
+<a id="__codelineno-1-57" name="__codelineno-1-57" href="#__codelineno-1-57"></a><span class="w">  </span><span class="c1">// Bail out to sleep early on a bad sensor read -- no point spending</span>
+<a id="__codelineno-1-58" name="__codelineno-1-58" href="#__codelineno-1-58"></a><span class="w">  </span><span class="c1">// battery on a WiFi/MQTT round trip for garbage data.</span>
+<a id="__codelineno-1-59" name="__codelineno-1-59" href="#__codelineno-1-59"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">isnan</span><span class="p">(</span><span class="n">humidity</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">isnan</span><span class="p">(</span><span class="n">tempC</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-60" name="__codelineno-1-60" href="#__codelineno-1-60"></a><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"DHT read failed, skipping this cycle"</span><span class="p">);</span>
+<a id="__codelineno-1-61" name="__codelineno-1-61" href="#__codelineno-1-61"></a><span class="w">    </span><span class="n">goToSleep</span><span class="p">();</span>
+<a id="__codelineno-1-62" name="__codelineno-1-62" href="#__codelineno-1-62"></a><span class="w">    </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-1-63" name="__codelineno-1-63" href="#__codelineno-1-63"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-64" name="__codelineno-1-64" href="#__codelineno-1-64"></a>
+<a id="__codelineno-1-65" name="__codelineno-1-65" href="#__codelineno-1-65"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">connectWiFi</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-66" name="__codelineno-1-66" href="#__codelineno-1-66"></a><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"WiFi connect timed out, sleeping without publishing"</span><span class="p">);</span>
+<a id="__codelineno-1-67" name="__codelineno-1-67" href="#__codelineno-1-67"></a><span class="w">    </span><span class="n">goToSleep</span><span class="p">();</span>
+<a id="__codelineno-1-68" name="__codelineno-1-68" href="#__codelineno-1-68"></a><span class="w">    </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-1-69" name="__codelineno-1-69" href="#__codelineno-1-69"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-70" name="__codelineno-1-70" href="#__codelineno-1-70"></a>
+<a id="__codelineno-1-71" name="__codelineno-1-71" href="#__codelineno-1-71"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">connectMQTT</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-72" name="__codelineno-1-72" href="#__codelineno-1-72"></a><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"MQTT connect timed out, sleeping without publishing"</span><span class="p">);</span>
+<a id="__codelineno-1-73" name="__codelineno-1-73" href="#__codelineno-1-73"></a><span class="w">    </span><span class="n">goToSleep</span><span class="p">();</span>
+<a id="__codelineno-1-74" name="__codelineno-1-74" href="#__codelineno-1-74"></a><span class="w">    </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-1-75" name="__codelineno-1-75" href="#__codelineno-1-75"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-76" name="__codelineno-1-76" href="#__codelineno-1-76"></a>
+<a id="__codelineno-1-77" name="__codelineno-1-77" href="#__codelineno-1-77"></a><span class="w">  </span><span class="n">JsonDocument</span><span class="w"> </span><span class="n">doc</span><span class="p">;</span>
+<a id="__codelineno-1-78" name="__codelineno-1-78" href="#__codelineno-1-78"></a><span class="w">  </span><span class="n">doc</span><span class="p">[</span><span class="s">"device"</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CLIENT_ID</span><span class="p">;</span>
+<a id="__codelineno-1-79" name="__codelineno-1-79" href="#__codelineno-1-79"></a><span class="w">  </span><span class="n">doc</span><span class="p">[</span><span class="s">"tempC"</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tempC</span><span class="p">;</span>
+<a id="__codelineno-1-80" name="__codelineno-1-80" href="#__codelineno-1-80"></a><span class="w">  </span><span class="n">doc</span><span class="p">[</span><span class="s">"humidity"</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">humidity</span><span class="p">;</span>
+<a id="__codelineno-1-81" name="__codelineno-1-81" href="#__codelineno-1-81"></a><span class="w">  </span><span class="n">doc</span><span class="p">[</span><span class="s">"rssi"</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WiFi</span><span class="p">.</span><span class="n">RSSI</span><span class="p">();</span><span class="w"> </span><span class="c1">// signal strength, useful for diagnosing flaky links</span>
+<a id="__codelineno-1-82" name="__codelineno-1-82" href="#__codelineno-1-82"></a>
+<a id="__codelineno-1-83" name="__codelineno-1-83" href="#__codelineno-1-83"></a><span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="n">payload</span><span class="p">[</span><span class="mi">192</span><span class="p">];</span>
+<a id="__codelineno-1-84" name="__codelineno-1-84" href="#__codelineno-1-84"></a><span class="w">  </span><span class="n">serializeJson</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span><span class="w"> </span><span class="n">payload</span><span class="p">);</span>
+<a id="__codelineno-1-85" name="__codelineno-1-85" href="#__codelineno-1-85"></a>
+<a id="__codelineno-1-86" name="__codelineno-1-86" href="#__codelineno-1-86"></a><span class="w">  </span><span class="kt">bool</span><span class="w"> </span><span class="n">ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mqtt</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="n">TOPIC</span><span class="p">,</span><span class="w"> </span><span class="n">payload</span><span class="p">);</span>
+<a id="__codelineno-1-87" name="__codelineno-1-87" href="#__codelineno-1-87"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s">"Publish %s: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">ok</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">"succeeded"</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">"failed"</span><span class="p">,</span><span class="w"> </span><span class="n">payload</span><span class="p">);</span>
+<a id="__codelineno-1-88" name="__codelineno-1-88" href="#__codelineno-1-88"></a>
+<a id="__codelineno-1-89" name="__codelineno-1-89" href="#__codelineno-1-89"></a><span class="w">  </span><span class="n">mqtt</span><span class="p">.</span><span class="n">disconnect</span><span class="p">();</span>
+<a id="__codelineno-1-90" name="__codelineno-1-90" href="#__codelineno-1-90"></a><span class="w">  </span><span class="n">goToSleep</span><span class="p">();</span>
+<a id="__codelineno-1-91" name="__codelineno-1-91" href="#__codelineno-1-91"></a><span class="p">}</span>
+<a id="__codelineno-1-92" name="__codelineno-1-92" href="#__codelineno-1-92"></a>
+<a id="__codelineno-1-93" name="__codelineno-1-93" href="#__codelineno-1-93"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-94" name="__codelineno-1-94" href="#__codelineno-1-94"></a><span class="w">  </span><span class="c1">// Never reached -- deepSleep() in setup() restarts the chip on wake.</span>
+<a id="__codelineno-1-95" name="__codelineno-1-95" href="#__codelineno-1-95"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="why-each-guard-exists">Why each guard exists<a class="headerlink" href="#why-each-guard-exists" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>DHT failure guard</strong>: skips the expensive WiFi/MQTT work entirely on
+  a bad sensor read, saving battery.</li>
+<li><strong>WiFi timeout</strong>: a <code>while (WiFi.status() != WL_CONNECTED)</code> with no
+  timeout (seen in earlier modules for simplicity) can hang forever near
+  a dead router — a real battery node must bound that wait and sleep
+  anyway.</li>
+<li><strong>MQTT timeout</strong>: same reasoning — a broker that's down shouldn't drain
+  the battery waiting.</li>
+<li><strong><code>Serial.flush()</code> before sleep</strong>: <code>ESP.deepSleep()</code> powers down
+  immediately; without a flush, buffered serial output can be lost.</li>
+</ul>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Trace through the sketch for the case where the DHT read succeeds but
+   WiFi never connects — confirm the device still sleeps (rather than
+   hanging) and for how long.</li>
+<li>Add an ESP32 branch (<code>esp_sleep_enable_timer_wakeup</code> +
+   <code>esp_deep_sleep_start</code>, module 03) alongside the ESP8266 path shown
+   here.</li>
+<li>Extend the JSON payload with a <code>bootCount</code> field using <code>RTC_DATA_ATTR</code>
+   (ESP32) so you can tell, from the cloud side, how many cycles a device
+   has run.</li>
+<li>Point <code>MQTT_BROKER</code>/<code>MQTT_PORT</code> at the Adafruit IO example from module
+   02 instead of a local broker, adjusting the topic and auth accordingly.</li>
+</ol>
 
 
 

@@ -92,7 +92,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#multi-sensor-data-aggregation-buffering" class="md-skip">
+        <a href="#03-multi-sensor-data-aggregation-buffering" class="md-skip">
           Skip to content
         </a>
       
@@ -1372,6 +1372,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 · Multi-Sensor Data Aggregation & Buffering
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1388,6 +1406,91 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#from-one-sensor-to-a-fleet-of-readings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        From one sensor to a fleet of readings
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-struct-per-sample-and-why-it-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A struct per sample, and why it matters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-fixed-size-ring-buffer-no-dynamic-allocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A fixed-size ring buffer (no dynamic allocation)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sampling-multiple-sensors-on-independent-schedules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sampling multiple sensors on independent schedules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#draining-the-buffer-when-the-network-comes-back" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Draining the buffer when the network comes back
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2094,80 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#from-one-sensor-to-a-fleet-of-readings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        From one sensor to a fleet of readings
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-struct-per-sample-and-why-it-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A struct per sample, and why it matters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-fixed-size-ring-buffer-no-dynamic-allocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A fixed-size ring buffer (no dynamic allocation)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sampling-multiple-sensors-on-independent-schedules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sampling multiple sensors on independent schedules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#draining-the-buffer-when-the-network-comes-back" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Draining the buffer when the network comes back
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2009,9 +2186,145 @@
   
 
 
-<h1 id="multi-sensor-data-aggregation-buffering">Multi-Sensor Data Aggregation &amp; Buffering<a class="headerlink" href="#multi-sensor-data-aggregation-buffering" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 3 · Advanced.</p>
-<p>More lessons are on the way — check back soon.</p>
+<h1 id="03-multi-sensor-data-aggregation-buffering">03 · Multi-Sensor Data Aggregation &amp; Buffering<a class="headerlink" href="#03-multi-sensor-data-aggregation-buffering" title="Permanent link">&para;</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Not flashed to hardware</p>
+<p>Reasoned through against the documented Arduino core APIs for the
+peripherals referenced (analog/digital reads, <code>millis()</code> timing) and
+standard C++ container semantics. Not compiled or flashed to physical
+hardware in this environment.</p>
+</div>
+<h2 id="from-one-sensor-to-a-fleet-of-readings">From one sensor to a fleet of readings<a class="headerlink" href="#from-one-sensor-to-a-fleet-of-readings" title="Permanent link">&para;</a></h2>
+<p>Every earlier module read one sensor and published immediately. Real
+devices usually carry several sensors (temperature, humidity, light,
+vibration) sampled at different rates, and a network link that's
+unreliable or expensive to wake. <strong>Aggregation</strong> means combining reads
+into one coherent record; <strong>buffering</strong> means holding records locally
+when the network isn't available, without losing data or exhausting RAM.</p>
+<h2 id="a-struct-per-sample-and-why-it-matters">A struct per sample, and why it matters<a class="headerlink" href="#a-struct-per-sample-and-why-it-matters" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// sensor-sample.h</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">SensorSample</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">timestampMs</span><span class="p">;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">tempC</span><span class="p">;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="n">humidityPct</span><span class="p">;</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="kt">int</span><span class="w">   </span><span class="n">lightRaw</span><span class="p">;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">};</span>
+</code></pre></div>
+<p>A fixed-layout struct is cheap to copy, easy to serialize, and — crucially
+on a device with 40-80 KB of usable RAM — has a predictable size you can
+multiply against a buffer capacity to know exactly how much RAM a ring
+buffer will cost.</p>
+<h2 id="a-fixed-size-ring-buffer-no-dynamic-allocation">A fixed-size ring buffer (no dynamic allocation)<a class="headerlink" href="#a-fixed-size-ring-buffer-no-dynamic-allocation" title="Permanent link">&para;</a></h2>
+<p>Heap fragmentation is a real failure mode on long-running ESP8266
+sketches; a fixed-capacity ring buffer avoids <code>malloc</code>/<code>free</code> churn
+entirely.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// ring-buffer.ino</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"sensor-sample.h"</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="k">const</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">CAPACITY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span><span class="p">;</span><span class="w"> </span><span class="c1">// 30 * sizeof(SensorSample) ~= 30*16 = 480 bytes</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">SensorSample</span><span class="w"> </span><span class="n">buffer</span><span class="p">[</span><span class="n">CAPACITY</span><span class="p">];</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="kt">size_t</span><span class="w"> </span><span class="n">head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">   </span><span class="c1">// next write index</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">  </span><span class="c1">// number of valid entries</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="kt">void</span><span class="w"> </span><span class="nf">pushSample</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">SensorSample</span><span class="w"> </span><span class="o">&amp;</span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="n">buffer</span><span class="p">[</span><span class="n">head</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="p">;</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="n">head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">CAPACITY</span><span class="p">;</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">count</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">CAPACITY</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">  </span><span class="c1">// Once full, pushSample silently overwrites the oldest entry —</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">  </span><span class="c1">// documented ring-buffer behavior: newest data wins over oldest.</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="p">}</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="kt">size_t</span><span class="w"> </span><span class="nf">sampleCount</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">count</span><span class="p">;</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="p">}</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="n">SensorSample</span><span class="w"> </span><span class="nf">getSample</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">indexFromOldest</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">  </span><span class="kt">size_t</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">CAPACITY</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">count</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">CAPACITY</span><span class="p">;</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">buffer</span><span class="p">[(</span><span class="n">start</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">indexFromOldest</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">CAPACITY</span><span class="p">];</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="sampling-multiple-sensors-on-independent-schedules">Sampling multiple sensors on independent schedules<a class="headerlink" href="#sampling-multiple-sensors-on-independent-schedules" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// multi-sensor-aggregate.ino</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;DHT.h&gt;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"sensor-sample.h"</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="cp">#define DHTPIN 4</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="cp">#define DHTTYPE DHT11</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">DHT</span><span class="w"> </span><span class="nf">dht</span><span class="p">(</span><span class="n">DHTPIN</span><span class="p">,</span><span class="w"> </span><span class="n">DHTTYPE</span><span class="p">);</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">LIGHT_PIN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A0</span><span class="p">;</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">lastDhtRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">DHT_INTERVAL_MS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2000</span><span class="p">;</span><span class="w">   </span><span class="c1">// DHT11 datasheet minimum ~1-2s</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">lastLightRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">LIGHT_INTERVAL_MS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">200</span><span class="p">;</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="kt">float</span><span class="w"> </span><span class="n">lastTempC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NAN</span><span class="p">;</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="kt">float</span><span class="w"> </span><span class="n">lastHumidity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NAN</span><span class="p">;</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">  </span><span class="n">dht</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="p">}</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">now</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span>
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">now</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lastDhtRead</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">DHT_INTERVAL_MS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="w">    </span><span class="n">lastDhtRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">now</span><span class="p">;</span>
+<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dht</span><span class="p">.</span><span class="n">readTemperature</span><span class="p">();</span>
+<a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dht</span><span class="p">.</span><span class="n">readHumidity</span><span class="p">();</span>
+<a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">isnan</span><span class="p">(</span><span class="n">t</span><span class="p">))</span><span class="w"> </span><span class="n">lastTempC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t</span><span class="p">;</span>
+<a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">isnan</span><span class="p">(</span><span class="n">h</span><span class="p">))</span><span class="w"> </span><span class="n">lastHumidity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">h</span><span class="p">;</span>
+<a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a>
+<a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">now</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lastLightRead</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">LIGHT_INTERVAL_MS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a><span class="w">    </span><span class="n">lastLightRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">now</span><span class="p">;</span>
+<a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">light</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">analogRead</span><span class="p">(</span><span class="n">LIGHT_PIN</span><span class="p">);</span><span class="w"> </span><span class="c1">// 0-1023 on ESP8266, 0-4095 on ESP32 (12-bit ADC)</span>
+<a id="__codelineno-2-38" name="__codelineno-2-38" href="#__codelineno-2-38"></a>
+<a id="__codelineno-2-39" name="__codelineno-2-39" href="#__codelineno-2-39"></a><span class="w">    </span><span class="n">SensorSample</span><span class="w"> </span><span class="n">s</span><span class="p">;</span>
+<a id="__codelineno-2-40" name="__codelineno-2-40" href="#__codelineno-2-40"></a><span class="w">    </span><span class="n">s</span><span class="p">.</span><span class="n">timestampMs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">now</span><span class="p">;</span>
+<a id="__codelineno-2-41" name="__codelineno-2-41" href="#__codelineno-2-41"></a><span class="w">    </span><span class="n">s</span><span class="p">.</span><span class="n">tempC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lastTempC</span><span class="p">;</span><span class="w">       </span><span class="c1">// most recent DHT reading, not re-sampled every tick</span>
+<a id="__codelineno-2-42" name="__codelineno-2-42" href="#__codelineno-2-42"></a><span class="w">    </span><span class="n">s</span><span class="p">.</span><span class="n">humidityPct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lastHumidity</span><span class="p">;</span>
+<a id="__codelineno-2-43" name="__codelineno-2-43" href="#__codelineno-2-43"></a><span class="w">    </span><span class="n">s</span><span class="p">.</span><span class="n">lightRaw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">light</span><span class="p">;</span>
+<a id="__codelineno-2-44" name="__codelineno-2-44" href="#__codelineno-2-44"></a>
+<a id="__codelineno-2-45" name="__codelineno-2-45" href="#__codelineno-2-45"></a><span class="w">    </span><span class="n">pushSample</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+<a id="__codelineno-2-46" name="__codelineno-2-46" href="#__codelineno-2-46"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-2-47" name="__codelineno-2-47" href="#__codelineno-2-47"></a><span class="p">}</span>
+</code></pre></div>
+<p>The pattern: each sensor is polled at its own natural rate, but every
+sample record carries the <em>last known</em> value of the slower sensors —
+this is aggregation, combining data of different ages into one row
+without blocking the fast loop on the slow sensor.</p>
+<h2 id="draining-the-buffer-when-the-network-comes-back">Draining the buffer when the network comes back<a class="headerlink" href="#draining-the-buffer-when-the-network-comes-back" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// drain-on-reconnect.ino</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">tryFlushBuffer</span><span class="p">(</span><span class="n">WiFiClient</span><span class="w"> </span><span class="o">&amp;</span><span class="n">client</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">WiFi</span><span class="p">.</span><span class="n">status</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">WL_CONNECTED</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">sampleCount</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="n">SensorSample</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getSample</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w"> </span><span class="c1">// oldest first: preserve time order</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="c1">// ... build and send JSON/MQTT payload for s ...</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="n">popOldest</span><span class="p">();</span><span class="w"> </span><span class="c1">// implementation removes index 'start' and decrements count</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">}</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="kt">void</span><span class="w"> </span><span class="nf">popOldest</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">count</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">count</span><span class="o">--</span><span class="p">;</span><span class="w"> </span><span class="c1">// oldest slot is now stale; next push will overwrite it</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Compute the RAM cost of a 100-entry ring buffer of <code>SensorSample</code> and
+   check it against a realistic 40 KB free-heap budget.</li>
+<li>Extend <code>multi-sensor-aggregate.ino</code> with a third sensor sampled every
+   5 seconds, aggregated into the same <code>SensorSample</code> struct.</li>
+<li>Implement <code>popOldest()</code> properly (adjusting the logical start index)
+   and trace through a full fill-and-drain cycle by hand.</li>
+<li>Explain why overwriting the oldest sample on overflow might be wrong
+   for a data-logging use case, and sketch an alternative policy.</li>
+</ol>
 
 
 

@@ -92,7 +92,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#i2c-peripherals" class="md-skip">
+        <a href="#06-i2c-peripherals" class="md-skip">
           Skip to content
         </a>
       
@@ -1082,6 +1082,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06 · I2C Peripherals
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1098,6 +1116,91 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-i2c-is-and-why-its-everywhere" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What I2C is and why it's everywhere
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scanning-the-bus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scanning the bus
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reading-a-bme280-temperaturehumiditypressure-over-i2c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reading a BME280 (temperature/humidity/pressure) over I2C
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#driving-an-ssd1306-oled-display-over-i2c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Driving an SSD1306 OLED display over I2C
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#combining-two-i2c-devices-on-one-bus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Combining two I2C devices on one bus
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2094,80 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-i2c-is-and-why-its-everywhere" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What I2C is and why it's everywhere
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scanning-the-bus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scanning the bus
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reading-a-bme280-temperaturehumiditypressure-over-i2c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reading a BME280 (temperature/humidity/pressure) over I2C
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#driving-an-ssd1306-oled-display-over-i2c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Driving an SSD1306 OLED display over I2C
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#combining-two-i2c-devices-on-one-bus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Combining two I2C devices on one bus
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2009,9 +2186,144 @@
   
 
 
-<h1 id="i2c-peripherals">I2C Peripherals<a class="headerlink" href="#i2c-peripherals" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 2 · Intermediate.</p>
-<p>More lessons are on the way — check back soon.</p>
+<h1 id="06-i2c-peripherals">06 · I2C Peripherals<a class="headerlink" href="#06-i2c-peripherals" title="Permanent link">&para;</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Not flashed to hardware</p>
+<p>Reasoned through against the Arduino core's documented <code>Wire</code>
+library API (<code>Wire.begin()</code>, <code>Wire.beginTransmission()</code>,
+<code>Wire.requestFrom()</code>) shared by ESP8266 and ESP32, and Adafruit's
+documented <code>Adafruit_BME280</code>/<code>Adafruit_SSD1306</code> library APIs as
+representative I2C peripheral drivers. Not compiled or flashed to
+physical hardware in this environment.</p>
+</div>
+<h2 id="what-i2c-is-and-why-its-everywhere">What I2C is and why it's everywhere<a class="headerlink" href="#what-i2c-is-and-why-its-everywhere" title="Permanent link">&para;</a></h2>
+<p><strong>I2C</strong> ("Inter-Integrated Circuit") is a two-wire bus — <code>SDA</code> (data) and
+<code>SCL</code> (clock) — that lets a microcontroller talk to many peripheral chips
+using only those two shared wires, with each chip distinguished by a
+7-bit <strong>address</strong>. It's the standard bus for small sensors, OLED
+displays, RTCs (real-time clocks), and port expanders because wiring
+stays simple even with several devices on the same bus.</p>
+<p>On NodeMCU-style ESP8266 boards, the default I2C pins are whatever you
+pass to <code>Wire.begin(sda, scl)</code> — commonly <code>D2</code> (GPIO4, SDA) and <code>D1</code>
+(GPIO5, SCL). ESP32 boards default to GPIO21 (SDA) / GPIO22 (SCL) but
+<code>Wire.begin()</code> accepts explicit pins there too.</p>
+<h2 id="scanning-the-bus">Scanning the bus<a class="headerlink" href="#scanning-the-bus" title="Permanent link">&para;</a></h2>
+<p>Before wiring blind, an <strong>I2C scanner</strong> sketch (a well-known community
+pattern built entirely from the documented <code>Wire</code> API) finds what
+addresses are actually present:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// i2c-scanner.ino</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Wire.h&gt;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="cp">#if defined(ESP8266)</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">SDA_PIN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">D2</span><span class="p">;</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">SCL_PIN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">D1</span><span class="p">;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="cp">#elif defined(ESP32)</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">SDA_PIN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">21</span><span class="p">;</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">SCL_PIN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">22</span><span class="p">;</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="cp">#endif</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">  </span><span class="n">Wire</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">SDA_PIN</span><span class="p">,</span><span class="w"> </span><span class="n">SCL_PIN</span><span class="p">);</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"I2C scanner starting..."</span><span class="p">);</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">found</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">byte</span><span class="w"> </span><span class="n">address</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">address</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">127</span><span class="p">;</span><span class="w"> </span><span class="n">address</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">    </span><span class="n">Wire</span><span class="p">.</span><span class="n">beginTransmission</span><span class="p">(</span><span class="n">address</span><span class="p">);</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">    </span><span class="c1">// endTransmission() returns 0 on ACK (device present), documented</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">    </span><span class="c1">// by the Wire library as the standard presence-detection method.</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">    </span><span class="kt">byte</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Wire</span><span class="p">.</span><span class="n">endTransmission</span><span class="p">();</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">error</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s">"Device found at 0x%02X</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">address</span><span class="p">);</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="w">      </span><span class="n">found</span><span class="o">++</span><span class="p">;</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s">"Scan complete, %d device(s) found</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">found</span><span class="p">);</span>
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="p">}</span>
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+</code></pre></div>
+<h2 id="reading-a-bme280-temperaturehumiditypressure-over-i2c">Reading a BME280 (temperature/humidity/pressure) over I2C<a class="headerlink" href="#reading-a-bme280-temperaturehumiditypressure-over-i2c" title="Permanent link">&para;</a></h2>
+<p>The BME280 is a common combined environmental sensor, typically at I2C
+address <code>0x76</code> or <code>0x77</code>. Adafruit's <code>Adafruit_BME280</code> library documents
+a <code>begin(address)</code> call and simple accessor methods:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// i2c-bme280-read.ino</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Wire.h&gt;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Adafruit_Sensor.h&gt;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Adafruit_BME280.h&gt;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">Adafruit_BME280</span><span class="w"> </span><span class="n">bme</span><span class="p">;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="n">Wire</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span><span class="w"> </span><span class="c1">// default pins for the board</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">  </span><span class="c1">// begin() returns false if it can't find/verify the chip ID over I2C --</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">  </span><span class="c1">// documented failure mode for a wrong address or bad wiring.</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">bme</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mh">0x76</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Could not find BME280 sensor, check wiring/address!"</span><span class="p">);</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="nb">true</span><span class="p">)</span><span class="w"> </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="p">}</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s">"Temp: %.2fC  Humidity: %.1f%%  Pressure: %.1fhPa</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">                </span><span class="n">bme</span><span class="p">.</span><span class="n">readTemperature</span><span class="p">(),</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">                </span><span class="n">bme</span><span class="p">.</span><span class="n">readHumidity</span><span class="p">(),</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">                </span><span class="n">bme</span><span class="p">.</span><span class="n">readPressure</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">100.0F</span><span class="p">);</span><span class="w"> </span><span class="c1">// library returns Pa; hPa = Pa/100</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="driving-an-ssd1306-oled-display-over-i2c">Driving an SSD1306 OLED display over I2C<a class="headerlink" href="#driving-an-ssd1306-oled-display-over-i2c" title="Permanent link">&para;</a></h2>
+<p>Small 128x64 OLED displays (SSD1306 driver) are another common I2C
+peripheral, driven by Adafruit's <code>Adafruit_SSD1306</code> + <code>Adafruit_GFX</code>
+libraries:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// i2c-oled-display.ino</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Wire.h&gt;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Adafruit_GFX.h&gt;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Adafruit_SSD1306.h&gt;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="cp">#define SCREEN_WIDTH 128</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="cp">#define SCREEN_HEIGHT 64</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">Adafruit_SSD1306</span><span class="w"> </span><span class="nf">display</span><span class="p">(</span><span class="n">SCREEN_WIDTH</span><span class="p">,</span><span class="w"> </span><span class="n">SCREEN_HEIGHT</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">Wire</span><span class="p">,</span><span class="w"> </span><span class="mi">-1</span><span class="p">);</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">  </span><span class="n">Wire</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">  </span><span class="c1">// 0x3C is the documented default I2C address for most common</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">  </span><span class="c1">// SSD1306 128x64 breakout modules.</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">display</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">SSD1306_SWITCHCAPVCC</span><span class="p">,</span><span class="w"> </span><span class="mh">0x3C</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"SSD1306 not found"</span><span class="p">);</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="nb">true</span><span class="p">)</span><span class="w"> </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">clearDisplay</span><span class="p">();</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">setTextSize</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">setTextColor</span><span class="p">(</span><span class="n">SSD1306_WHITE</span><span class="p">);</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">setCursor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Hello IoT"</span><span class="p">);</span>
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="w">  </span><span class="n">display</span><span class="p">.</span><span class="n">display</span><span class="p">();</span><span class="w"> </span><span class="c1">// buffered -- nothing shows until display() is called</span>
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="p">}</span>
+<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>
+<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+</code></pre></div>
+<h2 id="combining-two-i2c-devices-on-one-bus">Combining two I2C devices on one bus<a class="headerlink" href="#combining-two-i2c-devices-on-one-bus" title="Permanent link">&para;</a></h2>
+<p>Since the bus is shared, both the BME280 (<code>0x76</code>) and SSD1306 (<code>0x3C</code>)
+can coexist on the same <code>SDA</code>/<code>SCL</code> wires as long as their addresses
+don't collide — the scanner sketch above is exactly how you'd confirm
+that before writing combined code.</p>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Write the scanner sketch and reason through what addresses you'd
+   expect to see for a BME280 + SSD1306 combo (<code>0x76</code> and <code>0x3C</code>).</li>
+<li>Write the BME280 read sketch and explain what a <code>begin()</code> failure
+   (returning <code>false</code>) would mean in practice.</li>
+<li>Write the OLED sketch and explain why <code>display.display()</code> is a
+   separate call from drawing/printing commands.</li>
+<li>Combine both into one sketch that shows the BME280's live readings on
+   the OLED screen, refreshed every 2 seconds.</li>
+</ol>
 
 
 

@@ -1914,6 +1914,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09 · Cost Engineering & BOM Optimization
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1930,6 +1948,102 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-bom-is-where-margin-is-won-or-lost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The BOM is where margin is won or lost
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chip-family-choice-as-a-bom-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chip family choice as a BOM decision
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#where-cost-hides-beyond-the-main-chip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where cost hides beyond the main chip
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-simple-bom-cost-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A simple BOM cost model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#firmware-choices-that-reduce-bom-not-just-power" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Firmware choices that reduce BOM, not just power
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-bom-review-checklist-before-committing-to-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A BOM review checklist before committing to production
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2105,91 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-bom-is-where-margin-is-won-or-lost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The BOM is where margin is won or lost
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chip-family-choice-as-a-bom-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chip family choice as a BOM decision
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#where-cost-hides-beyond-the-main-chip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where cost hides beyond the main chip
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-simple-bom-cost-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A simple BOM cost model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#firmware-choices-that-reduce-bom-not-just-power" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Firmware choices that reduce BOM, not just power
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-bom-review-checklist-before-committing-to-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A BOM review checklist before committing to production
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2010,8 +2209,115 @@
 
 
 <h1 id="cost-engineering-bom-optimization">Cost Engineering &amp; BOM Optimization<a class="headerlink" href="#cost-engineering-bom-optimization" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 4 · Master.</p>
-<p>More lessons are on the way — check back soon.</p>
+<div class="admonition note">
+<p class="admonition-title">Reference module</p>
+<p>This module covers bill-of-materials and cost tradeoffs, not
+firmware — code snippets here illustrate how a firmware decision
+(e.g. which chip family) trades off against BOM cost, reasoned
+against documented ESP8266/ESP32 capabilities rather than measured
+on hardware.</p>
+</div>
+<h2 id="the-bom-is-where-margin-is-won-or-lost">The BOM is where margin is won or lost<a class="headerlink" href="#the-bom-is-where-margin-is-won-or-lost" title="Permanent link">&para;</a></h2>
+<p>At prototype quantities, a $2 difference in module cost is noise. At
+10,000 units, it's $20,000 — often the difference between a profitable
+product and one that isn't. Cost engineering means treating every
+component choice as a tradeoff against what the firmware actually needs,
+not defaulting to "the one I prototyped with."</p>
+<h2 id="chip-family-choice-as-a-bom-decision">Chip family choice as a BOM decision<a class="headerlink" href="#chip-family-choice-as-a-bom-decision" title="Permanent link">&para;</a></h2>
+<p>Level 4.01 framed ESP8266 vs. ESP32 as a capability question; at
+volume it's also a straight cost question — the ESP8266 module is
+documented as typically cheaper than the ESP32 module at comparable
+volumes, so paying the ESP32 premium is only justified when the product
+actually needs its extra GPIO, RAM, or BLE.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// A firmware-level way to make this decision concrete: does the</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1">// product's actual sketch fit ESP8266's documented RAM/GPIO ceiling?</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1">//</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1">// - 2 sensors over I2C, 1 status LED, MQTT over TLS, OTA:</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1">//     fits comfortably within ESP8266's documented resources.</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1">// - 5 sensors, local web dashboard, BLE provisioning, TLS + OTA + logging:</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1">//     likely exceeds ESP8266's free-heap headroom once TLS buffers</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1">//     and a web server are both resident — ESP32's RAM budget fits.</span>
+</code></pre></div>
+<p>Making this comparison explicit (rather than assuming "we already
+prototyped on ESP32") is often the single biggest per-unit cost lever
+available before tooling is committed.</p>
+<h2 id="where-cost-hides-beyond-the-main-chip">Where cost hides beyond the main chip<a class="headerlink" href="#where-cost-hides-beyond-the-main-chip" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Voltage regulator choice</strong>: a linear regulator is cheaper than a
+  switching regulator but wastes more power as heat — irrelevant for a
+  USB-powered device, expensive (in wasted battery life, per Level
+  4.05) for a battery product. The "right" regulator depends on the
+  power budget you already modeled.</li>
+<li><strong>Antenna</strong>: a PCB trace antenna is nearly free; an external antenna
+  with a U.FL connector adds real per-unit cost and a certification
+  variable (Level 4.08) if it changes the module's tested
+  configuration.</li>
+<li><strong>Sensor grade</strong>: a $0.30 generic temperature sensor vs. a $3
+  factory-calibrated one is a real accuracy/cost tradeoff — worth
+  revisiting once you know the product's actual required accuracy, not
+  the accuracy that was convenient to prototype with.</li>
+<li><strong>Connectors and enclosure hardware</strong>: often underestimated in a BOM
+  built from a schematic alone; at volume, connector cost per unit
+  frequently rivals the main chip's cost.</li>
+</ul>
+<h2 id="a-simple-bom-cost-model">A simple BOM cost model<a class="headerlink" href="#a-simple-bom-cost-model" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>per_unit_cost = chip_module + pcb_fab + passive_components
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>              + sensors + connectors + enclosure + assembly_labor
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>total_cost(qty) = per_unit_cost(qty) * qty + nre_costs
+</code></pre></div>
+<p>Where <code>per_unit_cost</code> itself typically drops with quantity (volume
+pricing on the module and PCB fab), while <code>nre_costs</code> (non-recurring
+engineering: tooling, certification testing from Level 4.08,
+development time) are fixed regardless of unit count — meaning
+cost-per-unit at 100 units can look very different from cost-per-unit
+at 10,000, and a BOM decision that's "too expensive" at prototype scale
+can be the right one at volume, or vice versa.</p>
+<h2 id="firmware-choices-that-reduce-bom-not-just-power">Firmware choices that reduce BOM, not just power<a class="headerlink" href="#firmware-choices-that-reduce-bom-not-just-power" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Fewer external components via software</strong>: using the chip's
+  documented internal pull-up resistors (<code>pinMode(pin, INPUT_PULLUP)</code>)
+  instead of a discrete pull-up resistor on every button/switch input
+  removes a component per input, multiplied across the whole product
+  line.</li>
+<li><strong>Sharing one ADC across multiple analog sensors</strong> via an external
+  multiplexer only pays off if it's cheaper than simply choosing an
+  ESP32 (with its multiple ADC-capable pins) over an ESP8266 (with
+  one) — another instance of the chip-choice tradeoff above.</li>
+<li><strong>Software debouncing</strong> (Level 2.05) instead of a hardware RC filter
+  per button removes passive components at zero firmware-complexity
+  cost, since the debounce logic is a few lines already needed anyway.</li>
+</ul>
+<h2 id="a-bom-review-checklist-before-committing-to-production">A BOM review checklist before committing to production<a class="headerlink" href="#a-bom-review-checklist-before-committing-to-production" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Does every component actually get used by the shipped firmware, or
+   is something left over from prototyping (an unused sensor, a debug
+   header) that could be removed?</li>
+<li>Can any discrete component be replaced by a documented
+   chip-internal feature (pull-ups, internal ADC reference, PWM instead
+   of an external timer chip)?</li>
+<li>Is the chip family (ESP8266 vs. ESP32) still the right choice given
+   the <em>final</em> feature set, not the prototype's feature set?</li>
+<li>Have connector, enclosure, and assembly labor costs been estimated
+   from an actual quote, not extrapolated from the schematic alone?</li>
+</ol>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>For a product needing 3 digital button inputs, compare the BOM cost
+   and firmware cost of external pull-up resistors vs.
+   <code>INPUT_PULLUP</code>, and explain why the software option is very likely a
+   pure win here.</li>
+<li>Explain why the ESP8266's single ADC pin can turn into a hidden BOM
+   cost (external multiplexer or ADC chip) for a product needing
+   several analog sensors, and how that compares against simply
+   choosing the ESP32.</li>
+<li>Using the cost model above, explain why a design with high <code>nre_costs</code>
+   but low <code>per_unit_cost</code> favors high-volume production, while the
+   reverse favors a low-volume/niche product.</li>
+<li>Identify one firmware decision from earlier in this level (OTA
+   strategy, power budget, or security hardening) that has a <em>BOM</em>
+   consequence, and describe it.</li>
+</ol>
 
 
 

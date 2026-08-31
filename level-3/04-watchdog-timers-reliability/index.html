@@ -92,7 +92,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#watchdog-timers-reliability" class="md-skip">
+        <a href="#04-watchdog-timers-reliability" class="md-skip">
           Skip to content
         </a>
       
@@ -1400,6 +1400,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 · Watchdog Timers & Reliability
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1416,6 +1434,102 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#devices-hang-watchdogs-recover-them" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Devices hang. Watchdogs recover them.
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#esp8266-hardware-wdt-is-always-running" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ESP8266: hardware WDT is always running
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#esp32-the-task-watchdog-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ESP32: the task watchdog API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#catching-a-hang-mid-block-not-just-at-loops-top" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Catching a hang mid-block, not just at loop's top
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detecting-why-the-last-reset-happened" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detecting why the last reset happened
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-software-deadman-check-as-a-second-line-of-defense" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A software "deadman" check as a second line of defense
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2105,91 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#devices-hang-watchdogs-recover-them" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Devices hang. Watchdogs recover them.
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#esp8266-hardware-wdt-is-always-running" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ESP8266: hardware WDT is always running
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#esp32-the-task-watchdog-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ESP32: the task watchdog API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#catching-a-hang-mid-block-not-just-at-loops-top" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Catching a hang mid-block, not just at loop's top
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detecting-why-the-last-reset-happened" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detecting why the last reset happened
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-software-deadman-check-as-a-second-line-of-defense" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A software "deadman" check as a second line of defense
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2009,9 +2208,139 @@
   
 
 
-<h1 id="watchdog-timers-reliability">Watchdog Timers &amp; Reliability<a class="headerlink" href="#watchdog-timers-reliability" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 3 · Advanced.</p>
-<p>More lessons are on the way — check back soon.</p>
+<h1 id="04-watchdog-timers-reliability">04 · Watchdog Timers &amp; Reliability<a class="headerlink" href="#04-watchdog-timers-reliability" title="Permanent link">&para;</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Not flashed to hardware</p>
+<p>Reasoned through against the documented ESP8266 core software
+watchdog (<code>ESP.wdtEnable</code>/<code>ESP.wdtFeed</code> and its always-on hardware
+watchdog) and the ESP32 core's <code>esp_task_wdt</code> API. Not compiled or
+flashed to physical hardware in this environment.</p>
+</div>
+<h2 id="devices-hang-watchdogs-recover-them">Devices hang. Watchdogs recover them.<a class="headerlink" href="#devices-hang-watchdogs-recover-them" title="Permanent link">&para;</a></h2>
+<p>A device left in the field will eventually hit a bug you didn't
+reproduce on the bench: a library blocking forever, a heap allocation
+failure, a sensor that stops acknowledging on I2C. Without a way to
+detect "the main loop stopped responding," the only fix is a human
+pulling power. A <strong>watchdog timer (WDT)</strong> is a hardware countdown that
+resets the chip unless the firmware "feeds" it regularly — silence past
+the timeout means something went wrong, so it reboots you back to a
+known state.</p>
+<h2 id="esp8266-hardware-wdt-is-always-running">ESP8266: hardware WDT is always running<a class="headerlink" href="#esp8266-hardware-wdt-is-always-running" title="Permanent link">&para;</a></h2>
+<p>The ESP8266 documents a hardware watchdog that's active by default and
+resets the chip (~8s timeout) if <code>loop()</code> never returns control to the
+core — this alone catches most infinite loops for free. The core also
+documents a <strong>software watchdog</strong> layered on top, tunable with
+<code>ESP.wdtEnable()</code>/<code>ESP.wdtFeed()</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// esp8266-watchdog.ino</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="c1">// wdtEnable() with no interval argument uses the documented default;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="c1">// this sketch relies mostly on the always-on hardware WDT.</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">}</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span><span class="n">doWork</span><span class="p">();</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">  </span><span class="n">yield</span><span class="p">();</span><span class="w"> </span><span class="c1">// documented as feeding both the software and hardware WDT;</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">           </span><span class="c1">// required in any loop with a long-running block</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="p">}</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="kt">void</span><span class="w"> </span><span class="nf">doWork</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">    </span><span class="c1">// Any loop long enough to starve the WDT needs an explicit yield()</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">    </span><span class="c1">// or ESP.wdtFeed() inside it, not just at the top of loop().</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">yield</span><span class="p">();</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">    </span><span class="n">delayMicroseconds</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="esp32-the-task-watchdog-api">ESP32: the task watchdog API<a class="headerlink" href="#esp32-the-task-watchdog-api" title="Permanent link">&para;</a></h2>
+<p>The ESP32 core documents <code>esp_task_wdt_init/add/reset</code> for supervising
+specific FreeRTOS tasks (the Arduino <code>loop()</code> runs as one such task):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// esp32-watchdog.ino</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;esp_task_wdt.h&gt;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">WDT_TIMEOUT_S</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="c1">// esp_task_wdt_init(timeout_s, panic_on_timeout) is the documented</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="c1">// ESP32 core API; panic=true reboots on timeout.</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="n">esp_task_wdt_init</span><span class="p">(</span><span class="n">WDT_TIMEOUT_S</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">  </span><span class="n">esp_task_wdt_add</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span><span class="w"> </span><span class="c1">// NULL registers the calling task (loop's task)</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="p">}</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">  </span><span class="n">doWork</span><span class="p">();</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">  </span><span class="n">esp_task_wdt_reset</span><span class="p">();</span><span class="w"> </span><span class="c1">// documented "feed" call; must run within the timeout window</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="p">}</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="kt">void</span><span class="w"> </span><span class="nf">doWork</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">  </span><span class="c1">// Simulate a bounded unit of work per loop iteration.</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="catching-a-hang-mid-block-not-just-at-loops-top">Catching a hang mid-block, not just at loop's top<a class="headerlink" href="#catching-a-hang-mid-block-not-just-at-loops-top" title="Permanent link">&para;</a></h2>
+<p>A single slow call buried inside <code>doWork()</code> can still starve the
+watchdog if nothing resets it until <code>doWork()</code> returns. Feed from inside
+long-running sections too:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">doLongOperation</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">200</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="n">processChunk</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">      </span><span class="n">esp_task_wdt_reset</span><span class="p">();</span><span class="w"> </span><span class="c1">// ESP32</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">      </span><span class="c1">// yield();           // ESP8266 equivalent</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="detecting-why-the-last-reset-happened">Detecting <em>why</em> the last reset happened<a class="headerlink" href="#detecting-why-the-last-reset-happened" title="Permanent link">&para;</a></h2>
+<p>Both cores document a reset-reason API, useful for logging "was this a
+watchdog recovery or a normal power-up?":</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// ESP8266</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ESP8266WiFi.h&gt;</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">ESP</span><span class="p">.</span><span class="n">getResetReason</span><span class="p">());</span><span class="w"> </span><span class="c1">// e.g. "Watchdog", "Power on", "External System"</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="c1">// ESP32</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;esp_system.h&gt;</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">esp_reset_reason_t</span><span class="w"> </span><span class="n">reason</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">esp_reset_reason</span><span class="p">();</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">reason</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">ESP_RST_TASK_WDT</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">reason</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">ESP_RST_WDT</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Recovered from watchdog reset"</span><span class="p">);</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">}</span>
+</code></pre></div>
+<p>Publishing this on boot (as part of the status payload from Level 1/2's
+capstones) turns silent field reboots into a diagnosable signal instead
+of a mystery gap in your data.</p>
+<h2 id="a-software-deadman-check-as-a-second-line-of-defense">A software "deadman" check as a second line of defense<a class="headerlink" href="#a-software-deadman-check-as-a-second-line-of-defense" title="Permanent link">&para;</a></h2>
+<p>For logic that legitimately calls slow libraries (e.g. flash writes),
+pair the hardware WDT with an application-level check that something
+useful is <em>actually</em> progressing, not just that <code>loop()</code> is spinning:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">lastGoodPublish</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">MAX_SILENCE_MS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">60000</span><span class="p">;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">publishStatus</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="n">lastGoodPublish</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">millis</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lastGoodPublish</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">MAX_SILENCE_MS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"No successful publish in 60s — forcing restart"</span><span class="p">);</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="n">ESP</span><span class="p">.</span><span class="n">restart</span><span class="p">();</span><span class="w"> </span><span class="c1">// documented on both cores</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">  </span><span class="n">esp_task_wdt_reset</span><span class="p">();</span><span class="w"> </span><span class="c1">// or yield() on ESP8266</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Explain the difference between the ESP8266's hardware WDT and its
+   software WDT, and why the hardware one alone doesn't guarantee your
+   application logic is healthy.</li>
+<li>Write the ESP32 task-watchdog setup with a 3-second timeout and a
+   <code>loop()</code> that legitimately takes 2 seconds per iteration.</li>
+<li>Add reset-reason logging to a <code>setup()</code> on each core and describe
+   what value each would report after a watchdog-triggered reboot.</li>
+<li>Implement the "deadman" check pattern around a hypothetical
+   <code>sendTelemetry()</code> function that can silently fail without throwing.</li>
+</ol>
 
 
 

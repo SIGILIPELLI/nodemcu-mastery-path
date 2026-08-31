@@ -92,7 +92,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#deep-sleep-power-management" class="md-skip">
+        <a href="#03-deep-sleep-power-management" class="md-skip">
           Skip to content
         </a>
       
@@ -998,6 +998,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 · Deep Sleep & Power Management
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1014,6 +1032,91 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-deep-sleep-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why deep sleep matters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#esp8266-wiring-and-basic-sleep" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ESP8266: wiring and basic sleep
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#esp32-timer-wakeup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ESP32: timer wakeup
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#persisting-state-across-sleep-cycles-esp32-rtc-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Persisting state across sleep cycles (ESP32 RTC memory)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#waking-on-a-gpio-pin-esp32-external-wakeup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Waking on a GPIO pin (ESP32 external wakeup)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2094,80 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-deep-sleep-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why deep sleep matters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#esp8266-wiring-and-basic-sleep" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ESP8266: wiring and basic sleep
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#esp32-timer-wakeup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ESP32: timer wakeup
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#persisting-state-across-sleep-cycles-esp32-rtc-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Persisting state across sleep cycles (ESP32 RTC memory)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#waking-on-a-gpio-pin-esp32-external-wakeup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Waking on a GPIO pin (ESP32 external wakeup)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2009,9 +2186,132 @@
   
 
 
-<h1 id="deep-sleep-power-management">Deep Sleep &amp; Power Management<a class="headerlink" href="#deep-sleep-power-management" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 2 · Intermediate.</p>
-<p>More lessons are on the way — check back soon.</p>
+<h1 id="03-deep-sleep-power-management">03 · Deep Sleep &amp; Power Management<a class="headerlink" href="#03-deep-sleep-power-management" title="Permanent link">&para;</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Not flashed to hardware</p>
+<p>Reasoned through against the ESP8266 Arduino core's documented
+<code>ESP.deepSleep(microseconds)</code> API and the required GPIO16-to-RST wake
+wiring, and the ESP32 Arduino core's documented
+<code>esp_sleep_enable_timer_wakeup()</code> / <code>esp_deep_sleep_start()</code> API. Not
+compiled or flashed to physical hardware in this environment — actual
+current draw depends on the specific board's onboard regulator and
+peripherals.</p>
+</div>
+<h2 id="why-deep-sleep-matters">Why deep sleep matters<a class="headerlink" href="#why-deep-sleep-matters" title="Permanent link">&para;</a></h2>
+<p>A battery-powered sensor node that stays fully awake between readings
+burns power for no reason — an ESP8266/ESP32 actively running WiFi draws
+roughly 70-170 mA, while <strong>deep sleep</strong> documented current draw drops to
+microamps to low tens of microamps depending on the exact chip. For a
+node that reads a sensor once every few minutes, sleeping between reads
+can be the difference between a battery lasting days versus months.</p>
+<p>Deep sleep works by powering down almost everything (CPU, RAM contents
+lost except a small RTC memory region, WiFi radio off) for a specified
+duration, then triggering a full reboot — <code>setup()</code> runs again from
+scratch, so state doesn't survive a sleep cycle unless you deliberately
+store it in RTC memory.</p>
+<h2 id="esp8266-wiring-and-basic-sleep">ESP8266: wiring and basic sleep<a class="headerlink" href="#esp8266-wiring-and-basic-sleep" title="Permanent link">&para;</a></h2>
+<p>The ESP8266 requires an external wire: <strong>GPIO16 must be physically
+connected to <code>RST</code></strong>, because the chip's documented wake mechanism pulls
+RST low itself via GPIO16 when the sleep timer expires — without that
+wire, the board never wakes up.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// deepsleep-basic-esp8266.ino</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1">// Wiring: GPIO16 (D0 on NodeMCU) must be jumpered to RST.</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Awake, doing work..."</span><span class="p">);</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">  </span><span class="c1">// ... read sensor, publish over WiFi, etc. ...</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w"> </span><span class="c1">// stand-in for real work</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Going to sleep for 60 seconds"</span><span class="p">);</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="c1">// ESP.deepSleep() takes microseconds (documented ESP8266 core API);</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">  </span><span class="c1">// 60e6 = 60,000,000 microseconds = 60 seconds.</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">  </span><span class="n">ESP</span><span class="p">.</span><span class="n">deepSleep</span><span class="p">(</span><span class="mf">60e6</span><span class="p">);</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">  </span><span class="c1">// Execution never reaches here -- deepSleep() does not return.</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="p">}</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">  </span><span class="c1">// Never runs -- setup() re-executes after each wake.</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="esp32-timer-wakeup">ESP32: timer wakeup<a class="headerlink" href="#esp32-timer-wakeup" title="Permanent link">&para;</a></h2>
+<p>ESP32's sleep API is different (and doesn't need the GPIO16 wire) — you
+configure a wakeup source, then call <code>esp_deep_sleep_start()</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// deepsleep-basic-esp32.ino</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;esp_sleep.h&gt;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="cp">#define uS_TO_S_FACTOR 1000000ULL </span><span class="c1">// microseconds per second</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="cp">#define SLEEP_SECONDS 60</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Awake, doing work..."</span><span class="p">);</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">  </span><span class="c1">// esp_sleep_enable_timer_wakeup() takes microseconds (documented</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">  </span><span class="c1">// ESP-IDF/Arduino-core API).</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">  </span><span class="n">esp_sleep_enable_timer_wakeup</span><span class="p">(</span><span class="n">SLEEP_SECONDS</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">uS_TO_S_FACTOR</span><span class="p">);</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Going to sleep for 60 seconds"</span><span class="p">);</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">  </span><span class="n">esp_deep_sleep_start</span><span class="p">();</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">  </span><span class="c1">// Execution never reaches here.</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="p">}</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+</code></pre></div>
+<h2 id="persisting-state-across-sleep-cycles-esp32-rtc-memory">Persisting state across sleep cycles (ESP32 RTC memory)<a class="headerlink" href="#persisting-state-across-sleep-cycles-esp32-rtc-memory" title="Permanent link">&para;</a></h2>
+<p>Since <code>setup()</code> re-runs after every wake, a boot counter or last-known
+value needs <code>RTC_DATA_ATTR</code> — the ESP32 Arduino core's documented
+attribute that places a variable in RTC memory, which survives deep
+sleep (but not a power-cycle or hard reset):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// deepsleep-rtc-memory-esp32.ino</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;esp_sleep.h&gt;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">RTC_DATA_ATTR</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">bootCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="c1">// survives deep sleep, resets on power loss</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">  </span><span class="n">bootCount</span><span class="o">++</span><span class="p">;</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s">"Boot count: %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">bootCount</span><span class="p">);</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">  </span><span class="c1">// esp_sleep_get_wakeup_cause() documents which source woke the chip --</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">  </span><span class="c1">// useful to distinguish "first power-on" from "woke from timer".</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">  </span><span class="n">esp_sleep_wakeup_cause_t</span><span class="w"> </span><span class="n">cause</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">esp_sleep_get_wakeup_cause</span><span class="p">();</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cause</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">ESP_SLEEP_WAKEUP_TIMER</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Woke from timer sleep"</span><span class="p">);</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Fresh boot (power-on or reset)"</span><span class="p">);</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">  </span><span class="n">esp_sleep_enable_timer_wakeup</span><span class="p">(</span><span class="mi">30</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000000ULL</span><span class="p">);</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">  </span><span class="n">esp_deep_sleep_start</span><span class="p">();</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="p">}</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+</code></pre></div>
+<h2 id="waking-on-a-gpio-pin-esp32-external-wakeup">Waking on a GPIO pin (ESP32 external wakeup)<a class="headerlink" href="#waking-on-a-gpio-pin-esp32-external-wakeup" title="Permanent link">&para;</a></h2>
+<p>For an event-driven node (e.g. a PIR motion sensor) rather than a purely
+timed one, ESP32 also documents waking on an external GPIO signal:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// wakeup on GPIO33 going HIGH, in addition to (or instead of) a timer</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">esp_sleep_enable_ext0_wakeup</span><span class="p">(</span><span class="n">GPIO_NUM_33</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"> </span><span class="c1">// 1 = wake on HIGH level</span>
+</code></pre></div>
+<p><code>esp_sleep_enable_ext0_wakeup()</code> only works with RTC-capable GPIOs (a
+documented subset of ESP32 pins), so check your board's pinout before
+choosing one.</p>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>On paper, wire GPIO16 to RST for an ESP8266 board and write the basic
+   sleep sketch with a 30-second interval.</li>
+<li>Port the same sketch to the ESP32 timer-wakeup API and add the RTC
+   boot counter, confirming (by reasoning through the documented
+   behavior) that it increments across wakes but would reset on a power
+   cycle.</li>
+<li>Combine deep sleep with the MQTT publish sketch from module 01: wake,
+   connect WiFi + MQTT, publish one reading, then sleep again — this is
+   the standard battery-node pattern.</li>
+<li>Explain in a comment why calling <code>ESP.deepSleep()</code> inside <code>loop()</code>
+   instead of <code>setup()</code> would still work but is a less common style.</li>
+</ol>
 
 
 

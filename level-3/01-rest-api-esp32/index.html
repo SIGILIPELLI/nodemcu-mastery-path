@@ -92,7 +92,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#building-a-rest-api-on-the-esp32" class="md-skip">
+        <a href="#01-building-a-rest-api-on-the-esp32" class="md-skip">
           Skip to content
         </a>
       
@@ -1316,6 +1316,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 · Building a REST API on the ESP32
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1332,6 +1350,91 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#from-a-status-page-to-a-real-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        From a status page to a real API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-get-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic GET endpoints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accepting-a-post-body-json-in-json-out" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Accepting a POST body (JSON in, JSON out)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#routing-with-a-path-parameter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Routing with a path parameter
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cors-letting-a-browser-based-dashboard-call-the-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CORS: letting a browser-based dashboard call the API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2094,80 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#from-a-status-page-to-a-real-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        From a status page to a real API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-get-endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic GET endpoints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accepting-a-post-body-json-in-json-out" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Accepting a POST body (JSON in, JSON out)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#routing-with-a-path-parameter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Routing with a path parameter
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cors-letting-a-browser-based-dashboard-call-the-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CORS: letting a browser-based dashboard call the API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2009,9 +2186,140 @@
   
 
 
-<h1 id="building-a-rest-api-on-the-esp32">Building a REST API on the ESP32<a class="headerlink" href="#building-a-rest-api-on-the-esp32" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 3 · Advanced.</p>
-<p>More lessons are on the way — check back soon.</p>
+<h1 id="01-building-a-rest-api-on-the-esp32">01 · Building a REST API on the ESP32<a class="headerlink" href="#01-building-a-rest-api-on-the-esp32" title="Permanent link">&para;</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Not flashed to hardware</p>
+<p>Reasoned through against the ESP32 Arduino core's documented
+<code>WebServer</code> library API (<code>on()</code>, <code>send()</code>, request-argument accessors)
+and the ESP8266 core's analogous <code>ESP8266WebServer</code> library, which
+share nearly identical documented interfaces. Not compiled or flashed
+to physical hardware in this environment.</p>
+</div>
+<h2 id="from-a-status-page-to-a-real-api">From a status page to a real API<a class="headerlink" href="#from-a-status-page-to-a-real-api" title="Permanent link">&para;</a></h2>
+<p>Level 1's capstone served a simple HTML status page. A <strong>REST API</strong>
+formalizes that into predictable, machine-consumable endpoints: distinct
+URL paths per resource, HTTP methods (<code>GET</code> to read, <code>POST</code> to write),
+and JSON request/response bodies instead of hand-built HTML — the same
+shape any mobile app or dashboard expects to talk to.</p>
+<h2 id="basic-get-endpoints">Basic GET endpoints<a class="headerlink" href="#basic-get-endpoints" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// rest-api-basic.ino</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;WiFi.h&gt;</span><span class="w">          </span><span class="c1">// ESP8266WiFi.h + ESP8266WebServer.h on ESP8266</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;WebServer.h&gt;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ArduinoJson.h&gt;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">WebServer</span><span class="w"> </span><span class="nf">server</span><span class="p">(</span><span class="mi">80</span><span class="p">);</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="kt">float</span><span class="w"> </span><span class="n">currentTempC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">22.5</span><span class="p">;</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="kt">void</span><span class="w"> </span><span class="nf">handleStatus</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">  </span><span class="n">JsonDocument</span><span class="w"> </span><span class="n">doc</span><span class="p">;</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="n">doc</span><span class="p">[</span><span class="s">"device"</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"esp-api-01"</span><span class="p">;</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">  </span><span class="n">doc</span><span class="p">[</span><span class="s">"uptimeMs"</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">  </span><span class="n">doc</span><span class="p">[</span><span class="s">"tempC"</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currentTempC</span><span class="p">;</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">  </span><span class="n">String</span><span class="w"> </span><span class="n">body</span><span class="p">;</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">  </span><span class="n">serializeJson</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span><span class="w"> </span><span class="n">body</span><span class="p">);</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">  </span><span class="c1">// send(code, contentType, body) is WebServer's documented response API.</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">  </span><span class="n">server</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="s">"application/json"</span><span class="p">,</span><span class="w"> </span><span class="n">body</span><span class="p">);</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="p">}</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="kt">void</span><span class="w"> </span><span class="nf">handleNotFound</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">  </span><span class="n">server</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="mi">404</span><span class="p">,</span><span class="w"> </span><span class="s">"application/json"</span><span class="p">,</span><span class="w"> </span><span class="s">"{</span><span class="se">\"</span><span class="s">error</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">not found</span><span class="se">\"</span><span class="s">}"</span><span class="p">);</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="p">}</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">  </span><span class="n">WiFi</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="s">"your-ssid"</span><span class="p">,</span><span class="w"> </span><span class="s">"your-password"</span><span class="p">);</span>
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">WiFi</span><span class="p">.</span><span class="n">status</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">WL_CONNECTED</span><span class="p">)</span><span class="w"> </span><span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">WiFi</span><span class="p">.</span><span class="n">localIP</span><span class="p">());</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>
+<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="w">  </span><span class="n">server</span><span class="p">.</span><span class="n">on</span><span class="p">(</span><span class="s">"/status"</span><span class="p">,</span><span class="w"> </span><span class="n">HTTP_GET</span><span class="p">,</span><span class="w"> </span><span class="n">handleStatus</span><span class="p">);</span>
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="w">  </span><span class="n">server</span><span class="p">.</span><span class="n">onNotFound</span><span class="p">(</span><span class="n">handleNotFound</span><span class="p">);</span><span class="w"> </span><span class="c1">// fires for any unmatched route</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="w">  </span><span class="n">server</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="p">}</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>
+<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a><span class="w">  </span><span class="n">server</span><span class="p">.</span><span class="n">handleClient</span><span class="p">();</span><span class="w"> </span><span class="c1">// must be called every loop iteration, non-blocking</span>
+<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="accepting-a-post-body-json-in-json-out">Accepting a POST body (JSON in, JSON out)<a class="headerlink" href="#accepting-a-post-body-json-in-json-out" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// rest-api-post.ino</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">handleSetInterval</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">server</span><span class="p">.</span><span class="n">method</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">HTTP_POST</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="n">server</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="mi">405</span><span class="p">,</span><span class="w"> </span><span class="s">"application/json"</span><span class="p">,</span><span class="w"> </span><span class="s">"{</span><span class="se">\"</span><span class="s">error</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">method not allowed</span><span class="se">\"</span><span class="s">}"</span><span class="p">);</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="c1">// server.arg("plain") is WebServer's documented way to read a raw</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="c1">// POST body when it isn't form-encoded.</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="n">String</span><span class="w"> </span><span class="n">body</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">server</span><span class="p">.</span><span class="n">arg</span><span class="p">(</span><span class="s">"plain"</span><span class="p">);</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">  </span><span class="n">JsonDocument</span><span class="w"> </span><span class="n">doc</span><span class="p">;</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">  </span><span class="n">DeserializationError</span><span class="w"> </span><span class="n">err</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">deserializeJson</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span><span class="w"> </span><span class="n">body</span><span class="p">);</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="n">server</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span><span class="w"> </span><span class="s">"application/json"</span><span class="p">,</span><span class="w"> </span><span class="s">"{</span><span class="se">\"</span><span class="s">error</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">invalid json</span><span class="se">\"</span><span class="s">}"</span><span class="p">);</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">intervalMs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">doc</span><span class="p">[</span><span class="s">"intervalMs"</span><span class="p">]</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">intervalMs</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">    </span><span class="n">server</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span><span class="w"> </span><span class="s">"application/json"</span><span class="p">,</span><span class="w"> </span><span class="s">"{</span><span class="se">\"</span><span class="s">error</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">intervalMs must be positive</span><span class="se">\"</span><span class="s">}"</span><span class="p">);</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">    </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">  </span><span class="c1">// ... apply intervalMs to whatever timer drives publishing ...</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="w">  </span><span class="n">server</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="s">"application/json"</span><span class="p">,</span><span class="w"> </span><span class="s">"{</span><span class="se">\"</span><span class="s">status</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">ok</span><span class="se">\"</span><span class="s">}"</span><span class="p">);</span>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="p">}</span>
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="c1">// In setup(): server.on("/config/interval", HTTP_POST, handleSetInterval);</span>
+</code></pre></div>
+<h2 id="routing-with-a-path-parameter">Routing with a path parameter<a class="headerlink" href="#routing-with-a-path-parameter" title="Permanent link">&para;</a></h2>
+<p><code>WebServer</code> doesn't document built-in <code>:id</code>-style path parameters the way
+larger frameworks do, but the same effect is achieved by registering a
+prefix and parsing the remainder manually, or using
+<code>server.pathArg()</code> where supported, or simplest: a query string:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// rest-api-query-param.ino</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">handleLed</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="c1">// /led?state=on</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="n">String</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">server</span><span class="p">.</span><span class="n">arg</span><span class="p">(</span><span class="s">"state"</span><span class="p">);</span><span class="w"> </span><span class="c1">// arg() also reads query-string params</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">"on"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">LED_BUILTIN</span><span class="p">,</span><span class="w"> </span><span class="n">LOW</span><span class="p">);</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">"off"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">LED_BUILTIN</span><span class="p">,</span><span class="w"> </span><span class="n">HIGH</span><span class="p">);</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="n">server</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span><span class="w"> </span><span class="s">"application/json"</span><span class="p">,</span><span class="w"> </span><span class="s">"{</span><span class="se">\"</span><span class="s">error</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">state must be on or off</span><span class="se">\"</span><span class="s">}"</span><span class="p">);</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">  </span><span class="n">server</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="s">"application/json"</span><span class="p">,</span><span class="w"> </span><span class="s">"{</span><span class="se">\"</span><span class="s">status</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">ok</span><span class="se">\"</span><span class="s">}"</span><span class="p">);</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="p">}</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="c1">// In setup(): server.on("/led", HTTP_GET, handleLed);</span>
+</code></pre></div>
+<h2 id="cors-letting-a-browser-based-dashboard-call-the-api">CORS: letting a browser-based dashboard call the API<a class="headerlink" href="#cors-letting-a-browser-based-dashboard-call-the-api" title="Permanent link">&para;</a></h2>
+<p>A dashboard hosted on a different origin (e.g. a laptop's browser, not
+the ESP itself) will be blocked by the browser's same-origin policy
+unless the response includes a documented CORS header:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">handleStatus</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="n">server</span><span class="p">.</span><span class="n">sendHeader</span><span class="p">(</span><span class="s">"Access-Control-Allow-Origin"</span><span class="p">,</span><span class="w"> </span><span class="s">"*"</span><span class="p">);</span><span class="w"> </span><span class="c1">// dev-friendly; scope this down in production</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="n">JsonDocument</span><span class="w"> </span><span class="n">doc</span><span class="p">;</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="n">doc</span><span class="p">[</span><span class="s">"tempC"</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currentTempC</span><span class="p">;</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="n">String</span><span class="w"> </span><span class="n">body</span><span class="p">;</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="n">serializeJson</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span><span class="w"> </span><span class="n">body</span><span class="p">);</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">  </span><span class="n">server</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="s">"application/json"</span><span class="p">,</span><span class="w"> </span><span class="n">body</span><span class="p">);</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Write the basic <code>/status</code> GET endpoint and confirm the JSON shape it
+   would return by tracing the code.</li>
+<li>Add the <code>/config/interval</code> POST endpoint, including the 400 response
+   for a missing/invalid <code>intervalMs</code> field.</li>
+<li>Add the <code>/led</code> query-param endpoint and test (by reasoning through the
+   code) both <code>?state=on</code> and an invalid <code>?state=maybe</code>.</li>
+<li>Add the CORS header to every response and explain why a wildcard
+   <code>Access-Control-Allow-Origin: *</code> is convenient for development but
+   should be tightened for a production device.</li>
+</ol>
 
 
 

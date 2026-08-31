@@ -1568,6 +1568,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10 · Capstone — Secure Multi-Sensor IoT Gateway
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1584,6 +1602,80 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-this-capstone-combines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What this capstone combines
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-combined-sketch-structured-trimmed-for-length" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The combined sketch (structured, trimmed for length)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-this-holds-up-as-a-capstone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why this holds up as a capstone
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2083,69 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-this-capstone-combines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What this capstone combines
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-combined-sketch-structured-trimmed-for-length" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The combined sketch (structured, trimmed for length)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-this-holds-up-as-a-capstone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why this holds up as a capstone
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2010,8 +2165,242 @@
 
 
 <h1 id="capstone-secure-multi-sensor-iot-gateway">Capstone — Secure Multi-Sensor IoT Gateway<a class="headerlink" href="#capstone-secure-multi-sensor-iot-gateway" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 3 · Advanced.</p>
-<p>More lessons are on the way — check back soon.</p>
+<div class="admonition note">
+<p class="admonition-title">Not flashed to hardware</p>
+<p>Reasoned through against the documented ESP32 Arduino-core APIs
+used throughout this level (<code>WiFiClientSecure</code>, <code>PubSubClient</code>/MQTT,
+<code>LittleFS</code>, <code>esp_task_wdt</code>, <code>Ticker</code>). Not compiled or flashed to
+physical hardware in this environment.</p>
+</div>
+<h2 id="what-this-capstone-combines">What this capstone combines<a class="headerlink" href="#what-this-capstone-combines" title="Permanent link">&para;</a></h2>
+<p>Every prior Level 3 module becomes one subsystem of a single gateway
+sketch:</p>
+<ul>
+<li><strong>REST API (03-01)</strong> → a local status endpoint for on-LAN debugging.</li>
+<li><strong>TLS (03-02)</strong> → the uplink to the cloud MQTT broker is encrypted.</li>
+<li><strong>Multi-sensor aggregation (03-03)</strong> → several sensors sampled and
+  buffered before publish.</li>
+<li><strong>Watchdog (03-04)</strong> → recovers from any subsystem hang.</li>
+<li><strong>Task scheduling (03-05)</strong> → everything runs non-blocking on one
+  loop.</li>
+<li><strong>Local logging (03-06)</strong> → readings survive a network outage.</li>
+<li><strong>Captive portal (03-07)</strong> → first-boot WiFi provisioning.</li>
+<li><strong>Firmware rollback (03-08)</strong> → OTA updates that self-validate.</li>
+<li><strong>Diagnostics (03-09)</strong> → health telemetry alongside sensor data.</li>
+</ul>
+<h2 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>[ DHT22 ]--\
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>[ BMP280 ]---&gt; aggregate &amp; buffer --&gt; LittleFS (offline buffer)
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>[ Analog ]--/         |                      |
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>                       v                      v
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>                 MQTT publish (TLS) &lt;---- drain on reconnect
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>                       |
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>                 local REST /status (LAN debugging)
+</code></pre></div>
+<h2 id="the-combined-sketch-structured-trimmed-for-length">The combined sketch (structured, trimmed for length)<a class="headerlink" href="#the-combined-sketch-structured-trimmed-for-length" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// iot-gateway-capstone.ino</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;WiFi.h&gt;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;WiFiClientSecure.h&gt;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;PubSubClient.h&gt;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;WebServer.h&gt;</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;LittleFS.h&gt;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;esp_task_wdt.h&gt;</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;DNSServer.h&gt;</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1">// ---- Config ----</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">MQTT_HOST</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"broker.example.com"</span><span class="p">;</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w">   </span><span class="n">MQTT_PORT</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8883</span><span class="p">;</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">MQTT_TOPIC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"gateway/readings"</span><span class="p">;</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">SAMPLE_INTERVAL_MS</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">5000</span><span class="p">;</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">PUBLISH_INTERVAL_MS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30000</span><span class="p">;</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">WDT_TIMEOUT_S</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="n">WiFiClientSecure</span><span class="w"> </span><span class="n">tlsClient</span><span class="p">;</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="n">PubSubClient</span><span class="w"> </span><span class="nf">mqtt</span><span class="p">(</span><span class="n">tlsClient</span><span class="p">);</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="n">WebServer</span><span class="w"> </span><span class="nf">statusServer</span><span class="p">(</span><span class="mi">80</span><span class="p">);</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="n">DNSServer</span><span class="w"> </span><span class="n">dnsServer</span><span class="p">;</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">lastSample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">lastPublish</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="kt">float</span><span class="w"> </span><span class="n">latestTemp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NAN</span><span class="p">,</span><span class="w"> </span><span class="n">latestHumidity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NAN</span><span class="p">,</span><span class="w"> </span><span class="n">latestPressure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NAN</span><span class="p">;</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="kt">bool</span><span class="w"> </span><span class="n">provisioningMode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="c1">// ---- Provisioning (Level 3.07) ----</span>
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">tryStoredWifi</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="w">  </span><span class="n">File</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LittleFS</span><span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="s">"/wifi.cfg"</span><span class="p">,</span><span class="w"> </span><span class="s">"r"</span><span class="p">);</span>
+<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="w">  </span><span class="n">String</span><span class="w"> </span><span class="n">ssid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="n">readStringUntil</span><span class="p">(</span><span class="sc">'\n'</span><span class="p">);</span><span class="w"> </span><span class="n">ssid</span><span class="p">.</span><span class="n">trim</span><span class="p">();</span>
+<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="w">  </span><span class="n">String</span><span class="w"> </span><span class="n">pass</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="n">readStringUntil</span><span class="p">(</span><span class="sc">'\n'</span><span class="p">);</span><span class="w"> </span><span class="n">pass</span><span class="p">.</span><span class="n">trim</span><span class="p">();</span>
+<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="w">  </span><span class="n">f</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
+<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ssid</span><span class="p">.</span><span class="n">length</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>
+<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a><span class="w">  </span><span class="n">WiFi</span><span class="p">.</span><span class="n">mode</span><span class="p">(</span><span class="n">WIFI_STA</span><span class="p">);</span>
+<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a><span class="w">  </span><span class="n">WiFi</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">ssid</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span><span class="w"> </span><span class="n">pass</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+<a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a><span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span>
+<a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a><span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">WiFi</span><span class="p">.</span><span class="n">status</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">WL_CONNECTED</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">millis</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">15000</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a><span class="w">    </span><span class="n">delay</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+<a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a><span class="w">    </span><span class="n">esp_task_wdt_reset</span><span class="p">();</span>
+<a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">WiFi</span><span class="p">.</span><span class="n">status</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">WL_CONNECTED</span><span class="p">;</span>
+<a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a><span class="p">}</span>
+<a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a>
+<a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a><span class="kt">void</span><span class="w"> </span><span class="nf">startProvisioningPortal</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a><span class="w">  </span><span class="n">provisioningMode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a><span class="w">  </span><span class="n">WiFi</span><span class="p">.</span><span class="n">mode</span><span class="p">(</span><span class="n">WIFI_AP</span><span class="p">);</span>
+<a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a><span class="w">  </span><span class="n">WiFi</span><span class="p">.</span><span class="n">softAP</span><span class="p">(</span><span class="s">"Gateway-Setup"</span><span class="p">);</span>
+<a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a><span class="w">  </span><span class="n">dnsServer</span><span class="p">.</span><span class="n">start</span><span class="p">(</span><span class="mi">53</span><span class="p">,</span><span class="w"> </span><span class="s">"*"</span><span class="p">,</span><span class="w"> </span><span class="n">WiFi</span><span class="p">.</span><span class="n">softAPIP</span><span class="p">());</span>
+<a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a>
+<a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a><span class="w">  </span><span class="n">statusServer</span><span class="p">.</span><span class="n">on</span><span class="p">(</span><span class="s">"/"</span><span class="p">,</span><span class="w"> </span><span class="n">HTTP_GET</span><span class="p">,</span><span class="w"> </span><span class="p">[]()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a><span class="w">    </span><span class="n">statusServer</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="s">"text/html"</span><span class="p">,</span>
+<a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a><span class="w">      </span><span class="s">"&lt;form method='POST' action='/save'&gt;SSID:&lt;input name='ssid'&gt;"</span>
+<a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a><span class="w">      </span><span class="s">"Pass:&lt;input name='pass' type='password'&gt;"</span>
+<a id="__codelineno-1-56" name="__codelineno-1-56" href="#__codelineno-1-56"></a><span class="w">      </span><span class="s">"&lt;input type='submit'&gt;&lt;/form&gt;"</span><span class="p">);</span>
+<a id="__codelineno-1-57" name="__codelineno-1-57" href="#__codelineno-1-57"></a><span class="w">  </span><span class="p">});</span>
+<a id="__codelineno-1-58" name="__codelineno-1-58" href="#__codelineno-1-58"></a><span class="w">  </span><span class="n">statusServer</span><span class="p">.</span><span class="n">on</span><span class="p">(</span><span class="s">"/save"</span><span class="p">,</span><span class="w"> </span><span class="n">HTTP_POST</span><span class="p">,</span><span class="w"> </span><span class="p">[]()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-59" name="__codelineno-1-59" href="#__codelineno-1-59"></a><span class="w">    </span><span class="n">File</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LittleFS</span><span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="s">"/wifi.cfg"</span><span class="p">,</span><span class="w"> </span><span class="s">"w"</span><span class="p">);</span>
+<a id="__codelineno-1-60" name="__codelineno-1-60" href="#__codelineno-1-60"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-61" name="__codelineno-1-61" href="#__codelineno-1-61"></a><span class="w">      </span><span class="n">f</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">statusServer</span><span class="p">.</span><span class="n">arg</span><span class="p">(</span><span class="s">"ssid"</span><span class="p">));</span>
+<a id="__codelineno-1-62" name="__codelineno-1-62" href="#__codelineno-1-62"></a><span class="w">      </span><span class="n">f</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">statusServer</span><span class="p">.</span><span class="n">arg</span><span class="p">(</span><span class="s">"pass"</span><span class="p">));</span>
+<a id="__codelineno-1-63" name="__codelineno-1-63" href="#__codelineno-1-63"></a><span class="w">      </span><span class="n">f</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
+<a id="__codelineno-1-64" name="__codelineno-1-64" href="#__codelineno-1-64"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-1-65" name="__codelineno-1-65" href="#__codelineno-1-65"></a><span class="w">    </span><span class="n">statusServer</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="s">"text/plain"</span><span class="p">,</span><span class="w"> </span><span class="s">"Saved. Rebooting."</span><span class="p">);</span>
+<a id="__codelineno-1-66" name="__codelineno-1-66" href="#__codelineno-1-66"></a><span class="w">    </span><span class="n">delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+<a id="__codelineno-1-67" name="__codelineno-1-67" href="#__codelineno-1-67"></a><span class="w">    </span><span class="n">ESP</span><span class="p">.</span><span class="n">restart</span><span class="p">();</span>
+<a id="__codelineno-1-68" name="__codelineno-1-68" href="#__codelineno-1-68"></a><span class="w">  </span><span class="p">});</span>
+<a id="__codelineno-1-69" name="__codelineno-1-69" href="#__codelineno-1-69"></a><span class="w">  </span><span class="n">statusServer</span><span class="p">.</span><span class="n">onNotFound</span><span class="p">([]()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">statusServer</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="s">"text/html"</span><span class="p">,</span><span class="w"> </span><span class="s">"Setup"</span><span class="p">);</span><span class="w"> </span><span class="p">});</span>
+<a id="__codelineno-1-70" name="__codelineno-1-70" href="#__codelineno-1-70"></a><span class="w">  </span><span class="n">statusServer</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+<a id="__codelineno-1-71" name="__codelineno-1-71" href="#__codelineno-1-71"></a><span class="p">}</span>
+<a id="__codelineno-1-72" name="__codelineno-1-72" href="#__codelineno-1-72"></a>
+<a id="__codelineno-1-73" name="__codelineno-1-73" href="#__codelineno-1-73"></a><span class="c1">// ---- Sensor aggregation (Level 3.03) ----</span>
+<a id="__codelineno-1-74" name="__codelineno-1-74" href="#__codelineno-1-74"></a><span class="kt">void</span><span class="w"> </span><span class="nf">sampleSensors</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-75" name="__codelineno-1-75" href="#__codelineno-1-75"></a><span class="w">  </span><span class="c1">// Stand-ins: real reads would use DHT.h / Adafruit_BMP280 as covered</span>
+<a id="__codelineno-1-76" name="__codelineno-1-76" href="#__codelineno-1-76"></a><span class="w">  </span><span class="c1">// in Level 1/3 sensor modules.</span>
+<a id="__codelineno-1-77" name="__codelineno-1-77" href="#__codelineno-1-77"></a><span class="w">  </span><span class="n">latestTemp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">21.0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">random</span><span class="p">(</span><span class="mi">-20</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">10.0</span><span class="p">);</span>
+<a id="__codelineno-1-78" name="__codelineno-1-78" href="#__codelineno-1-78"></a><span class="w">  </span><span class="n">latestHumidity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">45.0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">random</span><span class="p">(</span><span class="mi">-50</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">10.0</span><span class="p">);</span>
+<a id="__codelineno-1-79" name="__codelineno-1-79" href="#__codelineno-1-79"></a><span class="w">  </span><span class="n">latestPressure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1013.0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">random</span><span class="p">(</span><span class="mi">-30</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">10.0</span><span class="p">);</span>
+<a id="__codelineno-1-80" name="__codelineno-1-80" href="#__codelineno-1-80"></a><span class="p">}</span>
+<a id="__codelineno-1-81" name="__codelineno-1-81" href="#__codelineno-1-81"></a>
+<a id="__codelineno-1-82" name="__codelineno-1-82" href="#__codelineno-1-82"></a><span class="c1">// ---- Offline buffering (Level 3.06) ----</span>
+<a id="__codelineno-1-83" name="__codelineno-1-83" href="#__codelineno-1-83"></a><span class="kt">void</span><span class="w"> </span><span class="nf">bufferReadingLocally</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-84" name="__codelineno-1-84" href="#__codelineno-1-84"></a><span class="w">  </span><span class="n">File</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LittleFS</span><span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="s">"/buffer.csv"</span><span class="p">,</span><span class="w"> </span><span class="s">"a"</span><span class="p">);</span>
+<a id="__codelineno-1-85" name="__codelineno-1-85" href="#__codelineno-1-85"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-86" name="__codelineno-1-86" href="#__codelineno-1-86"></a><span class="w">    </span><span class="n">f</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s">"%lu,%.2f,%.2f,%.2f</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">millis</span><span class="p">(),</span><span class="w"> </span><span class="n">latestTemp</span><span class="p">,</span><span class="w"> </span><span class="n">latestHumidity</span><span class="p">,</span><span class="w"> </span><span class="n">latestPressure</span><span class="p">);</span>
+<a id="__codelineno-1-87" name="__codelineno-1-87" href="#__codelineno-1-87"></a><span class="w">    </span><span class="n">f</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
+<a id="__codelineno-1-88" name="__codelineno-1-88" href="#__codelineno-1-88"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-89" name="__codelineno-1-89" href="#__codelineno-1-89"></a><span class="p">}</span>
+<a id="__codelineno-1-90" name="__codelineno-1-90" href="#__codelineno-1-90"></a>
+<a id="__codelineno-1-91" name="__codelineno-1-91" href="#__codelineno-1-91"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">publishBufferedReadings</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-92" name="__codelineno-1-92" href="#__codelineno-1-92"></a><span class="w">  </span><span class="n">File</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LittleFS</span><span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="s">"/buffer.csv"</span><span class="p">,</span><span class="w"> </span><span class="s">"r"</span><span class="p">);</span>
+<a id="__codelineno-1-93" name="__codelineno-1-93" href="#__codelineno-1-93"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"> </span><span class="c1">// nothing buffered</span>
+<a id="__codelineno-1-94" name="__codelineno-1-94" href="#__codelineno-1-94"></a><span class="w">  </span><span class="kt">bool</span><span class="w"> </span><span class="n">allSent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<a id="__codelineno-1-95" name="__codelineno-1-95" href="#__codelineno-1-95"></a><span class="w">  </span><span class="n">String</span><span class="w"> </span><span class="n">remaining</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span><span class="p">;</span>
+<a id="__codelineno-1-96" name="__codelineno-1-96" href="#__codelineno-1-96"></a><span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">available</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-97" name="__codelineno-1-97" href="#__codelineno-1-97"></a><span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="n">readStringUntil</span><span class="p">(</span><span class="sc">'\n'</span><span class="p">);</span>
+<a id="__codelineno-1-98" name="__codelineno-1-98" href="#__codelineno-1-98"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">line</span><span class="p">.</span><span class="n">length</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">continue</span><span class="p">;</span>
+<a id="__codelineno-1-99" name="__codelineno-1-99" href="#__codelineno-1-99"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mqtt</span><span class="p">.</span><span class="n">connected</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">mqtt</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="n">MQTT_TOPIC</span><span class="p">,</span><span class="w"> </span><span class="n">line</span><span class="p">.</span><span class="n">c_str</span><span class="p">()))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-100" name="__codelineno-1-100" href="#__codelineno-1-100"></a><span class="w">      </span><span class="c1">// sent</span>
+<a id="__codelineno-1-101" name="__codelineno-1-101" href="#__codelineno-1-101"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-102" name="__codelineno-1-102" href="#__codelineno-1-102"></a><span class="w">      </span><span class="n">remaining</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">line</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+<a id="__codelineno-1-103" name="__codelineno-1-103" href="#__codelineno-1-103"></a><span class="w">      </span><span class="n">allSent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<a id="__codelineno-1-104" name="__codelineno-1-104" href="#__codelineno-1-104"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-1-105" name="__codelineno-1-105" href="#__codelineno-1-105"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-106" name="__codelineno-1-106" href="#__codelineno-1-106"></a><span class="w">  </span><span class="n">f</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
+<a id="__codelineno-1-107" name="__codelineno-1-107" href="#__codelineno-1-107"></a><span class="w">  </span><span class="n">LittleFS</span><span class="p">.</span><span class="n">remove</span><span class="p">(</span><span class="s">"/buffer.csv"</span><span class="p">);</span>
+<a id="__codelineno-1-108" name="__codelineno-1-108" href="#__codelineno-1-108"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">remaining</span><span class="p">.</span><span class="n">length</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-109" name="__codelineno-1-109" href="#__codelineno-1-109"></a><span class="w">    </span><span class="n">File</span><span class="w"> </span><span class="n">rf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LittleFS</span><span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="s">"/buffer.csv"</span><span class="p">,</span><span class="w"> </span><span class="s">"w"</span><span class="p">);</span>
+<a id="__codelineno-1-110" name="__codelineno-1-110" href="#__codelineno-1-110"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rf</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">rf</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">remaining</span><span class="p">);</span><span class="w"> </span><span class="n">rf</span><span class="p">.</span><span class="n">close</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-1-111" name="__codelineno-1-111" href="#__codelineno-1-111"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-112" name="__codelineno-1-112" href="#__codelineno-1-112"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">allSent</span><span class="p">;</span>
+<a id="__codelineno-1-113" name="__codelineno-1-113" href="#__codelineno-1-113"></a><span class="p">}</span>
+<a id="__codelineno-1-114" name="__codelineno-1-114" href="#__codelineno-1-114"></a>
+<a id="__codelineno-1-115" name="__codelineno-1-115" href="#__codelineno-1-115"></a><span class="c1">// ---- MQTT over TLS (Level 3.02) ----</span>
+<a id="__codelineno-1-116" name="__codelineno-1-116" href="#__codelineno-1-116"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">ensureMqttConnected</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-117" name="__codelineno-1-117" href="#__codelineno-1-117"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mqtt</span><span class="p">.</span><span class="n">connected</span><span class="p">())</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<a id="__codelineno-1-118" name="__codelineno-1-118" href="#__codelineno-1-118"></a><span class="w">  </span><span class="n">tlsClient</span><span class="p">.</span><span class="n">setInsecure</span><span class="p">();</span><span class="w"> </span><span class="c1">// lab shortcut; production pins setCACert()</span>
+<a id="__codelineno-1-119" name="__codelineno-1-119" href="#__codelineno-1-119"></a><span class="w">  </span><span class="n">mqtt</span><span class="p">.</span><span class="n">setServer</span><span class="p">(</span><span class="n">MQTT_HOST</span><span class="p">,</span><span class="w"> </span><span class="n">MQTT_PORT</span><span class="p">);</span>
+<a id="__codelineno-1-120" name="__codelineno-1-120" href="#__codelineno-1-120"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">mqtt</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="s">"gateway-01"</span><span class="p">);</span>
+<a id="__codelineno-1-121" name="__codelineno-1-121" href="#__codelineno-1-121"></a><span class="p">}</span>
+<a id="__codelineno-1-122" name="__codelineno-1-122" href="#__codelineno-1-122"></a>
+<a id="__codelineno-1-123" name="__codelineno-1-123" href="#__codelineno-1-123"></a><span class="c1">// ---- Local REST status endpoint (Level 3.01) ----</span>
+<a id="__codelineno-1-124" name="__codelineno-1-124" href="#__codelineno-1-124"></a><span class="kt">void</span><span class="w"> </span><span class="nf">setupStatusApi</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-125" name="__codelineno-1-125" href="#__codelineno-1-125"></a><span class="w">  </span><span class="n">statusServer</span><span class="p">.</span><span class="n">on</span><span class="p">(</span><span class="s">"/status"</span><span class="p">,</span><span class="w"> </span><span class="n">HTTP_GET</span><span class="p">,</span><span class="w"> </span><span class="p">[]()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-126" name="__codelineno-1-126" href="#__codelineno-1-126"></a><span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">json</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"{"</span><span class="p">;</span>
+<a id="__codelineno-1-127" name="__codelineno-1-127" href="#__codelineno-1-127"></a><span class="w">    </span><span class="n">json</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s">"</span><span class="se">\"</span><span class="s">uptime_ms</span><span class="se">\"</span><span class="s">:"</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">String</span><span class="p">(</span><span class="n">millis</span><span class="p">())</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">","</span><span class="p">;</span>
+<a id="__codelineno-1-128" name="__codelineno-1-128" href="#__codelineno-1-128"></a><span class="w">    </span><span class="n">json</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s">"</span><span class="se">\"</span><span class="s">free_heap</span><span class="se">\"</span><span class="s">:"</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">String</span><span class="p">(</span><span class="n">ESP</span><span class="p">.</span><span class="n">getFreeHeap</span><span class="p">())</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">","</span><span class="p">;</span>
+<a id="__codelineno-1-129" name="__codelineno-1-129" href="#__codelineno-1-129"></a><span class="w">    </span><span class="n">json</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s">"</span><span class="se">\"</span><span class="s">temp_c</span><span class="se">\"</span><span class="s">:"</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">String</span><span class="p">(</span><span class="n">latestTemp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">","</span><span class="p">;</span>
+<a id="__codelineno-1-130" name="__codelineno-1-130" href="#__codelineno-1-130"></a><span class="w">    </span><span class="n">json</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s">"</span><span class="se">\"</span><span class="s">humidity</span><span class="se">\"</span><span class="s">:"</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">String</span><span class="p">(</span><span class="n">latestHumidity</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">","</span><span class="p">;</span>
+<a id="__codelineno-1-131" name="__codelineno-1-131" href="#__codelineno-1-131"></a><span class="w">    </span><span class="n">json</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s">"</span><span class="se">\"</span><span class="s">mqtt_connected</span><span class="se">\"</span><span class="s">:"</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">String</span><span class="p">(</span><span class="n">mqtt</span><span class="p">.</span><span class="n">connected</span><span class="p">()</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">"true"</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">"false"</span><span class="p">);</span>
+<a id="__codelineno-1-132" name="__codelineno-1-132" href="#__codelineno-1-132"></a><span class="w">    </span><span class="n">json</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="s">"}"</span><span class="p">;</span>
+<a id="__codelineno-1-133" name="__codelineno-1-133" href="#__codelineno-1-133"></a><span class="w">    </span><span class="n">statusServer</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="s">"application/json"</span><span class="p">,</span><span class="w"> </span><span class="n">json</span><span class="p">);</span>
+<a id="__codelineno-1-134" name="__codelineno-1-134" href="#__codelineno-1-134"></a><span class="w">  </span><span class="p">});</span>
+<a id="__codelineno-1-135" name="__codelineno-1-135" href="#__codelineno-1-135"></a><span class="w">  </span><span class="n">statusServer</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+<a id="__codelineno-1-136" name="__codelineno-1-136" href="#__codelineno-1-136"></a><span class="p">}</span>
+<a id="__codelineno-1-137" name="__codelineno-1-137" href="#__codelineno-1-137"></a>
+<a id="__codelineno-1-138" name="__codelineno-1-138" href="#__codelineno-1-138"></a><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-139" name="__codelineno-1-139" href="#__codelineno-1-139"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<a id="__codelineno-1-140" name="__codelineno-1-140" href="#__codelineno-1-140"></a><span class="w">  </span><span class="n">LittleFS</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+<a id="__codelineno-1-141" name="__codelineno-1-141" href="#__codelineno-1-141"></a><span class="w">  </span><span class="n">esp_task_wdt_init</span><span class="p">(</span><span class="n">WDT_TIMEOUT_S</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span>
+<a id="__codelineno-1-142" name="__codelineno-1-142" href="#__codelineno-1-142"></a><span class="w">  </span><span class="n">esp_task_wdt_add</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+<a id="__codelineno-1-143" name="__codelineno-1-143" href="#__codelineno-1-143"></a>
+<a id="__codelineno-1-144" name="__codelineno-1-144" href="#__codelineno-1-144"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">tryStoredWifi</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-145" name="__codelineno-1-145" href="#__codelineno-1-145"></a><span class="w">    </span><span class="n">startProvisioningPortal</span><span class="p">();</span>
+<a id="__codelineno-1-146" name="__codelineno-1-146" href="#__codelineno-1-146"></a><span class="w">    </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="c1">// stay in provisioning mode; loop() below skips gateway logic</span>
+<a id="__codelineno-1-147" name="__codelineno-1-147" href="#__codelineno-1-147"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-148" name="__codelineno-1-148" href="#__codelineno-1-148"></a>
+<a id="__codelineno-1-149" name="__codelineno-1-149" href="#__codelineno-1-149"></a><span class="w">  </span><span class="n">setupStatusApi</span><span class="p">();</span>
+<a id="__codelineno-1-150" name="__codelineno-1-150" href="#__codelineno-1-150"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Gateway online: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">WiFi</span><span class="p">.</span><span class="n">localIP</span><span class="p">().</span><span class="n">toString</span><span class="p">());</span>
+<a id="__codelineno-1-151" name="__codelineno-1-151" href="#__codelineno-1-151"></a><span class="p">}</span>
+<a id="__codelineno-1-152" name="__codelineno-1-152" href="#__codelineno-1-152"></a>
+<a id="__codelineno-1-153" name="__codelineno-1-153" href="#__codelineno-1-153"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-154" name="__codelineno-1-154" href="#__codelineno-1-154"></a><span class="w">  </span><span class="n">esp_task_wdt_reset</span><span class="p">();</span>
+<a id="__codelineno-1-155" name="__codelineno-1-155" href="#__codelineno-1-155"></a>
+<a id="__codelineno-1-156" name="__codelineno-1-156" href="#__codelineno-1-156"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">provisioningMode</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-157" name="__codelineno-1-157" href="#__codelineno-1-157"></a><span class="w">    </span><span class="n">dnsServer</span><span class="p">.</span><span class="n">processNextRequest</span><span class="p">();</span>
+<a id="__codelineno-1-158" name="__codelineno-1-158" href="#__codelineno-1-158"></a><span class="w">    </span><span class="n">statusServer</span><span class="p">.</span><span class="n">handleClient</span><span class="p">();</span>
+<a id="__codelineno-1-159" name="__codelineno-1-159" href="#__codelineno-1-159"></a><span class="w">    </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-1-160" name="__codelineno-1-160" href="#__codelineno-1-160"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-161" name="__codelineno-1-161" href="#__codelineno-1-161"></a>
+<a id="__codelineno-1-162" name="__codelineno-1-162" href="#__codelineno-1-162"></a><span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">now</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span>
+<a id="__codelineno-1-163" name="__codelineno-1-163" href="#__codelineno-1-163"></a>
+<a id="__codelineno-1-164" name="__codelineno-1-164" href="#__codelineno-1-164"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">now</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lastSample</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">SAMPLE_INTERVAL_MS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-165" name="__codelineno-1-165" href="#__codelineno-1-165"></a><span class="w">    </span><span class="n">lastSample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">now</span><span class="p">;</span>
+<a id="__codelineno-1-166" name="__codelineno-1-166" href="#__codelineno-1-166"></a><span class="w">    </span><span class="n">sampleSensors</span><span class="p">();</span>
+<a id="__codelineno-1-167" name="__codelineno-1-167" href="#__codelineno-1-167"></a><span class="w">    </span><span class="n">bufferReadingLocally</span><span class="p">();</span>
+<a id="__codelineno-1-168" name="__codelineno-1-168" href="#__codelineno-1-168"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-169" name="__codelineno-1-169" href="#__codelineno-1-169"></a>
+<a id="__codelineno-1-170" name="__codelineno-1-170" href="#__codelineno-1-170"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">now</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lastPublish</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">PUBLISH_INTERVAL_MS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-171" name="__codelineno-1-171" href="#__codelineno-1-171"></a><span class="w">    </span><span class="n">lastPublish</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">now</span><span class="p">;</span>
+<a id="__codelineno-1-172" name="__codelineno-1-172" href="#__codelineno-1-172"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ensureMqttConnected</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-173" name="__codelineno-1-173" href="#__codelineno-1-173"></a><span class="w">      </span><span class="n">publishBufferedReadings</span><span class="p">();</span>
+<a id="__codelineno-1-174" name="__codelineno-1-174" href="#__codelineno-1-174"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-1-175" name="__codelineno-1-175" href="#__codelineno-1-175"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-176" name="__codelineno-1-176" href="#__codelineno-1-176"></a>
+<a id="__codelineno-1-177" name="__codelineno-1-177" href="#__codelineno-1-177"></a><span class="w">  </span><span class="n">mqtt</span><span class="p">.</span><span class="n">loop</span><span class="p">();</span>
+<a id="__codelineno-1-178" name="__codelineno-1-178" href="#__codelineno-1-178"></a><span class="w">  </span><span class="n">statusServer</span><span class="p">.</span><span class="n">handleClient</span><span class="p">();</span>
+<a id="__codelineno-1-179" name="__codelineno-1-179" href="#__codelineno-1-179"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="why-this-holds-up-as-a-capstone">Why this holds up as a capstone<a class="headerlink" href="#why-this-holds-up-as-a-capstone" title="Permanent link">&para;</a></h2>
+<p>Every piece is non-blocking (task-scheduling module), survives a
+network outage (local-logging module) without losing data
+(watchdog-safe reconnect loop), can be provisioned without hardcoded
+credentials (captive-portal module), and exposes both a local debug
+surface (REST) and a remote one (MQTT + would-be diagnostics logger from
+03-09) for observing it in the field.</p>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Add the reset-reason and free-heap diagnostics from 03-09 into the
+   MQTT publish payload, so cloud-side dashboards see device health
+   alongside sensor data.</li>
+<li>Wire in the firmware-rollback self-test pattern from 03-08: after an
+   OTA update, require <code>ensureMqttConnected()</code> to succeed within 30s or
+   trigger a rollback.</li>
+<li>The <code>publishBufferedReadings()</code> function re-buffers only lines that
+   failed to publish — trace through what happens if <code>mqtt.publish()</code>
+   returns true but the broker never actually received the message
+   (e.g. TCP reset mid-write). Is this design safe against that case?</li>
+<li>Add a hardware "factory reset" trigger (button held during boot)
+   that calls <code>LittleFS.remove("/wifi.cfg")</code> before the
+   <code>tryStoredWifi()</code> check.</li>
+</ol>
 
 
 

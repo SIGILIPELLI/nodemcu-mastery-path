@@ -92,7 +92,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#securing-iot-communication-tls-basics" class="md-skip">
+        <a href="#02-securing-iot-communication-tls-basics" class="md-skip">
           Skip to content
         </a>
       
@@ -1344,6 +1344,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 · Securing IoT Communication (TLS Basics)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1360,6 +1378,102 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-plain-httpmqtt-isnt-enough" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why plain HTTP/MQTT isn't enough
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-trust-problem-how-does-the-esp-know-the-server-is-real" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The trust problem: how does the ESP know the server is real?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#esp32-wificlientsecure-with-a-root-ca" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ESP32: WiFiClientSecure with a root CA
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#esp8266-bearssl-fingerprint-pinning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ESP8266: BearSSL fingerprint pinning
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#skipping-validation-development-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Skipping validation (development only)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#budgeting-ram-for-the-handshake" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Budgeting RAM for the handshake
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2105,91 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-plain-httpmqtt-isnt-enough" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why plain HTTP/MQTT isn't enough
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-trust-problem-how-does-the-esp-know-the-server-is-real" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The trust problem: how does the ESP know the server is real?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#esp32-wificlientsecure-with-a-root-ca" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ESP32: WiFiClientSecure with a root CA
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#esp8266-bearssl-fingerprint-pinning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ESP8266: BearSSL fingerprint pinning
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#skipping-validation-development-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Skipping validation (development only)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#budgeting-ram-for-the-handshake" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Budgeting RAM for the handshake
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2009,9 +2208,135 @@
   
 
 
-<h1 id="securing-iot-communication-tls-basics">Securing IoT Communication (TLS Basics)<a class="headerlink" href="#securing-iot-communication-tls-basics" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 3 · Advanced.</p>
-<p>More lessons are on the way — check back soon.</p>
+<h1 id="02-securing-iot-communication-tls-basics">02 · Securing IoT Communication (TLS Basics)<a class="headerlink" href="#02-securing-iot-communication-tls-basics" title="Permanent link">&para;</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Not flashed to hardware</p>
+<p>Reasoned through against the ESP8266 core's documented
+<code>BearSSL::WiFiClientSecure</code> API and the ESP32 core's <code>WiFiClientSecure</code>
+(built on mbedTLS), including their documented certificate-fingerprint
+and root-CA-pinning options. Not compiled or flashed to physical
+hardware in this environment.</p>
+</div>
+<h2 id="why-plain-httpmqtt-isnt-enough">Why plain HTTP/MQTT isn't enough<a class="headerlink" href="#why-plain-httpmqtt-isnt-enough" title="Permanent link">&para;</a></h2>
+<p>Every earlier module talked to a broker or server in the clear: anyone
+on the same network segment (a shared WiFi, a compromised router) can
+read credentials and payloads, or inject fake responses. <strong>TLS</strong>
+(Transport Layer Security) wraps the TCP socket in an encrypted,
+authenticated channel — the same mechanism <code>https://</code> uses in a browser.
+On a microcontroller this costs extra RAM and a slower handshake, so it's
+worth understanding what you're actually buying and how to keep the
+resource cost survivable.</p>
+<h2 id="the-trust-problem-how-does-the-esp-know-the-server-is-real">The trust problem: how does the ESP know the server is real?<a class="headerlink" href="#the-trust-problem-how-does-the-esp-know-the-server-is-real" title="Permanent link">&para;</a></h2>
+<p>TLS without certificate validation is just obfuscation — it stops casual
+sniffing but not a deliberate man-in-the-middle. Two documented ways to
+validate the server on these cores:</p>
+<ol>
+<li><strong>Root CA pinning</strong> — give the client the CA certificate that signed
+   the server's certificate chain; the library verifies the chain
+   cryptographically.</li>
+<li><strong>Fingerprint pinning</strong> — give the client the SHA-1 (ESP8266
+   <code>BearSSL</code>) or SHA-256 fingerprint of the exact leaf certificate; it
+   matches byte-for-byte but breaks the moment the server rotates its
+   cert.</li>
+</ol>
+<p>Fingerprinting is simpler to set up but more brittle in production;
+CA pinning is the documented recommendation for anything long-lived.</p>
+<h2 id="esp32-wificlientsecure-with-a-root-ca">ESP32: WiFiClientSecure with a root CA<a class="headerlink" href="#esp32-wificlientsecure-with-a-root-ca" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// tls-esp32-ca.ino</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;WiFi.h&gt;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;WiFiClientSecure.h&gt;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1">// PEM root CA of the server you're connecting to (e.g. your broker's CA,</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="c1">// or a public CA like ISRG Root X1 for Let's Encrypt-issued servers).</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">rootCACert</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sa">R</span><span class="s">"</span><span class="dl">EOF(</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="s">-----BEGIN CERTIFICATE-----</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="s">MIIFazCCA1OgAwIBAgIRAIIQz7DSQONZRGPgu2OCiwAwDQYJKoZIhvcNAQELBQAw</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="s">... (truncated for length — paste the real PEM here) ...</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="s">-----END CERTIFICATE-----</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="dl">)EOF</span><span class="s">"</span><span class="p">;</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="n">WiFiClientSecure</span><span class="w"> </span><span class="n">client</span><span class="p">;</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">  </span><span class="n">WiFi</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="s">"your-ssid"</span><span class="p">,</span><span class="w"> </span><span class="s">"your-password"</span><span class="p">);</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">WiFi</span><span class="p">.</span><span class="n">status</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">WL_CONNECTED</span><span class="p">)</span><span class="w"> </span><span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">  </span><span class="c1">// setCACert() is WiFiClientSecure's documented way to pin a trusted root.</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">  </span><span class="n">client</span><span class="p">.</span><span class="n">setCACert</span><span class="p">(</span><span class="n">rootCACert</span><span class="p">);</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="s">"api.example.com"</span><span class="p">,</span><span class="w"> </span><span class="mi">443</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="w">    </span><span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"GET /status HTTP/1.1"</span><span class="p">);</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">    </span><span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Host: api.example.com"</span><span class="p">);</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">    </span><span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Connection: close"</span><span class="p">);</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">    </span><span class="n">client</span><span class="p">.</span><span class="n">println</span><span class="p">();</span>
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">connected</span><span class="p">()</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">available</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">available</span><span class="p">())</span><span class="w"> </span><span class="n">Serial</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">read</span><span class="p">());</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="w">    </span><span class="n">client</span><span class="p">.</span><span class="n">stop</span><span class="p">();</span>
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"TLS connect failed"</span><span class="p">);</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a><span class="p">}</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>
+<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+</code></pre></div>
+<h2 id="esp8266-bearssl-fingerprint-pinning">ESP8266: BearSSL fingerprint pinning<a class="headerlink" href="#esp8266-bearssl-fingerprint-pinning" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// tls-esp8266-fingerprint.ino</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ESP8266WiFi.h&gt;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;WiFiClientSecureBearSSL.h&gt;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1">// SHA-1 fingerprint of the server's leaf certificate, colon-separated hex.</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">fingerprint</span><span class="p">[]</span><span class="w"> </span><span class="n">PROGMEM</span><span class="w"> </span><span class="o">=</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="s">"AA BB CC DD EE FF 00 11 22 33 44 55 66 77 88 99 AA BB CC DD"</span><span class="p">;</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="n">BearSSL</span><span class="o">::</span><span class="n">WiFiClientSecure</span><span class="w"> </span><span class="n">client</span><span class="p">;</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">  </span><span class="n">WiFi</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="s">"your-ssid"</span><span class="p">,</span><span class="w"> </span><span class="s">"your-password"</span><span class="p">);</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">WiFi</span><span class="p">.</span><span class="n">status</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">WL_CONNECTED</span><span class="p">)</span><span class="w"> </span><span class="n">delay</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">  </span><span class="c1">// setFingerprint() is BearSSL::WiFiClientSecure's documented pinning API.</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">  </span><span class="n">client</span><span class="p">.</span><span class="n">setFingerprint</span><span class="p">(</span><span class="n">fingerprint</span><span class="p">);</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="s">"api.example.com"</span><span class="p">,</span><span class="w"> </span><span class="mi">443</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"TLS handshake OK, fingerprint matched"</span><span class="p">);</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">    </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"TLS connect failed (handshake or fingerprint mismatch)"</span><span class="p">);</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="p">}</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+</code></pre></div>
+<h2 id="skipping-validation-development-only">Skipping validation (development only)<a class="headerlink" href="#skipping-validation-development-only" title="Permanent link">&para;</a></h2>
+<p>Both cores document an insecure escape hatch — useful while bringing up
+a sketch, dangerous left in shipped firmware:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">client</span><span class="p">.</span><span class="n">setInsecure</span><span class="p">();</span><span class="w"> </span><span class="c1">// ESP32 WiFiClientSecure and BearSSL both document this;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">                       </span><span class="c1">// disables all peer verification.</span>
+</code></pre></div>
+<p>Treat <code>setInsecure()</code> the same as an <code>#ifdef DEBUG</code> guard: never merge it
+into a build that leaves the lab.</p>
+<h2 id="budgeting-ram-for-the-handshake">Budgeting RAM for the handshake<a class="headerlink" href="#budgeting-ram-for-the-handshake" title="Permanent link">&para;</a></h2>
+<p>TLS session buffers are the single biggest RAM cost on these chips.
+BearSSL on the ESP8266 documents a <code>setBufferSizes(rx, tx)</code> call to
+shrink the default 16 KB buffers when only talking to one predictable
+server (smaller buffers risk failing against servers that send larger
+records):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">client</span><span class="p">.</span><span class="n">setBufferSizes</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span><span class="w"> </span><span class="mi">512</span><span class="p">);</span><span class="w"> </span><span class="c1">// BearSSL-documented tuning knob;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">                                  </span><span class="c1">// trade generality for free heap.</span>
+</code></pre></div>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Explain, in your own words, why <code>setInsecure()</code> protects against
+   eavesdropping but not against a man-in-the-middle.</li>
+<li>Write the ESP32 root-CA-pinned connect sequence for a broker at
+   <code>mqtt.example.com:8883</code>.</li>
+<li>Write the ESP8266 fingerprint-pinned equivalent, and describe what
+   happens the day the server's certificate is renewed.</li>
+<li>Add <code>setBufferSizes()</code> tuning to the ESP8266 example and explain the
+   trade-off you're making.</li>
+</ol>
 
 
 

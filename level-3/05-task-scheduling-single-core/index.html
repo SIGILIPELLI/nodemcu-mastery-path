@@ -1428,6 +1428,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05 · Task Scheduling on a Single Core
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1444,6 +1462,91 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-problem-with-delay" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The problem with delay()
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pattern-1-independent-millis-timers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pattern 1: independent millis() timers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pattern-2-a-small-table-driven-scheduler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pattern 2: a small table-driven scheduler
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pattern-3-the-ticker-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pattern 3: the Ticker library
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#choosing-between-the-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choosing between the patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2094,80 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-problem-with-delay" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The problem with delay()
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pattern-1-independent-millis-timers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pattern 1: independent millis() timers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pattern-2-a-small-table-driven-scheduler" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pattern 2: a small table-driven scheduler
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pattern-3-the-ticker-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pattern 3: the Ticker library
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#choosing-between-the-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choosing between the patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2010,8 +2187,177 @@
 
 
 <h1 id="task-scheduling-on-a-single-core">Task Scheduling on a Single Core<a class="headerlink" href="#task-scheduling-on-a-single-core" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 3 · Advanced.</p>
-<p>More lessons are on the way — check back soon.</p>
+<div class="admonition note">
+<p class="admonition-title">Not flashed to hardware</p>
+<p>Reasoned through against the documented Arduino core <code>millis()</code>
+timer model and the ESP8266/ESP32 <code>Ticker</code> library API. Not compiled
+or flashed to physical hardware in this environment.</p>
+</div>
+<h2 id="the-problem-with-delay">The problem with <code>delay()</code><a class="headerlink" href="#the-problem-with-delay" title="Permanent link">&para;</a></h2>
+<p>A single-core sketch has exactly one <code>loop()</code>. Every <code>delay()</code> call
+blocks that loop entirely — no sensor reads, no MQTT keepalive, no web
+server response can happen while it sleeps. Real firmware needs to run
+several logical "tasks" (read a sensor every 2s, publish every 30s,
+blink a status LED every 500ms) concurrently on that one loop, which
+means replacing <code>delay()</code> with <strong>non-blocking, time-sliced scheduling</strong>.</p>
+<h2 id="pattern-1-independent-millis-timers">Pattern 1: independent <code>millis()</code> timers<a class="headerlink" href="#pattern-1-independent-millis-timers" title="Permanent link">&para;</a></h2>
+<p>The simplest scheduler is a set of "last run" timestamps checked each
+pass through <code>loop()</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// multi-task-millis.ino</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">lastSensorRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">lastPublish</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">lastBlink</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">SENSOR_INTERVAL_MS</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">2000</span><span class="p">;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">PUBLISH_INTERVAL_MS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30000</span><span class="p">;</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">BLINK_INTERVAL_MS</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">500</span><span class="p">;</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">LED_PIN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LED_BUILTIN</span><span class="p">;</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="kt">bool</span><span class="w"> </span><span class="n">ledState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">LED_PIN</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="p">}</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">now</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">now</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lastSensorRead</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">SENSOR_INTERVAL_MS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">    </span><span class="n">lastSensorRead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">now</span><span class="p">;</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">    </span><span class="n">readSensor</span><span class="p">();</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">now</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lastPublish</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">PUBLISH_INTERVAL_MS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">    </span><span class="n">lastPublish</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">now</span><span class="p">;</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">    </span><span class="n">publishData</span><span class="p">();</span>
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">now</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lastBlink</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">BLINK_INTERVAL_MS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="w">    </span><span class="n">lastBlink</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">now</span><span class="p">;</span>
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="w">    </span><span class="n">ledState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">ledState</span><span class="p">;</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="w">    </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">LED_PIN</span><span class="p">,</span><span class="w"> </span><span class="n">ledState</span><span class="p">);</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>
+<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a><span class="w">  </span><span class="c1">// No delay() here — loop() returns quickly, keeping every</span>
+<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a><span class="w">  </span><span class="c1">// interval responsive and feeding the watchdog implicitly.</span>
+<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a><span class="p">}</span>
+<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>
+<a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a><span class="kt">void</span><span class="w"> </span><span class="nf">readSensor</span><span class="p">()</span><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="cm">/* ... */</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a><span class="kt">void</span><span class="w"> </span><span class="nf">publishData</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* ... */</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>Subtracting <code>unsigned long</code> timestamps (<code>now - lastX</code>) is documented as
+safe across the <code>millis()</code> rollover at ~49.7 days because unsigned
+integer wraparound arithmetic still produces the correct elapsed value —
+comparing with <code>&gt;</code> directly (<code>now &gt; lastX + interval</code>) is not safe for
+the same reason and should be avoided.</p>
+<h2 id="pattern-2-a-small-table-driven-scheduler">Pattern 2: a small table-driven scheduler<a class="headerlink" href="#pattern-2-a-small-table-driven-scheduler" title="Permanent link">&para;</a></h2>
+<p>Once you have more than three or four tasks, a table keeps the logic
+declarative instead of one <code>if</code> per task:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// task-table-scheduler.ino</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">Task</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">fn</span><span class="p">)();</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">intervalMs</span><span class="p">;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">lastRun</span><span class="p">;</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p">};</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="kt">void</span><span class="w"> </span><span class="nf">taskReadSensor</span><span class="p">();</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="kt">void</span><span class="w"> </span><span class="nf">taskPublish</span><span class="p">();</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="kt">void</span><span class="w"> </span><span class="nf">taskBlink</span><span class="p">();</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="n">Task</span><span class="w"> </span><span class="n">tasks</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="n">taskReadSensor</span><span class="p">,</span><span class="w"> </span><span class="mi">2000</span><span class="p">,</span><span class="w">  </span><span class="mi">0</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="n">taskPublish</span><span class="p">,</span><span class="w">    </span><span class="mi">30000</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="n">taskBlink</span><span class="p">,</span><span class="w">      </span><span class="mi">500</span><span class="p">,</span><span class="w">   </span><span class="mi">0</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="p">};</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">NUM_TASKS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">tasks</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">tasks</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">LED_BUILTIN</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="p">}</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">now</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">NUM_TASKS</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">now</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">tasks</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">lastRun</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">tasks</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">intervalMs</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="w">      </span><span class="n">tasks</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">lastRun</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">now</span><span class="p">;</span>
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="w">      </span><span class="n">tasks</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">fn</span><span class="p">();</span>
+<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="p">}</span>
+<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>
+<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="kt">void</span><span class="w"> </span><span class="nf">taskReadSensor</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* ... */</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="kt">void</span><span class="w"> </span><span class="nf">taskPublish</span><span class="p">()</span><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="cm">/* ... */</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a><span class="kt">void</span><span class="w"> </span><span class="nf">taskBlink</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a><span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a><span class="w">  </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">state</span><span class="p">;</span>
+<a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a><span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">LED_BUILTIN</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">);</span>
+<a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="pattern-3-the-ticker-library">Pattern 3: the <code>Ticker</code> library<a class="headerlink" href="#pattern-3-the-ticker-library" title="Permanent link">&para;</a></h2>
+<p>Both cores ship a documented <code>Ticker</code> class that wraps timer-driven
+callbacks so you don't hand-roll the <code>millis()</code> bookkeeping:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// ticker-scheduler.ino</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Ticker.h&gt;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">Ticker</span><span class="w"> </span><span class="n">sensorTicker</span><span class="p">;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">Ticker</span><span class="w"> </span><span class="n">blinkTicker</span><span class="p">;</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="k">volatile</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">sensorDue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="kt">void</span><span class="w"> </span><span class="nf">onSensorTick</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span><span class="c1">// Ticker callbacks run in interrupt-adjacent context on both cores</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">  </span><span class="c1">// (documented as timer-ISR-driven) — keep them tiny; just set a flag.</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">  </span><span class="n">sensorDue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="p">}</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="kt">void</span><span class="w"> </span><span class="nf">onBlinkTick</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">  </span><span class="n">digitalWrite</span><span class="p">(</span><span class="n">LED_BUILTIN</span><span class="p">,</span><span class="w"> </span><span class="o">!</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">LED_BUILTIN</span><span class="p">));</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="p">}</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">  </span><span class="n">pinMode</span><span class="p">(</span><span class="n">LED_BUILTIN</span><span class="p">,</span><span class="w"> </span><span class="n">OUTPUT</span><span class="p">);</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">  </span><span class="n">sensorTicker</span><span class="p">.</span><span class="n">attach</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="n">onSensorTick</span><span class="p">);</span><span class="w">   </span><span class="c1">// seconds, repeating</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">  </span><span class="n">blinkTicker</span><span class="p">.</span><span class="n">attach_ms</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span><span class="w"> </span><span class="n">onBlinkTick</span><span class="p">);</span><span class="w">  </span><span class="c1">// milliseconds, repeating</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="p">}</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">sensorDue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="w">    </span><span class="n">sensorDue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="w">    </span><span class="n">readSensor</span><span class="p">();</span><span class="w"> </span><span class="c1">// do the real (slower) work safely in loop(), not the callback</span>
+<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="p">}</span>
+<a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>
+<a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="kt">void</span><span class="w"> </span><span class="nf">readSensor</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* ... */</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p><code>attach()</code>/<code>attach_ms()</code> and the flag-then-handle-in-loop() pattern are
+the documented safe way to use <code>Ticker</code>: because the callback executes
+in a timer-interrupt-like context, calling anything non-trivial
+(<code>Serial.print</code>, network calls, <code>delay()</code>) directly inside it is
+documented as unsafe on both cores.</p>
+<h2 id="choosing-between-the-patterns">Choosing between the patterns<a class="headerlink" href="#choosing-between-the-patterns" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>millis() timers</strong> — no dependencies, most portable, best for 2-4
+  tasks.</li>
+<li><strong>Task table</strong> — same mechanism, better as the task count grows.</li>
+<li><strong>Ticker</strong> — best when a task must fire precisely regardless of how
+  long other loop() work takes, at the cost of writing interrupt-safe
+  callbacks.</li>
+</ul>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Convert a sketch that currently uses three stacked <code>delay()</code> calls
+   (500ms, 1000ms, 5000ms) into the millis()-timer pattern above.</li>
+<li>Extend the task-table scheduler with a fourth task that runs once
+   every 10 minutes, and explain why <code>unsigned long</code> is required for
+   the interval and timestamp fields.</li>
+<li>Rewrite the <code>Ticker</code> example so the sensor read happens directly in
+   <code>onSensorTick()</code>, and explain from the documented API constraints why
+   that is a bad idea if <code>readSensor()</code> calls <code>Serial.print()</code> or blocks.</li>
+<li>Describe a scenario where a table-driven scheduler task can starve
+   another task even though neither calls <code>delay()</code>.</li>
+</ol>
 
 
 

@@ -1512,6 +1512,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08 · Firmware Versioning & Rollback
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1528,6 +1546,91 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-it-updated-isnt-enough" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why "it updated" isn't enough
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#baking-a-version-string-into-every-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Baking a version string into every build
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#esp32-dual-ota-partitions-give-you-rollback-for-free" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ESP32: dual OTA partitions give you rollback for free
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#esp8266-no-ab-partitions-so-build-your-own-fallback" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ESP8266: no A/B partitions, so build your own fallback
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-server-side-gate-staged-rollouts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A server-side gate: staged rollouts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2094,80 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-it-updated-isnt-enough" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why "it updated" isn't enough
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#baking-a-version-string-into-every-build" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Baking a version string into every build
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#esp32-dual-ota-partitions-give-you-rollback-for-free" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ESP32: dual OTA partitions give you rollback for free
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#esp8266-no-ab-partitions-so-build-your-own-fallback" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ESP8266: no A/B partitions, so build your own fallback
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-server-side-gate-staged-rollouts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A server-side gate: staged rollouts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2010,8 +2187,164 @@
 
 
 <h1 id="firmware-versioning-rollback">Firmware Versioning &amp; Rollback<a class="headerlink" href="#firmware-versioning-rollback" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 3 · Advanced.</p>
-<p>More lessons are on the way — check back soon.</p>
+<div class="admonition note">
+<p class="admonition-title">Not flashed to hardware</p>
+<p>Reasoned through against the documented ESP8266
+<code>ESP8266httpUpdate</code> OTA API and the ESP32 <code>Update</code>/<code>esp_ota_ops</code>
+dual-OTA-partition model. Not compiled or flashed to physical
+hardware in this environment.</p>
+</div>
+<h2 id="why-it-updated-isnt-enough">Why "it updated" isn't enough<a class="headerlink" href="#why-it-updated-isnt-enough" title="Permanent link">&para;</a></h2>
+<p>Level 2 covered getting new firmware onto a device over the air. This
+module covers the harder half: knowing <em>which</em> version is running,
+detecting a bad update before it bricks the fleet, and rolling back
+automatically when it does.</p>
+<h2 id="baking-a-version-string-into-every-build">Baking a version string into every build<a class="headerlink" href="#baking-a-version-string-into-every-build" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// version.h</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="cp">#define FW_VERSION "1.4.2"</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="cp">#define FW_BUILD_DATE __DATE__ " " __TIME__</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// main.ino</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"version.h"</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s">"Firmware %s built %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">FW_VERSION</span><span class="p">,</span><span class="w"> </span><span class="n">FW_BUILD_DATE</span><span class="p">);</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>__DATE__</code>/<code>__TIME__</code> are standard C preprocessor macros the Arduino
+toolchain documents as available, expanding at compile time — useful
+for confirming a device actually received the build you think it did.</p>
+<h2 id="esp32-dual-ota-partitions-give-you-rollback-for-free">ESP32: dual OTA partitions give you rollback for free<a class="headerlink" href="#esp32-dual-ota-partitions-give-you-rollback-for-free" title="Permanent link">&para;</a></h2>
+<p>The ESP32 core documents an <strong>A/B partition scheme</strong>: <code>Update.begin()</code>
+writes to the <em>inactive</em> OTA partition, and the bootloader only
+switches to it after <code>Update.end()</code> succeeds, leaving the previous,
+known-good partition untouched until you explicitly commit.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// esp32-ota-with-validation.ino</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Update.h&gt;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;esp_ota_ops.h&gt;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">  </span><span class="c1">// Mark this boot as "pending verify" so a crash loop rolls back</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span><span class="c1">// automatically — this pairs with app rollback enabled in</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">  </span><span class="c1">// Tools -&gt; "Partition Scheme" variants that include OTA + rollback,</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">  </span><span class="c1">// or menuconfig CONFIG_BOOTLOADER_APP_ROLLBACK_ENABLE in ESP-IDF terms.</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">esp_partition_t</span><span class="o">*</span><span class="w"> </span><span class="n">running</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">esp_ota_get_running_partition</span><span class="p">();</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">  </span><span class="n">esp_ota_img_states_t</span><span class="w"> </span><span class="n">state</span><span class="p">;</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">  </span><span class="n">esp_ota_get_state_partition</span><span class="p">(</span><span class="n">running</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">state</span><span class="p">);</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">state</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">ESP_OTA_IMG_PENDING_VERIFY</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">selfTestPasses</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">      </span><span class="n">esp_ota_mark_app_valid_cancel_rollback</span><span class="p">();</span><span class="w"> </span><span class="c1">// documented: confirms this image is good</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"New firmware validated"</span><span class="p">);</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">      </span><span class="n">esp_ota_mark_app_invalid_rollback_and_reboot</span><span class="p">();</span><span class="w"> </span><span class="c1">// documented: reboots into previous partition</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="p">}</span>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">selfTestPasses</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="w">  </span><span class="c1">// Stand-in: confirm WiFi connects, sensor responds, etc.</span>
+<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="p">}</span>
+<a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>
+<a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+</code></pre></div>
+<p><code>esp_ota_mark_app_valid_cancel_rollback()</code> and
+<code>esp_ota_mark_app_invalid_rollback_and_reboot()</code> are documented
+ESP-IDF/Arduino-core functions specifically for this "prove the new
+image works before committing to it" flow.</p>
+<h2 id="esp8266-no-ab-partitions-so-build-your-own-fallback">ESP8266: no A/B partitions, so build your own fallback<a class="headerlink" href="#esp8266-no-ab-partitions-so-build-your-own-fallback" title="Permanent link">&para;</a></h2>
+<p>The ESP8266 core's OTA model (<code>ESP8266httpUpdate</code>) writes into a single
+sketch space rather than swapping between two full partitions, so
+rollback has to be modeled in application logic: keep the previous
+binary's URL/version recorded, and re-flash it if the new one fails
+self-test.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// esp8266-ota-with-fallback.ino</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ESP8266WiFi.h&gt;</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ESP8266httpUpdate.h&gt;</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;LittleFS.h&gt;</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">"version.h"</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="kt">void</span><span class="w"> </span><span class="nf">recordLastKnownGood</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">String</span><span class="o">&amp;</span><span class="w"> </span><span class="n">url</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">  </span><span class="n">File</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LittleFS</span><span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="s">"/last-good-fw.txt"</span><span class="p">,</span><span class="w"> </span><span class="s">"w"</span><span class="p">);</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">url</span><span class="p">);</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="n">close</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">}</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="n">String</span><span class="w"> </span><span class="nf">readLastKnownGood</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">  </span><span class="n">File</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LittleFS</span><span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="s">"/last-good-fw.txt"</span><span class="p">,</span><span class="w"> </span><span class="s">"r"</span><span class="p">);</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">""</span><span class="p">;</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">  </span><span class="n">String</span><span class="w"> </span><span class="n">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="n">readStringUntil</span><span class="p">(</span><span class="sc">'\n'</span><span class="p">);</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">  </span><span class="n">f</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">  </span><span class="n">url</span><span class="p">.</span><span class="n">trim</span><span class="p">();</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">url</span><span class="p">;</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="p">}</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="kt">void</span><span class="w"> </span><span class="nf">attemptUpdate</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">String</span><span class="o">&amp;</span><span class="w"> </span><span class="n">newFwUrl</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="w">  </span><span class="n">WiFiClient</span><span class="w"> </span><span class="n">client</span><span class="p">;</span>
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="w">  </span><span class="n">t_httpUpdate_return</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ESPhttpUpdate</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">client</span><span class="p">,</span><span class="w"> </span><span class="n">newFwUrl</span><span class="p">);</span>
+<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>
+<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="w">  </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">HTTP_UPDATE_OK</span><span class="p">:</span>
+<a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="w">      </span><span class="c1">// Reboots into the new image automatically (documented behavior);</span>
+<a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="w">      </span><span class="c1">// this line only runs if update() itself failed before rebooting.</span>
+<a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="w">      </span><span class="k">break</span><span class="p">;</span>
+<a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">HTTP_UPDATE_FAILED</span><span class="p">:</span>
+<a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s">"Update failed (%d): %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span>
+<a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="w">                     </span><span class="n">ESPhttpUpdate</span><span class="p">.</span><span class="n">getLastError</span><span class="p">(),</span>
+<a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="w">                     </span><span class="n">ESPhttpUpdate</span><span class="p">.</span><span class="n">getLastErrorString</span><span class="p">().</span><span class="n">c_str</span><span class="p">());</span>
+<a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a><span class="w">      </span><span class="k">break</span><span class="p">;</span>
+<a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">HTTP_UPDATE_NO_UPDATES</span><span class="p">:</span>
+<a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a><span class="w">      </span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"No update available"</span><span class="p">);</span>
+<a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a><span class="w">      </span><span class="k">break</span><span class="p">;</span>
+<a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a><span class="p">}</span>
+<a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a>
+<a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a><span class="kt">void</span><span class="w"> </span><span class="nf">setup</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-42" name="__codelineno-3-42" href="#__codelineno-3-42"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<a id="__codelineno-3-43" name="__codelineno-3-43" href="#__codelineno-3-43"></a><span class="w">  </span><span class="n">LittleFS</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+<a id="__codelineno-3-44" name="__codelineno-3-44" href="#__codelineno-3-44"></a><span class="w">  </span><span class="n">Serial</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s">"Running %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="n">FW_VERSION</span><span class="p">);</span>
+<a id="__codelineno-3-45" name="__codelineno-3-45" href="#__codelineno-3-45"></a>
+<a id="__codelineno-3-46" name="__codelineno-3-46" href="#__codelineno-3-46"></a><span class="w">  </span><span class="c1">// On first boot after an update, run a self-test; if it fails,</span>
+<a id="__codelineno-3-47" name="__codelineno-3-47" href="#__codelineno-3-47"></a><span class="w">  </span><span class="c1">// re-flash the recorded last-known-good URL as a manual rollback.</span>
+<a id="__codelineno-3-48" name="__codelineno-3-48" href="#__codelineno-3-48"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">selfTestPasses</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-49" name="__codelineno-3-49" href="#__codelineno-3-49"></a><span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">lastGood</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readLastKnownGood</span><span class="p">();</span>
+<a id="__codelineno-3-50" name="__codelineno-3-50" href="#__codelineno-3-50"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">lastGood</span><span class="p">.</span><span class="n">length</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-51" name="__codelineno-3-51" href="#__codelineno-3-51"></a><span class="w">      </span><span class="n">attemptUpdate</span><span class="p">(</span><span class="n">lastGood</span><span class="p">);</span>
+<a id="__codelineno-3-52" name="__codelineno-3-52" href="#__codelineno-3-52"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-3-53" name="__codelineno-3-53" href="#__codelineno-3-53"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-54" name="__codelineno-3-54" href="#__codelineno-3-54"></a><span class="w">    </span><span class="n">recordLastKnownGood</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="s">"https://fw.example.com/"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">FW_VERSION</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">".bin"</span><span class="p">);</span>
+<a id="__codelineno-3-55" name="__codelineno-3-55" href="#__codelineno-3-55"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-3-56" name="__codelineno-3-56" href="#__codelineno-3-56"></a><span class="p">}</span>
+<a id="__codelineno-3-57" name="__codelineno-3-57" href="#__codelineno-3-57"></a>
+<a id="__codelineno-3-58" name="__codelineno-3-58" href="#__codelineno-3-58"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">selfTestPasses</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-3-59" name="__codelineno-3-59" href="#__codelineno-3-59"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+</code></pre></div>
+<h2 id="a-server-side-gate-staged-rollouts">A server-side gate: staged rollouts<a class="headerlink" href="#a-server-side-gate-staged-rollouts" title="Permanent link">&para;</a></h2>
+<p>Even with rollback, pushing a bad build to every device at once is
+avoidable. A simple staging pattern: the update server checks the
+device's reported version and a rollout percentage/cohort before
+returning a newer binary, so a bug surfaces on 5% of the fleet instead
+of 100%. <code>ESPhttpUpdate.update()</code> already sends the device's current
+version via the documented <code>x-ESP8266-version</code> header (ESP8266) — a
+version-aware server can use that to decide what (if anything) to serve
+back, including "no update" to hold a device at the current build.</p>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Explain why the ESP32's dual-partition OTA model gives you a
+   stronger rollback guarantee than the ESP8266's single-partition
+   model, in terms of what state survives a failed update.</li>
+<li>Implement <code>selfTestPasses()</code> so it requires three consecutive
+   successful WiFi reconnects within 60 seconds before returning true.</li>
+<li>Add version comparison logic so <code>attemptUpdate()</code> is only called
+   when the server's advertised version string is semantically newer
+   than <code>FW_VERSION</code> (parse <code>MAJOR.MINOR.PATCH</code>).</li>
+<li>Describe how you'd implement a 10%-of-fleet staged rollout using
+   only the device's MAC address and a hash function, without a
+   database on the server tracking cohort membership.</li>
+</ol>
 
 
 

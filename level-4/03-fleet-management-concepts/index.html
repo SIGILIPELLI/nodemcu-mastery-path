@@ -1746,6 +1746,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 · Fleet Management Concepts
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1762,6 +1780,91 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#from-a-device-to-a-fleet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        From "a device" to "a fleet"
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#presence-tracking-with-mqtt-last-will-and-testament" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Presence tracking with MQTT Last Will and Testament
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retained-state-topics-for-fleet-inventory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Retained state topics for fleet inventory
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grouping-devices-for-targeted-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grouping devices for targeted commands
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#heartbeats-as-a-fallback-when-lwt-isnt-enough" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Heartbeats as a fallback when LWT isn't enough
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2094,80 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#from-a-device-to-a-fleet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        From "a device" to "a fleet"
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#presence-tracking-with-mqtt-last-will-and-testament" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Presence tracking with MQTT Last Will and Testament
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retained-state-topics-for-fleet-inventory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Retained state topics for fleet inventory
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grouping-devices-for-targeted-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grouping devices for targeted commands
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#heartbeats-as-a-fallback-when-lwt-isnt-enough" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Heartbeats as a fallback when LWT isn't enough
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2010,8 +2187,134 @@
 
 
 <h1 id="fleet-management-concepts">Fleet Management Concepts<a class="headerlink" href="#fleet-management-concepts" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 4 · Master.</p>
-<p>More lessons are on the way — check back soon.</p>
+<div class="admonition note">
+<p class="admonition-title">Not flashed to hardware</p>
+<p>Reasoned through against the documented MQTT protocol semantics
+(retained messages, Last Will and Testament) as exposed by the
+<code>PubSubClient</code> library on ESP8266/ESP32. Not compiled or flashed to
+physical hardware in this environment.</p>
+</div>
+<h2 id="from-a-device-to-a-fleet">From "a device" to "a fleet"<a class="headerlink" href="#from-a-device-to-a-fleet" title="Permanent link">&para;</a></h2>
+<p>One device you SSH-adjacent-debug by staring at Serial output. A fleet
+of thousands needs answers to questions no single device can answer by
+itself: how many are online right now, which firmware versions are
+deployed, which ones haven't reported in 24 hours. This module covers
+the device-side hooks that make fleet-level visibility possible.</p>
+<h2 id="presence-tracking-with-mqtt-last-will-and-testament">Presence tracking with MQTT Last Will and Testament<a class="headerlink" href="#presence-tracking-with-mqtt-last-will-and-testament" title="Permanent link">&para;</a></h2>
+<p>MQTT brokers document a <strong>Last Will and Testament (LWT)</strong>: a message
+the broker publishes automatically if a client disconnects
+ungracefully (crash, power loss, network drop) without a normal
+<code>DISCONNECT</code>. This is the standard mechanism for fleet-wide "is this
+device actually online" tracking.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// lwt-presence.ino</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;PubSubClient.h&gt;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">WiFiClientSecure</span><span class="w"> </span><span class="n">tlsClient</span><span class="p">;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">PubSubClient</span><span class="w"> </span><span class="nf">mqtt</span><span class="p">(</span><span class="n">tlsClient</span><span class="p">);</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">String</span><span class="w"> </span><span class="n">deviceId</span><span class="p">;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">connectWithLWT</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span><span class="n">String</span><span class="w"> </span><span class="n">topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"devices/"</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">deviceId</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">"/status"</span><span class="p">;</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">  </span><span class="c1">// connect(clientId, willTopic, willQos, willRetain, willMessage) is</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="c1">// the documented PubSubClient overload for setting an LWT.</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">  </span><span class="kt">bool</span><span class="w"> </span><span class="n">ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mqtt</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">deviceId</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">                          </span><span class="n">topic</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">,</span><span class="w"> </span><span class="s">"offline"</span><span class="p">);</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ok</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">    </span><span class="c1">// Publish "online" as a retained message immediately on connect —</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">    </span><span class="c1">// retained means any dashboard subscribing later still sees the</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">    </span><span class="c1">// current status without waiting for the next publish.</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">    </span><span class="n">mqtt</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="n">topic</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span><span class="w"> </span><span class="s">"online"</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">ok</span><span class="p">;</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="p">}</span>
+</code></pre></div>
+<p>If the device crashes, the broker publishes <code>"offline"</code> to
+<code>devices/&lt;id&gt;/status</code> on its behalf — no device-side code has to run for
+the fleet dashboard to learn it went dark, which is exactly the
+scenario (a hung device) where device-side code can't be trusted to run
+anyway.</p>
+<h2 id="retained-state-topics-for-fleet-inventory">Retained state topics for fleet inventory<a class="headerlink" href="#retained-state-topics-for-fleet-inventory" title="Permanent link">&para;</a></h2>
+<p>Beyond presence, retaining the <em>last known</em> value of key fields on
+well-known topics turns the broker into a lightweight fleet inventory
+without a separate database round-trip on every dashboard load:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// retained-fleet-state.ino</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">publishFleetState</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="n">String</span><span class="w"> </span><span class="n">base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"devices/"</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">deviceId</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">"/"</span><span class="p">;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="n">mqtt</span><span class="p">.</span><span class="n">publish</span><span class="p">((</span><span class="n">base</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">"firmware_version"</span><span class="p">).</span><span class="n">c_str</span><span class="p">(),</span><span class="w"> </span><span class="n">FW_VERSION</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="n">mqtt</span><span class="p">.</span><span class="n">publish</span><span class="p">((</span><span class="n">base</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">"ip"</span><span class="p">).</span><span class="n">c_str</span><span class="p">(),</span><span class="w"> </span><span class="n">WiFi</span><span class="p">.</span><span class="n">localIP</span><span class="p">().</span><span class="n">toString</span><span class="p">().</span><span class="n">c_str</span><span class="p">(),</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="n">mqtt</span><span class="p">.</span><span class="n">publish</span><span class="p">((</span><span class="n">base</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">"rssi"</span><span class="p">).</span><span class="n">c_str</span><span class="p">(),</span><span class="w"> </span><span class="n">String</span><span class="p">(</span><span class="n">WiFi</span><span class="p">.</span><span class="n">RSSI</span><span class="p">()).</span><span class="n">c_str</span><span class="p">(),</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="n">mqtt</span><span class="p">.</span><span class="n">publish</span><span class="p">((</span><span class="n">base</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">"last_seen"</span><span class="p">).</span><span class="n">c_str</span><span class="p">(),</span><span class="w"> </span><span class="n">String</span><span class="p">(</span><span class="n">millis</span><span class="p">()).</span><span class="n">c_str</span><span class="p">(),</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">}</span>
+</code></pre></div>
+<p>A dashboard subscribing to <code>devices/+/firmware_version</code> (MQTT's
+documented single-level wildcard <code>+</code>) receives every device's current
+version immediately on subscribe, thanks to the retained flag — useful
+for answering "how many devices are still on 1.3.0" without querying
+each device live.</p>
+<h2 id="grouping-devices-for-targeted-commands">Grouping devices for targeted commands<a class="headerlink" href="#grouping-devices-for-targeted-commands" title="Permanent link">&para;</a></h2>
+<p>Fleet management usually needs to act on a subset — "reboot every
+device in building B," not the whole fleet. Encode grouping into the
+topic hierarchy so MQTT's wildcard subscriptions do the filtering:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// grouped-command-topics.ino</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">String</span><span class="w"> </span><span class="n">site</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"building-b"</span><span class="p">;</span><span class="w"> </span><span class="c1">// set at provisioning time (Level 4.02)</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="kt">void</span><span class="w"> </span><span class="nf">subscribeToCommands</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="n">mqtt</span><span class="p">.</span><span class="n">subscribe</span><span class="p">((</span><span class="s">"devices/"</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">deviceId</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">"/cmd"</span><span class="p">).</span><span class="n">c_str</span><span class="p">());</span><span class="w">  </span><span class="c1">// per-device</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="n">mqtt</span><span class="p">.</span><span class="n">subscribe</span><span class="p">((</span><span class="s">"sites/"</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">site</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">"/cmd"</span><span class="p">).</span><span class="n">c_str</span><span class="p">());</span><span class="w">        </span><span class="c1">// per-site</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span><span class="n">mqtt</span><span class="p">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s">"fleet/cmd"</span><span class="p">);</span><span class="w">                                 </span><span class="c1">// all devices</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="p">}</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="kt">void</span><span class="w"> </span><span class="nf">handleCommand</span><span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">topic</span><span class="p">,</span><span class="w"> </span><span class="kt">byte</span><span class="o">*</span><span class="w"> </span><span class="n">payload</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">len</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">  </span><span class="n">String</span><span class="w"> </span><span class="n">cmd</span><span class="p">((</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">payload</span><span class="p">,</span><span class="w"> </span><span class="n">len</span><span class="p">);</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cmd</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">"reboot"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="n">ESP</span><span class="p">.</span><span class="n">restart</span><span class="p">();</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cmd</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">"report_status"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="n">publishFleetState</span><span class="p">();</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="p">}</span>
+</code></pre></div>
+<p>Publishing <code>"reboot"</code> to <code>sites/building-b/cmd</code> reaches only the
+devices subscribed to that topic, without the server needing to track
+individual device connections.</p>
+<h2 id="heartbeats-as-a-fallback-when-lwt-isnt-enough">Heartbeats as a fallback when LWT isn't enough<a class="headerlink" href="#heartbeats-as-a-fallback-when-lwt-isnt-enough" title="Permanent link">&para;</a></h2>
+<p>LWT depends on the broker detecting the disconnect (via its documented
+keepalive timeout, typically the <code>keepalive</code> seconds passed to
+<code>connect()</code>), which can lag reality by up to that interval. A
+periodic heartbeat with a freshness check on the consuming side closes
+that gap for anything time-sensitive:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">HEARTBEAT_INTERVAL_MS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30000</span><span class="p">;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">lastHeartbeat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="n">mqtt</span><span class="p">.</span><span class="n">loop</span><span class="p">();</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">now</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">millis</span><span class="p">();</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">now</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">lastHeartbeat</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">HEARTBEAT_INTERVAL_MS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="n">lastHeartbeat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">now</span><span class="p">;</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="n">mqtt</span><span class="p">.</span><span class="n">publish</span><span class="p">((</span><span class="s">"devices/"</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">deviceId</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">"/heartbeat"</span><span class="p">).</span><span class="n">c_str</span><span class="p">(),</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">                 </span><span class="n">String</span><span class="p">(</span><span class="n">now</span><span class="p">).</span><span class="n">c_str</span><span class="p">(),</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="p">}</span>
+</code></pre></div>
+<p>A server-side consumer that hasn't seen a device's heartbeat topic
+update within, say, 3x the heartbeat interval can flag it as stale even
+before the broker's own keepalive timeout fires.</p>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Explain why the LWT message must be set at <code>connect()</code> time rather
+   than published normally, based on the documented PubSubClient API
+   shape.</li>
+<li>Design the topic hierarchy for a fleet with three levels of grouping
+   (fleet → region → site → device), and show the wildcard subscription
+   a regional dashboard would use.</li>
+<li>Implement a device-side handler for a <code>"set_report_interval:60"</code>
+   command that reconfigures the heartbeat interval at runtime and
+   persists it (via <code>Preferences</code>) so it survives reboot.</li>
+<li>A device with a flaky WiFi connection could flap between "online"
+   and "offline" many times per hour, generating LWT-then-reconnect
+   noise on the fleet dashboard. Propose a device-side or
+   dashboard-side mitigation.</li>
+</ol>
 
 
 

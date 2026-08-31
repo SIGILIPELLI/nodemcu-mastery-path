@@ -1718,6 +1718,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 · Provisioning at Scale
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1734,6 +1752,102 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-captive-portal-doesnt-scale-to-a-factory-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The captive portal doesn't scale to a factory line
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-a-stable-per-device-identity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: a stable per-device identity
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-bulk-provisioning-via-a-wiredserial-jig-not-wifi-per-unit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: bulk-provisioning via a wired/serial jig, not WiFi per-unit
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-per-device-credentials-not-one-shared-secret" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: per-device credentials, not one shared secret
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-a-provisioning-state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: a provisioning state machine
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-this-matters-at-fleet-scale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why this matters at fleet scale
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1991,6 +2105,91 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-captive-portal-doesnt-scale-to-a-factory-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The captive portal doesn't scale to a factory line
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-a-stable-per-device-identity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: a stable per-device identity
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-bulk-provisioning-via-a-wiredserial-jig-not-wifi-per-unit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: bulk-provisioning via a wired/serial jig, not WiFi per-unit
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-per-device-credentials-not-one-shared-secret" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: per-device credentials, not one shared secret
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-a-provisioning-state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: a provisioning state machine
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-this-matters-at-fleet-scale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why this matters at fleet scale
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercise
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2010,8 +2209,164 @@
 
 
 <h1 id="provisioning-at-scale">Provisioning at Scale<a class="headerlink" href="#provisioning-at-scale" title="Permanent link">&para;</a></h1>
-<p>This module is part of Level 4 · Master.</p>
-<p>More lessons are on the way — check back soon.</p>
+<div class="admonition note">
+<p class="admonition-title">Not flashed to hardware</p>
+<p>Reasoned through against the documented ESP32 <code>esp_efuse</code>/NVS APIs
+and ESP8266/ESP32 <code>WiFi.macAddress()</code> API. Not compiled or flashed
+to physical hardware in this environment.</p>
+</div>
+<h2 id="the-captive-portal-doesnt-scale-to-a-factory-line">The captive portal doesn't scale to a factory line<a class="headerlink" href="#the-captive-portal-doesnt-scale-to-a-factory-line" title="Permanent link">&para;</a></h2>
+<p>Level 3's captive portal is right for "a person sets up one device."
+Manufacturing 500 units needs each one to get a <strong>unique identity</strong>
+(device ID, per-device certificate/keys) and its <strong>initial
+configuration</strong> without a human typing SSID/password into each unit by
+hand.</p>
+<h2 id="step-1-a-stable-per-device-identity">Step 1: a stable per-device identity<a class="headerlink" href="#step-1-a-stable-per-device-identity" title="Permanent link">&para;</a></h2>
+<p>Every ESP8266/ESP32 has a documented, factory-burned MAC address
+readable without any provisioning step — the natural seed for a device
+ID:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// device-identity.ino</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="cp">#if defined(ESP8266)</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ESP8266WiFi.h&gt;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="cp">#else</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;WiFi.h&gt;</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="cp">#endif</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">String</span><span class="w"> </span><span class="nf">getDeviceId</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span><span class="c1">// WiFi.macAddress() is documented on both cores to return the</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">  </span><span class="c1">// factory-assigned station MAC as "AA:BB:CC:DD:EE:FF".</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">  </span><span class="n">String</span><span class="w"> </span><span class="n">mac</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WiFi</span><span class="p">.</span><span class="n">macAddress</span><span class="p">();</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="n">mac</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">":"</span><span class="p">,</span><span class="w"> </span><span class="s">""</span><span class="p">);</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">  </span><span class="n">mac</span><span class="p">.</span><span class="n">toLowerCase</span><span class="p">();</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="s">"gw-"</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">mac</span><span class="p">;</span><span class="w"> </span><span class="c1">// e.g. "gw-aabbccddeeff"</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="p">}</span>
+</code></pre></div>
+<p>Using the MAC (rather than a self-generated random ID) means the ID is
+stable across factory reset and reflash, which matters for fleet
+inventory tracking.</p>
+<h2 id="step-2-bulk-provisioning-via-a-wiredserial-jig-not-wifi-per-unit">Step 2: bulk-provisioning via a wired/serial jig, not WiFi per-unit<a class="headerlink" href="#step-2-bulk-provisioning-via-a-wiredserial-jig-not-wifi-per-unit" title="Permanent link">&para;</a></h2>
+<p>At volume, flashing WiFi credentials for a specific customer/site over
+a captive portal per unit doesn't scale. The common pattern: flash
+firmware once (identical binary for the whole batch), then have each
+unit fetch its config from a provisioning server the first time it
+connects to <em>any</em> network the factory jig provides temporarily.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// factory-provisioning-fetch.ino</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;HTTPClient.h&gt;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;ArduinoJson.h&gt;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;LittleFS.h&gt;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">fetchProvisioningProfile</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">String</span><span class="o">&amp;</span><span class="w"> </span><span class="n">deviceId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="n">HTTPClient</span><span class="w"> </span><span class="n">http</span><span class="p">;</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="n">String</span><span class="w"> </span><span class="n">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"https://provision.example.com/devices/"</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">deviceId</span><span class="p">;</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">http</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">url</span><span class="p">))</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">code</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">http</span><span class="p">.</span><span class="n">GET</span><span class="p">();</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">code</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">200</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">http</span><span class="p">.</span><span class="n">end</span><span class="p">();</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">  </span><span class="n">String</span><span class="w"> </span><span class="n">body</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">http</span><span class="p">.</span><span class="n">getString</span><span class="p">();</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">  </span><span class="n">http</span><span class="p">.</span><span class="n">end</span><span class="p">();</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">  </span><span class="n">StaticJsonDocument</span><span class="o">&lt;</span><span class="mi">512</span><span class="o">&gt;</span><span class="w"> </span><span class="n">doc</span><span class="p">;</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">deserializeJson</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span><span class="w"> </span><span class="n">body</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">DeserializationError</span><span class="o">::</span><span class="n">Ok</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">  </span><span class="n">File</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LittleFS</span><span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="s">"/provision.json"</span><span class="p">,</span><span class="w"> </span><span class="s">"w"</span><span class="p">);</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">  </span><span class="n">serializeJson</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">);</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">  </span><span class="n">f</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="p">}</span>
+</code></pre></div>
+<p>The server looks up <code>deviceId</code> (recorded at flash time, e.g. scanned
+from a label or read back over serial during manufacturing test) and
+returns the customer's WiFi/MQTT config — the firmware image itself
+never needs customer-specific secrets baked in.</p>
+<h2 id="step-3-per-device-credentials-not-one-shared-secret">Step 3: per-device credentials, not one shared secret<a class="headerlink" href="#step-3-per-device-credentials-not-one-shared-secret" title="Permanent link">&para;</a></h2>
+<p>Baking a single shared MQTT password or API key into every unit means
+one leaked device compromises the whole fleet. The documented-safe
+pattern is a <strong>per-device credential</strong>, provisioned during the factory
+step and stored in NVS (ESP32) or LittleFS (both), never in source:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// per-device-credential-store.ino</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;Preferences.h&gt;</span><span class="w"> </span><span class="c1">// documented ESP32 NVS wrapper</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">Preferences</span><span class="w"> </span><span class="n">prefs</span><span class="p">;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="kt">void</span><span class="w"> </span><span class="nf">storeDeviceSecret</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">String</span><span class="o">&amp;</span><span class="w"> </span><span class="n">secret</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span><span class="n">prefs</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="s">"provision"</span><span class="p">,</span><span class="w"> </span><span class="nb">false</span><span class="p">);</span><span class="w"> </span><span class="c1">// namespace, read-write</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">  </span><span class="n">prefs</span><span class="p">.</span><span class="n">putString</span><span class="p">(</span><span class="s">"secret"</span><span class="p">,</span><span class="w"> </span><span class="n">secret</span><span class="p">);</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span><span class="n">prefs</span><span class="p">.</span><span class="n">end</span><span class="p">();</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="p">}</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="n">String</span><span class="w"> </span><span class="nf">loadDeviceSecret</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">  </span><span class="n">prefs</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="s">"provision"</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span><span class="w"> </span><span class="c1">// read-only</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">  </span><span class="n">String</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">prefs</span><span class="p">.</span><span class="n">getString</span><span class="p">(</span><span class="s">"secret"</span><span class="p">,</span><span class="w"> </span><span class="s">""</span><span class="p">);</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">  </span><span class="n">prefs</span><span class="p">.</span><span class="n">end</span><span class="p">();</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">s</span><span class="p">;</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>Preferences</code> is the documented ESP32 Arduino-core wrapper around NVS
+(non-volatile key-value storage), purpose-built for exactly this kind
+of small per-device config that must survive reflashes of the main
+application partition.</p>
+<h2 id="step-4-a-provisioning-state-machine">Step 4: a provisioning state machine<a class="headerlink" href="#step-4-a-provisioning-state-machine" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// provisioning-state-machine.ino</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">enum</span><span class="w"> </span><span class="nc">ProvisionState</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">UNPROVISIONED</span><span class="p">,</span><span class="w"> </span><span class="n">FETCHING</span><span class="p">,</span><span class="w"> </span><span class="n">PROVISIONED</span><span class="p">,</span><span class="w"> </span><span class="n">FAILED</span><span class="w"> </span><span class="p">};</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">ProvisionState</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UNPROVISIONED</span><span class="p">;</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="kt">void</span><span class="w"> </span><span class="nf">loop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">UNPROVISIONED</span><span class="p">:</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">LittleFS</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="s">"/provision.json"</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">        </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PROVISIONED</span><span class="p">;</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">      </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">WiFi</span><span class="p">.</span><span class="n">status</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">WL_CONNECTED</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">        </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FETCHING</span><span class="p">;</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">      </span><span class="p">}</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">      </span><span class="k">break</span><span class="p">;</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">FETCHING</span><span class="p">:</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fetchProvisioningProfile</span><span class="p">(</span><span class="n">getDeviceId</span><span class="p">()))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">        </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PROVISIONED</span><span class="p">;</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">      </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">        </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FAILED</span><span class="p">;</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">      </span><span class="p">}</span>
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="w">      </span><span class="k">break</span><span class="p">;</span>
+<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>
+<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">PROVISIONED</span><span class="p">:</span>
+<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="w">      </span><span class="n">runNormalOperation</span><span class="p">();</span>
+<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="w">      </span><span class="k">break</span><span class="p">;</span>
+<a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>
+<a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">FAILED</span><span class="p">:</span>
+<a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="w">      </span><span class="c1">// Bounded retry with backoff, not an infinite tight loop.</span>
+<a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="w">      </span><span class="n">delay</span><span class="p">(</span><span class="mi">30000</span><span class="p">);</span>
+<a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="w">      </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UNPROVISIONED</span><span class="p">;</span>
+<a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="w">      </span><span class="k">break</span><span class="p">;</span>
+<a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="p">}</span>
+<a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a>
+<a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a><span class="kt">void</span><span class="w"> </span><span class="nf">runNormalOperation</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+</code></pre></div>
+<h2 id="why-this-matters-at-fleet-scale">Why this matters at fleet scale<a class="headerlink" href="#why-this-matters-at-fleet-scale" title="Permanent link">&para;</a></h2>
+<p>One firmware binary now serves every customer and every unit: identity
+comes from hardware (MAC), configuration comes from a server keyed by
+that identity, and secrets are per-device rather than shared. Re-keying
+a compromised device means revoking one credential server-side, not
+re-flashing the whole fleet.</p>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Explain why <code>WiFi.macAddress()</code> is a better device-ID seed for a
+   factory-provisioned fleet than a random number generated at first
+   boot.</li>
+<li>Extend <code>fetchProvisioningProfile()</code> to retry with exponential
+   backoff (base 5s, up to 3 attempts) before transitioning to
+   <code>FAILED</code>.</li>
+<li>Design the server-side lookup keying strategy: what does the
+   provisioning server need to know about a device <em>before</em> it powers
+   on for the first time, and where would that mapping come from in a
+   real manufacturing process?</li>
+<li>Using <code>Preferences</code>, implement <code>rotateDeviceSecret()</code> that replaces
+   the stored secret only after confirming the new one authenticates
+   successfully against the server, keeping the old one as fallback
+   until then.</li>
+</ol>
 
 
 

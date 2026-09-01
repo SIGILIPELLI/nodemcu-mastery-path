@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sigilipelli.github.io/nodemcu-mastery-path/sitemap.xml
+Sitemap: https://sigilipelli.github.io/nodemcu-skillmastery/sitemap.xml

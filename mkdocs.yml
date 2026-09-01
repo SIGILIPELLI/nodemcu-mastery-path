@@ -1,8 +1,8 @@
 site_name: NodeMCU/IoT Mastery Path
 site_description: A structured, module-wise NodeMCU and IoT development training program from entry level to master level — ESP8266/ESP32 with the Arduino IDE, WiFi, MQTT, and production IoT device design.
-site_url: https://sigilipelli.github.io/nodemcu-skillmastery/
-repo_url: https://github.com/SIGILIPELLI/nodemcu-skillmastery
-repo_name: nodemcu-skillmastery
+site_url: https://sigilipelli.github.io/nodemcu-mastery-path/
+repo_url: https://github.com/SIGILIPELLI/nodemcu-mastery-path
+repo_name: nodemcu-mastery-path
 
 theme:
   name: material

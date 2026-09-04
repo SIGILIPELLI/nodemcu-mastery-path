@@ -53,6 +53,7 @@ extra_css:
 nav:
   - Home: index.md
   - Privacy Policy: privacy.md
+  - License: license.md
   - "Level 1 · Entry":
       - Overview: level-1/index.md
       - "01 · What Is NodeMCU (ESP8266 vs ESP32)": level-1/01-what-is-nodemcu.md

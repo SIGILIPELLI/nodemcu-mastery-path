@@ -172,6 +172,14 @@ The `doc["publishIntervalMs"] | 5000` syntax is ArduinoJson's documented
 and is convertible, otherwise the fallback, which is exactly what you
 want for a config field added in a later firmware version.
 
+## How It Actually Works
+
+Persisting config to flash on these chips means writing to a reserved flash region through SPIFFS/LittleFS — a filesystem specifically designed around raw NOR flash's actual physical constraint: you can flip individual bits from 1 to 0 cheaply, but flipping 0 back to 1 requires erasing an entire sector (typically 4KB) at once, and flash sectors have a finite erase-cycle lifetime (on the order of 10,000–100,000 cycles) before they start failing. LittleFS handles this with wear leveling — it doesn't overwrite the same physical sector every time you save the same file, it writes new data to a different, less-worn sector and updates its own internal block-allocation metadata to point there, which is the real reason a "small JSON config" write is a much heavier flash operation than it looks: erase-then-program of a full sector, plus metadata bookkeeping, for what might be a 40-byte string.
+
+ArduinoJson's parsing, meanwhile, allocates a fixed-capacity memory pool up front (a `StaticJsonDocument<N>` or dynamically-sized `DynamicJsonDocument`) and builds its tree structure entirely inside that pool using offsets rather than pointers where possible — this matters concretely because these chips have only tens of KB of heap; a JSON document sized even slightly too small silently truncates or fails to parse rather than throwing an exception, because embedded C++ here typically runs without exception support at all, and running the calculator in ArduinoJson's own sizing tool against your actual payload is the only reliable way to avoid intermittent parse failures under memory pressure.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Write the serialize sketch and confirm (by tracing the code) the

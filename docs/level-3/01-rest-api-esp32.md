@@ -136,6 +136,15 @@ void handleStatus() {
 }
 ```
 
+## How It Actually Works
+
+Running an HTTP server on the ESP32 means the chip is doing full TCP server-side work in software: `WiFiServer`/`WebServer` binds a listening socket in lwIP, which maintains a TCP control block per connection tracking sequence numbers, window size, and retransmission timers — accepting a client connection completes the standard three-way handshake (SYN, SYN-ACK, ACK) entirely in firmware before your `server.on()` handler ever sees a byte. Parsing the HTTP request line and headers is done by scanning the raw TCP payload byte stream for `
+` delimiters as data arrives, which is why a client that sends headers across multiple small TCP segments (common on lossy Wi-Fi) can appear to "hang" briefly — the parser is genuinely waiting for enough bytes to reassemble a complete header line, not stuck.
+
+Concurrency here is real but limited by memory, not the number of physical radios: each accepted TCP connection needs its own control block and, in the ESP32 Arduino core, typically its own small RTOS task or handler context, all competing for the same shared heap that also backs Wi-Fi buffers and TLS state — this is the concrete reason a REST API on ESP32 that "works with one client" can crash or drop connections under a handful of concurrent clients: it isn't a software concurrency bug, it's the connection count multiplied by per-connection RAM overhead exceeding the chip's total free heap.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Write the basic `/status` GET endpoint and confirm the JSON shape it

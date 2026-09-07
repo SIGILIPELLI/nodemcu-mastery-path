@@ -157,6 +157,14 @@ void loop() {
 }
 ```
 
+## How It Actually Works
+
+`attachInterrupt()` doesn't poll — it configures the GPIO controller's edge/level-detect circuitry to latch a hardware interrupt-pending bit the instant the pad's input buffer transitions in the direction you specified (RISING/FALLING/CHANGE), which asynchronously interrupts the CPU's instruction stream regardless of what your `loop()` is doing, vectoring execution to your ISR through the interrupt controller's vector table. This is exactly why ISRs must be tiny and marked `IRAM_ATTR`/`ICACHE_RAM_ATTR`: an interrupt can fire while the CPU is mid-fetch of flash-mapped code during a flash-cache-disabling operation (like a Wi-Fi radio calibration or another flash write), and if your ISR itself lives in flash rather than RAM, the CPU can't even fetch its instructions at that moment, causing a hard crash — not a hang, an actual exception.
+
+Debouncing exists because a mechanical switch's contacts don't cleanly transition once — spring bounce physically makes and breaks the electrical contact many times over a few milliseconds, each bounce independently crossing the digital HIGH/LOW threshold and firing a fresh edge interrupt. Software debouncing (checking `millis()` elapsed since the last accepted edge before accepting a new one) works because the bounce train is over well within a human-perceptible button press but far outlasts the sub-microsecond electrical settling time of the GPIO input buffer itself; hardware debouncing (a small RC low-pass filter on the switch line) instead physically slows the voltage transition so the bounce noise never crosses the digital input threshold enough times to register as separate edges at all.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Write the basic (non-debounced) interrupt sketch and reason through

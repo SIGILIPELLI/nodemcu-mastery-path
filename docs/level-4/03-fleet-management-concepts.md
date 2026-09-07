@@ -133,6 +133,14 @@ A server-side consumer that hasn't seen a device's heartbeat topic
 update within, say, 3x the heartbeat interval can flag it as stale even
 before the broker's own keepalive timeout fires.
 
+## How It Actually Works
+
+Fleet-wide device health signals are only meaningful because each device already exposes the same low-level hardware/firmware telemetry covered under diagnostics — reset reason register, free heap, RF signal strength (RSSI, a real analog measurement the radio's AGC/receiver front-end reports per received frame, not something firmware computes) — aggregated centrally rather than read one device at a time. A fleet dashboard showing a spike in brownout-reset devices in one geographic cohort is, mechanically, several thousand independent brownout comparators each independently tripping because of a shared root cause (a bad batch of regulators, or devices in a hotter climate zone drawing more current and sagging supply further) — the aggregation reveals a hardware population effect that would be invisible looking at any single device's logs.
+
+Staged/canary OTA rollout across a fleet exploits the same rollback/pending-verify mechanism from firmware versioning, just orchestrated server-side: pushing a new image to 1% of devices first and watching their self-reported boot-confirmation and crash-reset rates before continuing the rollout is effectively using the fleet as a distributed hardware test bench, catching a firmware/hardware-revision incompatibility (a new sensor driver that behaves differently on a slightly different PCB revision, say) at 1% of blast radius instead of 100%, because the underlying rollback mechanism can only protect a device from its own bad firmware — it can't prevent a firmware bug from ever running in the first place, only limit how many devices experience it before the rollout halts.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Explain why the LWT message must be set at `connect()` time rather

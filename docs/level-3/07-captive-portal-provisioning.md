@@ -173,6 +173,14 @@ void setup() {
 }
 ```
 
+## How It Actually Works
+
+Putting the ESP into SoftAP mode reconfigures its single radio to act as the access point rather than a station — it starts beaconing its own SSID (transmitting Beacon frames roughly every 100ms carrying its capability info) and runs a minimal AP-side association state machine, handling incoming Probe/Auth/Association Requests from phones and laptops using the same 802.11 primitives a commercial router uses, just implemented in the SDK's much smaller AP stack. Once a device associates, the ESP's built-in DHCP server (a tiny embedded DORA responder) hands out an IP from its own private subnet, and DNS requests are answered by a DNS "hijack" — the captive portal library runs a minimal DNS server that resolves *every* hostname query to the ESP's own AP IP address regardless of what was actually asked, which is the specific mechanism that makes a phone's "Sign in to network" prompt pop up automatically: the OS's own connectivity-check probe (a hardcoded URL like `connectivitycheck.gstatic.com`) resolves to the ESP, gets an unexpected response, and the OS concludes it must be behind a captive portal needing a browser.
+
+Serving the actual provisioning form works over that same association without full internet routing — the ESP's tiny HTTP server answers the browser's request locally, and submitted Wi-Fi credentials are typically written straight to flash (NVS/EEPROM) before the sketch switches the radio back to station mode and attempts association with the newly provided network — the practical failure mode people hit is that a device already connected to the SoftAP with cached "no internet, stay connected anyway" state from the OS won't re-trigger the captive portal popup on a second attempt, because that decision is cached client-side, not something the ESP controls.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Explain why answering every DNS query with the AP's own IP (rather

@@ -183,6 +183,14 @@ void loop() {
 }
 ```
 
+## How It Actually Works
+
+The DHT11 has no SPI/I2C bus — it uses a proprietary single-wire, software-bit-banged protocol built entirely on timing. The MCU starts a transaction by pulling the data line LOW for at least 18ms (the DHT11's own power-on reset threshold) then releasing it HIGH; the sensor responds by pulling the line LOW for ~80µs, HIGH for ~80µs, then transmits 40 bits (5 bytes: humidity integer, humidity decimal, temp integer, temp decimal, checksum) by varying the *duration* of each HIGH pulse after a fixed ~50µs LOW — a short ~26-28µs HIGH encodes a 0 bit, a long ~70µs HIGH encodes a 1 bit. The Arduino DHT library reads this by busy-polling `digitalRead()` in a tight loop and measuring elapsed microseconds with `micros()` (itself backed by a free-running hardware timer/cycle counter), which is why DHT reads must run with interrupts effectively uninterrupted — a Wi-Fi radio interrupt firing mid-transaction can shift the timing enough to misread a bit, which is the real mechanism behind DHT11's notorious flakiness on ESP8266/ESP32 versus a bare AVR.
+
+The checksum byte (sum of the four data bytes, truncated to 8 bits) is your only integrity check on a bus with no CRC/parity at the hardware level — the library discards the whole reading rather than "correcting" it because a single misread bit anywhere in the 40 shifts the physical meaning of every subsequent bit, since sensor and MCU never resynchronize mid-frame.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Install the Adafruit `DHT sensor library` and its `Unified Sensor`

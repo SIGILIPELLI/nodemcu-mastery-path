@@ -142,6 +142,14 @@ void loop() {
 }
 ```
 
+## How It Actually Works
+
+The hardware watchdog timer (WDT) is a free-running counter clocked independently of your main code path, wired directly to the chip's reset logic — if that counter reaches its terminal value without being reset ("fed"/"kicked") by a specific register write from your firmware, it triggers exactly the same electrical reset sequence as pressing the physical RST pin, which is why a watchdog-triggered restart looks identical to a power cycle in your boot logs (no exception, no stack trace, just a fresh `setup()`). These chips actually run *two* watchdogs layered on top of each other: a software/RTOS watchdog that checks whether each registered task (including the hidden Wi-Fi/lwIP task) has yielded within its allotted time slice, and beneath that a true hardware WDT that fires if even the software watchdog handler itself hangs — this is why a truly wedged CPU (stuck in a hard fault loop, say) still eventually recovers even when the software layer meant to catch it has itself failed.
+
+`ESP.wdtFeed()`/the automatic feed inside Arduino core's background yield calls only resets the *counter*, not the underlying cause — a watchdog reset happening reliably at the same point in your code is the WDT correctly doing its job of surfacing a real blocking operation (a busy-wait loop, a hung I2C clock-stretch, a DNS lookup with no timeout) that starved the scheduler long enough to miss its own required feed interval; silencing the watchdog via `ESP.wdtDisable()` doesn't fix that underlying hang, it just removes the safety net that would otherwise force a recovery from it.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Explain the difference between the ESP8266's hardware WDT and its

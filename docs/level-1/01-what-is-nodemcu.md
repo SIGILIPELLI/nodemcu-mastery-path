@@ -95,6 +95,14 @@ trip up beginners:
   the board or drivers are broken — this single mistake wastes more
   beginner time than any driver issue.
 
+## How It Actually Works
+
+"NodeMCU" as a dev board is really three separate silicon subsystems glued together: an Xtensa (ESP8266, LX106) or Xtensa LX6 (ESP32) CPU core, a memory-mapped SPI flash chip holding both the Wi-Fi/TCP-IP blob and your compiled sketch, and a radio front-end (baseband + RF transceiver + PA) sharing the same die. When you "upload a sketch," esptool.py doesn't send source code to the chip — it puts the ROM bootloader into UART download mode (by pulling GPIO0 low and toggling reset, which the CH340/CP2102 USB-serial chip does for you via DTR/RTS lines), then writes raw flash sectors at fixed offsets (bootloader, partition table, app image) over a synchronous byte protocol at up to 921600 baud. On the next reset, the boot ROM reads a tiny header at flash offset 0x0 to find where the second-stage bootloader lives, which then jumps to your app's entry point after configuring the SPI flash memory-map (mapping flash pages into the CPU's instruction address space via the MMU) — this is why a corrupt or wrong-baud flash write bricks the "boot" rather than just failing to run your code.
+
+The ESP8266 vs ESP32 distinction under the hood is not cosmetic: ESP8266 has a single core, no hardware crypto acceleration, and runs Wi-Fi handling as interrupt-driven SDK code sharing the one CPU with your `loop()` — which is why long blocking delays trigger the watchdog and drop Wi-Fi. ESP32 has two cores (usually PRO_CPU on core 0 running Wi-Fi/BT stack, APP_CPU on core 1 running Arduino `loop()`), a hardware RNG, and AES/SHA acceleration in silicon, which is why TLS handshakes are dramatically faster on it.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 No code yet — this is a reading/setup-decision module. Before moving on,

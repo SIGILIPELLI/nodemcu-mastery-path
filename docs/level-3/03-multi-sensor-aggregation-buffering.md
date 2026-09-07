@@ -143,6 +143,14 @@ void popOldest() {
 }
 ```
 
+## How It Actually Works
+
+Sampling multiple sensors on shared buses forces real hardware sequencing constraints: I2C and SPI are inherently serial and half-duplex-per-transaction, so "reading three I2C sensors" is never simultaneous — the master issues one complete START-address-data-STOP transaction per device, one after another, meaning your aggregation code's sampling timestamp already carries an inherent skew between sensors equal to however long each prior transaction took (clock-stretching slaves can add unpredictable extra delay here, since I2C lets a slave hold SCK low to demand more processing time before it's ready to clock out data). A circular/ring buffer used to smooth this out is typically implemented as a fixed-size array with head/tail indices wrapping via modulo arithmetic — the mechanism that makes it safe to write from one context while reading from another is that head and tail are only ever advanced by their own respective owner, so a producer ISR and a consumer loop can share the buffer without a lock, as long as neither wraps around and overtakes the other's pointer.
+
+Averaging/filtering buffered samples interacts directly with ADC/sensor quantization noise: because each raw sample carries independent quantization and thermal noise, a moving average genuinely reduces the *statistical* uncertainty of the reported value (standard error falls with √N) even though it does nothing to correct any *systematic* bias (like an uncalibrated ADC reference or sensor offset) — buffering trades responsiveness (lag equal to roughly your window size × sample interval) for reduced noise, a real signal-processing tradeoff, not just smoother-looking numbers.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Compute the RAM cost of a 100-entry ring buffer of `SensorSample` and

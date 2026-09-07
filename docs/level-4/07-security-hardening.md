@@ -128,6 +128,14 @@ void logRejectedCommand(const String& cmd) {}
    or an application-level signature check on ESP8266 where hardware
    secure boot isn't available).
 
+## How It Actually Works
+
+Secure boot and flash encryption, mentioned earlier under provisioning, are the two hardware mechanisms that actually close the physical attack surface a bare dev board leaves wide open: flash encryption uses a device-unique AES key burned into one-time-programmable eFuses (bits that, once set, cannot be reset or read back out by any software instruction, only used internally by the flash-encryption hardware engine) so that every read/write to flash is transparently encrypted/decrypted in hardware — an attacker who desolders the flash chip and dumps its raw contents gets ciphertext, not your firmware or secrets in the clear. Secure boot layers on top of this: each boot stage's digest is signed with a private key at build time, and the immediately-prior boot stage (starting from an immutable ROM bootloader burned at the factory) verifies that signature against a public key also burned into eFuses before it will execute the next stage at all, which is what actually prevents someone from just re-flashing arbitrary unsigned firmware onto a stolen device through the same UART bootloader interface every dev board exposes.
+
+Once both are enabled, they also change your own update workflow at a hardware level, not just an attacker's: JTAG debugging can be permanently disabled via another eFuse (a genuinely irreversible hardware fuse blow, not a software toggle), and any new firmware image must be signed with the matching private key or secure boot will refuse to execute it — meaning losing your signing key doesn't just block your next OTA, it can permanently strand already-deployed hardware that refuses everything else, which is why key management for these fuses is a harder and higher-stakes operational problem than almost anything else in the firmware lifecycle.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Explain, in terms of what each actually verifies, why `setCACert()`

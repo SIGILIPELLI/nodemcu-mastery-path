@@ -153,6 +153,14 @@ void loop() {
 }
 ```
 
+## How It Actually Works
+
+`WiFi.begin(ssid, password)` kicks off the full 802.11 client (station) association sequence in hardware/firmware, not a single handshake: the radio first performs active scanning (sending probe requests on each channel and listening for probe responses, or passively listening for beacons) to find the target AP's BSSID and capability set, then sends an 802.11 Authentication frame (open-system on WPA2-PSK networks — the "authentication" that actually matters happens next), then an Association Request/Response exchange that negotiates supported rates and capabilities and assigns an Association ID. Only after association does the real security handshake run: the WPA2 4-way handshake, where the AP and station each derive a Pairwise Transient Key from the pre-shared key (password put through PBKDF2 with the SSID as salt) plus nonces exchanged in EAPOL frames, without ever transmitting the password itself over the air — this is why a correct SSID/wrong-password failure looks identical over the air up until message 2 of that handshake fails its MIC check.
+
+Once associated, the chip still needs an IP: `WiFi.begin()` triggers a DHCP DORA exchange (Discover, Offer, Request, Acknowledge) as broadcast/unicast UDP frames on port 67/68, and the returned lease (IP, gateway, DNS, subnet) is what finally makes `WiFi.status() == WL_CONNECTED` true. Reconnection after a dropped AP isn't instant because the chip has to re-run scan+auth+associate+DHCP from scratch unless you've cached the channel/BSSID — which is why many sketches see multi-second reconnect gaps that look like "the code just isn't running."
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Fill in your own network's SSID and password in the basic connection

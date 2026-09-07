@@ -192,6 +192,14 @@ the antenna/enclosure design this firmware would ship inside, which is
 exactly why it's called out in the table's absence rather than forced
 into the sketch.
 
+## How It Actually Works
+
+A production-ready IoT product is, mechanically, the union of every hardware/firmware mechanism covered across all four levels operating simultaneously and continuously for years unattended: secure boot and flash encryption protecting the device physically (level 4 security), a dual-partition OTA/rollback scheme that can survive a bad firmware push in the field (levels 2-3), a power budget sized against real transient current draw rather than average (level 4 power), an RF-certified antenna/matching design (levels 4 device design and regulatory), and application logic built on the same register-level GPIO/ADC/PWM/bus mechanics from level 1 — none of these subsystems is optional in a real deployed product, because each protects against a specific, independently-observed field failure mode (bricked device from a bad flash write, stolen secrets from a desoldered flash chip, brownout resets from an underspecced supply, reduced range from a mistuned antenna) that a prototype simply never encounters at the scale or duration a real product does.
+
+The genuinely hard engineering property this capstone is really testing is that these mechanisms compose rather than being addable independently after the fact — flash encryption changes your OTA image format and factory provisioning flow, JTAG-disable via secure boot changes how you debug field returns, and a power budget built around fast wake/transmit/sleep cycles changes how your application logic has to be structured around asynchronous, event-driven wake reasons rather than a simple `loop()` — which is why production IoT hardware/firmware co-design has to happen together from the start, not as separate passes bolted onto a working prototype.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Add the staggered OTA check-in jitter from 4.04 so `checkAndApplyOta()`

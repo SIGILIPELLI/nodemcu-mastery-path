@@ -101,6 +101,14 @@ Before wiring anything, confirm the toolchain itself works:
 Only once compile succeeds should you try an actual **Upload** — which is
 exactly what the next module does with a real, visible-result sketch: Blink.
 
+## How It Actually Works
+
+Installing a board package isn't just adding an entry to a dropdown — it downloads a full toolchain: a cross-compiler (`xtensa-lx106-elf-gcc` for ESP8266, `xtensa-esp32-elf-gcc` for ESP32), the Espressif/Arduino core (C++ wrappers around the vendor SDK), `esptool.py` for flashing, and a `boards.txt`/`platform.txt` pair that tells the IDE exact compiler flags, flash size, and linker script to use. The linker script matters more than it looks: it defines memory regions (`.iram0.text`, `.irom0.text`, `.data`, `.bss`, `.dram0`) that map specific code and data to either fast internal RAM or memory-mapped flash accessed through the SPI cache — functions marked `ICACHE_RAM_ATTR` (ESP8266) or `IRAM_ATTR` (ESP32) are deliberately placed in RAM because flash reads pause during flash-write or Wi-Fi radio calibration operations, and code executing from flash at that instant would crash.
+
+The COM port your OS shows isn't the chip talking directly to USB — it's a USB-to-UART bridge IC (CH340, CP2102, or FTDI) translating USB packets into a 3.3V asynchronous serial line (TX/RX/RTS/DTR) wired straight into the ESP's UART0 peripheral and, critically, into GPIO0 and EN/RST through small transistor or diode reset circuits so the IDE can programmatically force the chip into bootloader mode without you pressing physical buttons. Baud rate mismatches at this layer aren't a "warning" — the UART's baud-rate generator divides a fixed reference clock, and if your selected rate doesn't match what the bootloader ROM auto-detected during its sync sequence, every byte after the handshake is genuinely misread at the bit level.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Install both board packages (or just the one matching your hardware) via

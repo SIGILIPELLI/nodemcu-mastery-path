@@ -137,6 +137,14 @@ void loop() {
 - **`Serial.flush()` before sleep**: `ESP.deepSleep()` powers down
   immediately; without a flush, buffered serial output can be lost.
 
+## How It Actually Works
+
+This bridge stacks four independent state machines that must all stay synchronized purely through your polling loop's timing: the TCP connection's own retransmission/ack state (managed by lwIP beneath you), the MQTT client's keepalive/PINGREQ timer, the sensor bus's read-timing requirements (I2C/SPI/single-wire, each with its own minimum inter-transaction delay), and the Wi-Fi radio's power-save/beacon-listen cycle. A blocking sensor read that takes even a few hundred milliseconds can starve the MQTT keepalive timer enough that the broker times the client out server-side while the TCP socket itself still looks "connected" locally — this asymmetry (client thinks it's fine, broker has already dropped the session) is the actual mechanism behind bridges that silently stop publishing without ever hitting a visible error path, because the failure only becomes observable on your *next* publish attempt, when the broker resets the now-stale TCP connection.
+
+Buffering readings before publish (rather than publishing every sample immediately) is a real trade against flash/RAM limits, not just a style choice: queuing in RAM risks losing the buffer on any reset, while queuing to flash (via LittleFS) hits the same erase-cycle wear-leveling mechanics as config storage — a bridge doing high-frequency buffered writes to raw flash without wear-aware logic can measurably shorten the flash chip's usable life over months of continuous operation, which is why production designs batch writes and prefer RAM buffers for anything genuinely ephemeral.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Trace through the sketch for the case where the DHT read succeeds but

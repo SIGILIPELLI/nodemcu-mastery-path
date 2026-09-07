@@ -111,6 +111,14 @@ void onMessage(char* topic, byte* payload, unsigned int length) {
 //   mqtt.subscribe((String(AIO_USERNAME) + "/feeds/led").c_str());
 ```
 
+## How It Actually Works
+
+Under an SDK call like "publish to my IoT platform," the chip is doing real TLS work: a full handshake (ClientHello/ServerHello, certificate exchange, key exchange, Finished messages) negotiating a symmetric session key via ECDHE, then every subsequent MQTT/HTTPS byte is encrypted with AES-GCM using that session key before hitting the TCP layer. On ESP32 this handshake is accelerated by dedicated AES/SHA/RSA hardware blocks (the chip literally has silicon that computes AES rounds and SHA compression in a handful of clock cycles rather than software loops), which is the concrete reason ESP32 completes a TLS handshake in a few hundred milliseconds while ESP8266 (software-only crypto via mbedTLS/BearSSL) can take multiple seconds and consume most of its ~50KB free heap during the handshake — a common cause of `Failed to allocate` crashes on ESP8266 platform integrations that "worked fine on ESP32."
+
+Device authentication to the cloud platform is typically an X.509 client certificate check: the platform's TLS layer verifies your device cert's signature chain against a root CA it trusts, and separately your device verifies the platform's server certificate against a root CA baked into your firmware — get the embedded root CA wrong or let it expire (root CAs do rotate) and the handshake fails at the certificate-verify step with no application-level error message, only a TLS alert, which is why "IoT cloud connection suddenly stopped working" is so often a root CA staleness issue rather than a code bug.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Sign up for Adafruit IO, create a `temperature` feed, and confirm the

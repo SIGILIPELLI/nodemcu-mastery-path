@@ -173,6 +173,14 @@ documented as unsafe on both cores.
   long other loop() work takes, at the cost of writing interrupt-safe
   callbacks.
 
+## How It Actually Works
+
+On ESP8266 there's no true multitasking — "task scheduling" in a single `loop()` is achieved with a state-machine pattern built on `millis()` comparisons, where each pseudo-task checks "has enough time passed since I last ran" and only then does work, letting `loop()` cycle through many logical tasks in one physical thread by giving each a tiny time-slice on every pass. This works specifically because `millis()` is backed by a hardware timer interrupt that increments a tick counter completely independently of what `loop()` is doing, so elapsed-time comparisons stay accurate even while other tasks (or the hidden Wi-Fi stack) are running — the wraparound behavior of `millis()` (rolling over roughly every 49.7 days as a 32-bit counter) is a real hardware limit, and comparing with subtraction (`if (millis() - lastRun >= interval)`) rather than direct greater-than comparison is what makes scheduling code correctly survive that wraparound, because unsigned subtraction wraps consistently even across the rollover boundary.
+
+On ESP32 (which does have FreeRTOS underneath, even in Arduino-style single-core-feeling sketches), Arduino's `loop()` itself is just one FreeRTOS task pinned to core 1 by default, running at a fixed priority alongside the Wi-Fi/BT stack's own tasks pinned to core 0 — cooperative "single core" scheduling patterns are still meaningful advice on ESP32 *within* your own task, but the underlying scheduler is genuinely preemptive: a higher-priority system task really can interrupt your loop mid-instruction, which is the real reason ESP32 code that "never yields" behaves differently from the same pattern on true single-threaded ESP8266.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Convert a sketch that currently uses three stacked `delay()` calls

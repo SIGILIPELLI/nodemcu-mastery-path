@@ -142,6 +142,14 @@ can coexist on the same `SDA`/`SCL` wires as long as their addresses
 don't collide — the scanner sketch above is exactly how you'd confirm
 that before writing combined code.
 
+## How It Actually Works
+
+I2C is a two-wire, open-drain bus: both SDA and SCL are pulled to a HIGH idle state by external (or, weakly, internal) pull-up resistors, and every device on the bus — including the ESP master — only ever actively pulls a line LOW, never drives it HIGH, which is what lets multiple devices share the same two wires without contention (two devices pulling low simultaneously is fine; the danger case, two devices both trying to drive high vs low, simply can't happen by design). A transaction starts with a START condition — SDA transitioning HIGH-to-LOW while SCL stays HIGH, a sequence that's illegal during normal data transfer (where SDA only changes while SCL is LOW) and is exactly why it unambiguously signals "begin" to every listening device. Each subsequent byte is clocked out bit-by-bit on SCL's rising edge, MSB first, followed by a 9th clock pulse during which the receiving device pulls SDA low to ACK (or leaves it high to NAK) — `Wire.endTransmission()` returning nonzero specifically means that ACK bit never came back.
+
+The 7-bit address in the first byte after START is why I2C devices can collide: two sensors hardwired to the same address (a common issue with cheap breakout boards sharing a fixed default) will both try to ACK the same address byte, and the bus has no way to tell them apart — this is the actual reason many I2C sensor breakouts expose an address-select pin (usually tied through a resistor to GND/VCC to hardcode one bit of the 7-bit address), letting you put two of the same sensor on one bus.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Write the scanner sketch and reason through what addresses you'd

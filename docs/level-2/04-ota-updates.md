@@ -123,6 +123,14 @@ void setup() {
 }
 ```
 
+## How It Actually Works
+
+OTA works by exploiting the fact that flash is organized into fixed partitions with a partition table (a small binary structure near flash offset 0x8000 on ESP32, or an implicit two-slot layout on ESP8266) that names, among others, two "app" slots and an OTA-data record. When new firmware arrives over the network, the bootloader library writes it into the *inactive* app partition sector by sector while your currently-running code keeps executing untouched from the *active* partition — this is why OTA doesn't brick a device mid-transfer the way a raw serial reflash would: if the download fails or the checksum doesn't verify, the OTA-data pointer is simply never flipped, and the next reset boots the same good image it always did.
+
+The switch itself is a single write to the OTA-data partition (or `rboot`/`eboot` config on ESP8266) recording which app slot is "next boot" — the second-stage bootloader reads that pointer on every cold boot and jumps to whichever partition it names, and only after your new firmware runs `Update.end()`/calls the equivalent success marker does the update become "confirmed," which is the real mechanism behind auto-rollback schemes: some frameworks (esp-idf's app rollback feature) leave the new image marked "pending verify" and will automatically flip the pointer back to the previous good slot if the new firmware crashes or fails to explicitly confirm itself within N reboots, because that pending state is stored in the same always-checked OTA-data structure.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Write the basic OTA sketch, flash it once (conceptually) over USB, and

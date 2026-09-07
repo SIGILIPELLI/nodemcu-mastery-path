@@ -131,6 +131,14 @@ and followed above) is that only one device's CS should ever be `LOW`
 at a time, which `beginTransaction()`/`endTransaction()` pairs make easy
 to guarantee.
 
+## How It Actually Works
+
+Unlike I2C's shared open-drain lines, SPI is a push-pull, point-to-multipoint bus with dedicated MOSI/MISO/SCK lines plus one Chip Select (CS) per device — the ESP's SPI hardware peripheral is a shift register clocked by SCK: on each clock edge (rising or falling, per your chosen SPI mode 0–3, which fixes clock polarity and phase) one bit shifts out on MOSI from the master's TX buffer while simultaneously one bit shifts in on MISO into the master's RX buffer — the full-duplex nature isn't a feature you opt into, it's the physical mechanism, which is why `SPI.transfer(byte)` always returns a byte even when you only "wanted" to send.
+
+CS is what actually addresses a device on a shared bus: a slave's SPI shift register only responds to clock edges while its own CS line is held LOW by the master, so multiple SPI devices can share MOSI/MISO/SCK as long as each has its own CS pin and the master only asserts one CS at a time — accidentally toggling CS mid-transfer, or sharing a CS line between two devices with different SPI modes, is the real mechanism behind "SPI device works alone but not with others on the same bus." Clock speed is bounded by real capacitive/inductive limits of the traces and the slave device's own maximum SCK spec (found in its datasheet, often 1–20MHz depending on part) — pushing `SPISettings` faster than the slave supports doesn't error at the software level, it just produces bit errors as the slave's input sampling window no longer lines up with a valid, settled signal.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Write the basic register-read sketch and explain what each of

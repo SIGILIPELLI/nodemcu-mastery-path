@@ -162,6 +162,14 @@ version via the documented `x-ESP8266-version` header (ESP8266) — a
 version-aware server can use that to decide what (if anything) to serve
 back, including "no update" to hold a device at the current build.
 
+## How It Actually Works
+
+Rollback support is built on the same dual-partition mechanism as OTA updates, extended with a persisted "boot attempt" counter and validity flag stored in the OTA-data (or equivalent) partition: after flashing a new image, the bootloader marks that slot "pending verify" rather than immediately "confirmed good," and your application must explicitly call a confirm/mark-valid API within some number of boots (or within a time window) for the slot to become the new stable default — if that confirmation never arrives (because the new firmware crashes on boot, panics, or hits its own watchdog reset repeatedly), the bootloader's own boot-attempt counter increments each retry, and once it crosses a threshold the bootloader autonomously flips the "next boot" pointer back to the previous known-good partition, entirely below your application code's control.
+
+This only works because the rollback decision lives in a region the bootloader reads *before* jumping to any application code at all — a crash in your new firmware, however early, doesn't prevent the counter from having already been incremented on the *previous* boot attempt (the increment happens on entry, decrement/reset happens on confirmed-good exit), so even a firmware image that crashes in the first few instructions of `setup()` still gets correctly rolled back after enough attempts, because the retry bookkeeping never depended on that firmware running correctly at all.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Explain why the ESP32's dual-partition OTA model gives you a

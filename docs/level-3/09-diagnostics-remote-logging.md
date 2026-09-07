@@ -173,6 +173,14 @@ module turns "device #47 went silent" into "device #47's heap trended
 down for six hours, then watchdog-reset" — an actionable root cause
 instead of a mystery.
 
+## How It Actually Works
+
+Remote diagnostics rely on the chip surfacing genuinely low-level hardware/firmware state that your own code didn't compute: `ESP.getFreeHeap()` reads the heap allocator's own live bookkeeping of unused memory blocks, `ESP.getResetReason()`/`esp_reset_reason()` reads a small hardware register that latches *why* the last reset happened (power-on, external reset pin, watchdog, software-triggered, brownout) and survives across the reset itself because it's held in an always-powered domain, and a captured stack trace on crash is only possible because the exception handler runs before full memory teardown, walking the call stack's saved return addresses off the exception frame the CPU pushed automatically when the fault occurred.
+
+Brownout detection deserves particular attention because it's a real analog circuit, not firmware logic: a comparator continuously monitors the chip's core supply voltage against a fixed threshold (often just under 3.0V), and if the Wi-Fi radio's transmit current draw (which spikes sharply, tens to hundreds of mA, during actual RF transmission bursts) sags the supply below that threshold even briefly — commonly from an underspecced USB cable or power supply that can't source the transient current — the brownout detector forces an immediate reset before software has any chance to log a graceful reason, which is why "random resets that correlate with Wi-Fi activity" are so often a power-supply-quality problem, not a code bug, and why remote diagnostics that log reset reason after the fact is often the only way to distinguish a brownout from a watchdog reset from a genuine crash.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Implement `sendToServer()` using MQTT (from Level 2) instead of

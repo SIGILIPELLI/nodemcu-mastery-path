@@ -132,6 +132,14 @@ through the update logic) makes a fleet-wide policy change — e.g.
 tightening the self-test window after an incident — a one-line diff
 instead of a hunt through the codebase.
 
+## How It Actually Works
+
+Delta/differential OTA updates exist because the full binary-diff-then-transmit approach directly attacks a real bandwidth and flash-wear cost at scale: transmitting a full 1MB+ firmware image to every device in a fleet over metered or congested cellular/Wi-Fi backhaul is expensive per-device and, cumulatively, expensive in aggregate, so delta update schemes instead compute a binary diff between the old and new firmware images (using algorithms like bsdiff that find common byte sequences and encode only the changed regions plus copy instructions) and transmit only that diff, which the device reconstructs by reading its own currently-running image out of flash and applying the patch to produce the new image in the inactive partition — meaning the device now needs enough scratch flash/RAM to hold the diff, the patch-application working state, and still write the reconstructed full image, a real resource constraint that limits how small a device's flash can be and still support delta OTA at all.
+
+Staggering OTA rollout timing across a fleet (rather than pushing simultaneously) is also a real infrastructure-capacity mechanism, not just caution: thousands of devices simultaneously opening TLS connections and downloading multi-hundred-KB images creates a genuine server-side and network thundering-herd load, and jittering rollout start times (often by having each device compute a random delay from a hash of its own unique device ID) spreads that load over time using nothing but each device's own already-unique identity, without any central coordination needed at rollout time itself.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Implement the MAC-based jitter function and verify by hand that two

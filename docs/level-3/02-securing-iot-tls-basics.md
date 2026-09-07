@@ -135,6 +135,14 @@ client.setBufferSizes(512, 512); // BearSSL-documented tuning knob;
                                   // trade generality for free heap.
 ```
 
+## How It Actually Works
+
+TLS on these chips runs through mbedTLS (or BearSSL on ESP8266 Arduino core), and the handshake is a real, multi-round-trip cryptographic negotiation: ClientHello proposes supported cipher suites and a random nonce, ServerHello picks one and returns its own nonce plus its certificate chain, the client verifies that chain against embedded root CA certificates (a chain-of-trust check: each cert's signature is verified using the *next* cert's public key, up to a root CA your firmware must already trust), then both sides derive a shared master secret via ECDHE (elliptic-curve Diffie-Hellman — each side sends an ephemeral public key, and the shared secret is computed locally without ever transmitting it) and finally exchange Finished messages MAC'd with that derived key, which is what actually catches any tampering with the earlier plaintext handshake messages.
+
+On ESP32, this workload is offloaded to real hardware: dedicated AES, SHA, and RSA/ECC acceleration blocks execute the bulk cipher and much of the public-key math in a few thousand clock cycles instead of tens of thousands of software instruction cycles, which is the literal reason ESP32 TLS handshakes complete in a few hundred milliseconds. Certificate verification failing at "unable to get local issuer certificate" specifically means your embedded root CA store doesn't contain (or has expired relative to) the CA that actually signed the server's leaf certificate — a mismatch mbedTLS reports as a handshake alert, not an application error, because the failure happens before any application data is ever exchanged.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Explain, in your own words, why `setInsecure()` protects against

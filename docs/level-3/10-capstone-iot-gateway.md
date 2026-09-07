@@ -228,6 +228,14 @@ credentials (captive-portal module), and exposes both a local debug
 surface (REST) and a remote one (MQTT + would-be diagnostics logger from
 03-09) for observing it in the field.
 
+## How It Actually Works
+
+A gateway aggregating multiple upstream protocols (local sensor buses) into one downstream protocol (MQTT/HTTP over TLS) is really running several independent state machines concurrently on hardware that has exactly one radio and, on ESP32, two CPU cores — the practical mechanism that keeps this from falling apart is that lwIP's TCP/TLS state and the Wi-Fi driver's own beacon/keepalive housekeeping run largely as background RTOS tasks (ESP32) or interleaved yields (ESP8266), while your bus-polling code runs as another task/loop competing for the same limited heap and, more subtly, for the same shared SPI/I2C hardware peripheral if multiple sensor types happen to share bus hardware underneath different logical "buses."
+
+Buffering and QoS choices in this design directly trade against flash wear and RAM pressure discussed in earlier modules: a gateway that queues unsent MQTT messages during a Wi-Fi outage to a RAM ring buffer will lose them on any reset but preserves flash life, while queuing to LittleFS survives a reset but consumes real erase cycles proportional to how long and how often the outage recurs — there is no configuration here that avoids this tradeoff, only ones that pick a different point on it, because it stems directly from NOR flash's own physical erase-cycle limit, not from any particular library's design choice.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Add the reset-reason and free-heap diagnostics from 03-09 into the

@@ -173,6 +173,14 @@ and lower latency. A mesh of battery sensors reporting to one gateway
 node is a natural ESP-NOW fit; a "tell every device on the LAN to
 refresh" announcement is a natural UDP broadcast fit.
 
+## How It Actually Works
+
+Multiple ESP devices talking to each other over Wi-Fi still funnel every packet through the same AP-mediated infrastructure mode by default: even "device A pings device B" traffic on the same network normally goes out from A's radio, through the AP's internal switching fabric, and back out to B's radio — two hops over the air, not a direct link — unless you explicitly use ESP-NOW or a Wi-Fi Direct-style mode, which negotiate a direct peer link using raw 802.11 action frames outside the normal AP-association path, cutting latency and avoiding AP airtime contention entirely. mDNS discovery (`.local` hostnames) works by each device joining the same multicast group (224.0.0.251) and answering multicast DNS queries for its own name directly over UDP, which is why mDNS discovery quietly fails on networks where AP client isolation or IGMP snooping misconfiguration blocks multicast traffic between wireless clients — a hardware/AP-firmware limitation entirely outside your sketch's control.
+
+Broadcast/UDP-based device discovery schemes rely on the fact that a UDP broadcast (255.255.255.255 or the subnet broadcast address) is delivered by the AP to every associated station without a targeted MAC lookup, unlike unicast traffic which requires the AP's forwarding table to already know which associated station owns the destination IP — this is why devices that just joined the network sometimes miss the first broadcast: the AP's ARP/forwarding tables haven't cached them yet, and the very act of broadcasting is what seeds that cache for subsequent unicast replies.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Write the UDP sender/receiver pair and reason through what happens if

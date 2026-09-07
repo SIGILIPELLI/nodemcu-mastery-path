@@ -125,6 +125,14 @@ void loop() {
 }
 ```
 
+## How It Actually Works
+
+`analogWrite()` on these chips is emulated PWM, not a native DAC — a hardware (ESP32 LEDC peripheral) or software (ESP8266, using a timer interrupt) counter continuously counts up to a programmable period register; the GPIO output is forced HIGH when the counter resets to zero and forced LOW the instant the counter equals your duty-cycle compare value, so "80% duty cycle" literally means the pin is high for 80% of each fixed period and low for the remaining 20%, repeated at the PWM frequency (default ~1kHz on ESP8266's software PWM, configurable up to hundreds of kHz on ESP32's hardware LEDC timers). What an LED or your eye perceives as "half brightness" is the LED physically switching fully on and fully off ~1000+ times per second faster than persistence of vision can resolve — the *average* delivered power, not the instantaneous voltage, is what changes.
+
+ESP32's LEDC timers are genuinely different from ESP8266's approach: they use a hardware fractional divider off the APB clock (typically 80MHz) feeding a counter with configurable bit-depth (up to 20-bit resolution at low frequencies, trading resolution for frequency per the constraint duty_resolution_bits ≈ log2(APB_clk / pwm_freq)), meaning higher PWM frequencies mechanically reduce how many discrete duty-cycle steps are available — this is a real silicon tradeoff you hit when driving something like a servo (50Hz, needs fine duty resolution) versus a motor driver (20kHz+ to move the switching noise above audible range, but coarser steps).
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Wire an LED (with resistor) to a PWM-capable pin and run the fade sketch

@@ -168,6 +168,14 @@ reasonable trade-off for a first project, even though a real production
 dashboard would use something more efficient (covered in Level 3's REST
 API module).
 
+## How It Actually Works
+
+This capstone chains three independent hardware subsystems each with its own failure domain: the single-wire DHT timing loop (vulnerable to any interrupt jitter, including the Wi-Fi/lwIP stack's periodic housekeeping ticks), the 802.11 association/DHCP state machine (which runs as background firmware tasks interleaved with your `loop()` via the RTOS scheduler on ESP32 or cooperative yielding on ESP8266), and the HTTP client's TCP/IP stack (lwIP) building actual TCP segments with sequence numbers, checksums, and retransmission timers on top of the already-established Wi-Fi link. A failure in any layer surfaces identically as "it didn't work," which is why robust firmware checks `WiFi.status()`, the DHT read's boolean return, and the HTTP response code as three genuinely separate hardware/protocol states rather than one blob.
+
+The reason a single-threaded polling loop can juggle all this without an RTOS mental model: ESP8266's Arduino core secretly runs a cooperative scheduler under `loop()` — every call into a delay, network function, or `yield()` gives the hidden Wi-Fi/TCP stack a chance to run its own state machine a few more steps (processing incoming ACKs, sending keepalives, servicing the radio) before returning control to your code, which is precisely why blocking too long anywhere in your sensor-read logic can starve the network stack and eventually trip the watchdog even though your code "isn't touching Wi-Fi" at that moment.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Fill in your WiFi credentials, set `DHT_PIN` to match your wiring, and

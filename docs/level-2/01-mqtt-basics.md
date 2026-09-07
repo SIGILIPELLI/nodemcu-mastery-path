@@ -153,6 +153,14 @@ void loop() {
 }
 ```
 
+## How It Actually Works
+
+MQTT rides on top of a single persistent TCP connection, and every "publish" or "subscribe" call is really a small binary control packet built to spec: a fixed header byte encoding the packet type (CONNECT=1, PUBLISH=3, SUBSCRIBE=8, etc.) and QoS flags, followed by a variable-length remaining-length field encoded in a 7-bit continuation scheme (each byte's top bit signals "more bytes follow"), followed by the topic string and payload. The client library you call (PubSubClient, etc.) serializes this byte-for-byte and hands it to the TCP socket, where lwIP segments it, computes the TCP checksum, and queues it for transmission — QoS 1 "at least once" delivery is implemented by the client keeping the PUBLISH packet buffered and retransmitting it if no PUBACK control packet arrives within a timeout, meaning "MQTT reliability" is really just an app-layer ack/retry protocol running over TCP's own ack/retry mechanism, doubling up.
+
+The broker connection is kept alive by a keepalive timer baked into the CONNECT packet: if no packet of any kind crosses the wire within 1.5× the keepalive interval, the client must send a PINGREQ (and the broker replies PINGRESP) purely to prove the socket is still alive — because TCP itself has no built-in "is the peer still there" signal without enabling OS-level keepalive probes, which most embedded TCP/IP stacks don't bother with by default. This is the actual mechanism behind "MQTT disconnects silently" bugs: the underlying TCP socket can look fine to the OS while the broker has long since timed out and dropped the session server-side.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Install Mosquitto locally and confirm it's running with

@@ -103,6 +103,14 @@ this code to a board with the opposite LED polarity, instead of hunting
 through every `digitalWrite` call in the sketch — a small habit worth
 building early.
 
+## How It Actually Works
+
+`digitalWrite(pin, HIGH)` compiles down to a single write into a GPIO output-data register — on ESP8266 that's `GPIO_OUT` (address 0x60000300 region) where bit *n* corresponds to GPIO*n*, and on ESP32 it's `GPIO_OUT_REG`/`GPIO_OUT1_REG` split across two 32-bit registers because there are more than 32 pins. Before that write has any effect, the pin's IO_MUX register must already select the GPIO function (as opposed to UART, SPI, or one of the other 5-8 alternate functions every pad can carry) and the GPIO_ENABLE register bit for that pin must be set to mark it as output rather than input — `pinMode()` is what actually touches those two registers; `digitalWrite()` only flips the data bit.
+
+The blink itself is bounded by real electrical limits, not just software: each GPIO pad has a maximum sink/source current (~12 mA per pin on ESP8266, ~40 mA on ESP32, with a shared per-chip current budget far lower than pins × max), so driving an LED without a series resistor works by luck of the LED's own forward-voltage drop, not because the pin is "safe." `delay(1000)` doesn't idle the CPU — internally it spins on the hardware cycle counter (or, in the Arduino core, `millis()` built from a hardware timer interrupt incrementing a tick counter) while yielding periodically to the Wi-Fi/RTOS scheduler so the radio stack keeps servicing beacon frames; a `delay()` implemented as a naive busy-loop instead of yielding is exactly what triggers the software watchdog timer reset on ESP8266.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Upload the basic Blink sketch above to your board (**Sketch → Upload**,

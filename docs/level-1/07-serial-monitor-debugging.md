@@ -140,6 +140,14 @@ void loop() {
 }
 ```
 
+## How It Actually Works
+
+`Serial.println()` doesn't transmit instantly — it pushes bytes into the UART peripheral's hardware TX FIFO (a small on-chip buffer, typically 128 bytes on these chips), and a dedicated UART shift register clocks bits out one at a time at the configured baud rate, framed as start bit + 8 data bits + optional parity + stop bit(s), governed by a baud-rate divisor register that divides the peripheral clock to the target bit period. If you print faster than the UART can drain the FIFO (at 115200 baud, roughly 11,520 bytes/sec), `Serial.print()` blocks until space frees up — which is a real, measurable source of timing jitter in loops that do heavy logging, not just an IDE quirk.
+
+The USB-serial bridge chip (CH340/CP2102) on the other end resamples that UART bit stream into USB bulk-transfer packets, which is why serial monitors sometimes show garbled boot-time output at 74880 baud specifically — that's the ESP8266 boot ROM's own diagnostic UART rate (derived from an odd internal clock divider), different from whatever baud your sketch configures for `Serial.begin()`, so watching *boot* messages needs a different baud setting than watching your *app's* messages. `Serial.flush()` isn't "clear the buffer" — it blocks until the TX FIFO is physically empty and the last bit's stop period has elapsed, which matters when you're about to cut power or enter deep sleep and need guaranteed transmission before the UART clock domain shuts off.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Run the basic Serial hello sketch, open **Tools → Serial Monitor**, set

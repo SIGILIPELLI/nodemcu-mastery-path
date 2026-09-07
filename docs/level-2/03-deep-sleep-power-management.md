@@ -130,6 +130,14 @@ esp_sleep_enable_ext0_wakeup(GPIO_NUM_33, 1); // 1 = wake on HIGH level
 documented subset of ESP32 pins), so check your board's pinout before
 choosing one.
 
+## How It Actually Works
+
+`ESP.deepSleep(microseconds)` doesn't pause the chip — it powers down almost the entire SoC (CPU, most SRAM, radio, most peripherals), leaving only the RTC domain running: a small low-power controller, a handful of bytes of RTC memory, and an RTC timer clocked by a separate, much slower internal oscillator (or an external 32.768kHz crystal on boards that have one) that keeps counting while everything else is dark, drawing microamps instead of the tens of milliamps active Wi-Fi operation needs. When the RTC timer reaches your requested count, it asserts a wake signal that triggers a full chip reset — deep sleep wake is not a resume, it's a cold boot that happens to skip straight past a longer power-on delay, which is why code after `deepSleep()` never runs and your sketch always restarts from `setup()`.
+
+RTC memory (a few hundred bytes, separate from main SRAM which loses power) survives deep sleep specifically because it sits in the always-powered RTC domain, which is why `RTC_DATA_ATTR` variables on ESP32 (or `ESP.rtcUserMemoryWrite/Read` on ESP8266) can persist a boot counter or last-sensor-value across sleep cycles while ordinary globals reset to zero every time. On ESP8266, deep sleep additionally requires physically wiring GPIO16 to the RST pin, because ESP8266's RTC controller has no independent path back to the reset logic — the wake pulse has to be routed externally through that jumper, unlike ESP32 which has the RTC-to-reset path built into the same die.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. On paper, wire GPIO16 to RST for an ESP8266 board and write the basic

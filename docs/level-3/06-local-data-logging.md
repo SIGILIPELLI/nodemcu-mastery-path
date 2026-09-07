@@ -149,6 +149,14 @@ void listFiles() {
 cores (LittleFS on ESP8266/ESP32 presents a flat namespace by default,
 so this walks every file at the mount root).
 
+## How It Actually Works
+
+Writing a log line to LittleFS/SPIFFS isn't an atomic append at the hardware level — because NOR flash can only be erased a full sector at a time (typically 4KB) but written in smaller pages, the filesystem driver has to track which physical sectors hold which logical file blocks through its own metadata structures, and an append that crosses a sector boundary triggers a read-modify-erase-rewrite of that sector's remaining valid data alongside your new bytes. This is why frequent small appends to a growing log file are measurably slower and more flash-wear-intensive than batching several log lines into one larger write: each sector has a finite erase-cycle budget (roughly 10,000–100,000 depending on the flash part), and wear leveling spreads writes across different physical sectors over time specifically to keep any one sector from hitting that limit before the others.
+
+A power loss mid-write is a real corruption risk this layer has to defend against: if power drops after a sector erase but before the new data is fully programmed, that sector can be left in an indeterminate state, which is why LittleFS (unlike the older SPIFFS) is explicitly designed with a copy-on-write, log-structured layout — new data is written to a fresh location and a small metadata commit record is written last, so an interrupted write leaves the *old* data still intact and discoverable rather than half-overwritten, at the cost of needing extra free flash space as working room for that log-structured approach to function at all.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Write a sketch that appends a timestamped CSV line every 10 seconds

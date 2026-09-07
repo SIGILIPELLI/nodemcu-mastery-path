@@ -123,6 +123,14 @@ immediately, no delay" pattern is the foundation every later module builds
 on, including the WiFi and sensor modules where blocking `delay()` calls
 become actively harmful.
 
+## How It Actually Works
+
+Every ESP8266/ESP32 pin is a multiplexed pad, not a dedicated GPIO wire — internally each pad connects to an IO_MUX cell that can route it to one of several peripheral signals (GPIO, UART, HSPI, I2S, ADC, etc.), selected by function-select bits written during `pinMode()`/peripheral `begin()` calls. Setting `pinMode(pin, INPUT_PULLUP)` doesn't just "listen" — it enables a physical weak pull-up resistor (typically 30–100kΩ on ESP8266/ESP32 internal pull-ups) tied to the pad through a switched transistor inside the pad cell, so an unconnected or open-drain-driven input settles at a defined HIGH instead of floating and picking up noise. `digitalRead()` reads back the GPIO_IN register, a live snapshot latched on the pad's input buffer — critically it reflects the pad's actual voltage even while the pin is configured as output, which is how some debouncing tricks read back their own drive state.
+
+The Dxx-to-GPIOxx pin-numbering trap covered elsewhere has a hardware root: board designers wired NodeMCU/Wemos silkscreen labels to whatever GPIO number was convenient for their PCB routing, not to a logical sequence — GPIO16 (D0) on ESP8266 in particular is wired to a separate RTC domain and lacks interrupt capability and pull-up, because it's driven by the RTC controller used to wake the chip from deep sleep via an external EXT_RSTB path, not the main GPIO matrix at all.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Wire an external LED (with resistor) to a GPIO pin of your choice and

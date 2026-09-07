@@ -148,6 +148,14 @@ void addSample(float value) {
 }
 ```
 
+## How It Actually Works
+
+Deciding what computation runs on-device versus in the cloud is bounded by real, measurable hardware limits, not just architectural taste: these chips have tens to a few hundred KB of usable RAM and clock speeds in the 80-240MHz range without a floating-point unit on ESP8266 (floating-point math there is emulated in software, meaningfully slower than native integer math), so any on-device inference or signal-processing workload has to fit its working set inside that heap and its latency budget inside that clock speed — a computation that would be trivial cloud-side because a server has gigabytes of RAM and a multi-GHz CPU with hardware floating point can be genuinely infeasible on-device, not merely "slower," if its working set simply doesn't fit in available heap at all.
+
+The other real constraint is radio duty cycle and its cost: every byte sent to the cloud costs actual transmit-current energy (covered in the power budget module) and consumes airtime on a shared radio channel, so edge preprocessing that reduces, say, a continuous sensor stream down to only the meaningful threshold-crossing events before transmission is directly trading available CPU cycles and RAM against radio transmit energy and network load — a legitimate case-by-case tradeoff rather than a universal "edge is better" rule, since the CPU/RAM cost of the preprocessing itself has to be smaller than the radio energy it saves to actually be worth doing on this class of hardware.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Compute the bandwidth reduction factor of send-on-change versus

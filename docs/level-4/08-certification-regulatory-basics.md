@@ -85,6 +85,14 @@ pre-certified module:
    modular-approval documentation, and your own enclosure/antenna
    design decisions, in case a regulator or retailer asks for evidence.
 
+## How It Actually Works
+
+Radio certification (FCC Part 15, CE RED, etc.) exists because these chips are, physically, intentional radiators — the same RF matching network and antenna design covered under device design directly determines the actual radiated power and spectral emissions a test lab measures with a calibrated spectrum analyzer in an anechoic chamber, and pre-certified modules (versus a bare chip soldered onto your own custom RF layout) are attractive specifically because the module vendor has already had that exact antenna/matching/shielding combination tested and certified, and integrating it under a modular-approval path lets you inherit that certification without repeating the RF testing yourself — but only if you don't alter the module's RF section (antenna, matching network, shielding) at all, since any physical change there invalidates the basis the original certification tested.
+
+Emissions testing also covers unintentional radiation from your own board design — fast digital switching edges (SPI/I2C clock lines, PWM outputs) act as small unintentional antennas radiating harmonics of their switching frequency, and poor PCB layout (long unshielded traces, inadequate ground-plane return paths near high-speed signals) can push a design over regulatory emission limits even with a perfectly certified Wi-Fi module on board — which is the concrete reason "we used a certified module" doesn't automatically mean "the finished product is certified": the module's radio emissions are covered, but your own board's separate digital-noise emissions are not.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Look up (from a module datasheet, real or representative) what

@@ -102,6 +102,14 @@ can be the right one at volume, or vice versa.
 4. Have connector, enclosure, and assembly labor costs been estimated
    from an actual quote, not extrapolated from the schematic alone?
 
+## How It Actually Works
+
+BOM cost decisions at this layer trace directly back to real silicon and PCB tradeoffs from earlier modules: choosing a bare chip (ESP8266/ESP32 module without pre-certification) versus a pre-certified module isn't just a price-per-unit line item, it's trading your own NRE cost (antenna tuning, RF layout expertise, and the certification testing covered above) against a higher per-unit module price that already amortizes all of that — a decision whose right answer flips based purely on production volume, since certification/RF-engineering NRE is a fixed cost spread across however many units you build, while the module price premium is a per-unit variable cost. Flash size selection interacts with OTA strategy directly: choosing a smaller flash part to shave cents per unit can make dual-partition OTA (which needs roughly 2x the app image size in flash, plus filesystem space) physically infeasible, forcing either a more expensive part later or dropping OTA capability entirely — a hardware constraint discovered only once the firmware has grown past the smaller part's ceiling.
+
+Component tolerance and sourcing also carries a real electrical cost dimension: the crystal oscillator that clocks the whole chip has a tolerance spec (commonly ±10-40ppm) that directly affects how accurately the chip's internal timers (including the RTC timer used for deep-sleep wake intervals) hold real time — a cheaper, wider-tolerance crystal is a legitimate BOM cost saving for a device that just needs "roughly every hour," but a measurable accuracy problem for one whose deep-sleep wake schedule needs to line up tightly with an external event.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. For a product needing 3 digital button inputs, compare the BOM cost

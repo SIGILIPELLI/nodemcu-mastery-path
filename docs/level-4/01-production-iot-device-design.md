@@ -109,6 +109,14 @@ consequences:
 6. Reset reason and boot count are logged, so a brownout-reset loop is
    visible in aggregate across the fleet, not just per-device.
 
+## How It Actually Works
+
+Moving from a dev-board prototype to a production PCB changes real electrical behavior the Arduino abstraction hides entirely: the NodeMCU/Wemos board's onboard voltage regulator, decoupling capacitors, and pre-tuned antenna matching network all have to be re-engineered by you on a custom board, and getting the RF matching network wrong (the small L-network of capacitors/inductors between the chip's RF pad and the antenna, tuned to the chip's specific output impedance) doesn't cause an obvious software error — it silently reduces transmit power and receive sensitivity, showing up only as a shorter usable Wi-Fi range that's easy to misattribute to "bad firmware" or environmental interference. Chip-scale antenna designs (ceramic chip antennas or PCB trace antennas) are also sensitive to nearby copper pours and enclosure material in ways a breadboard prototype never reveals, since a phone case's worth of plastic or metal near the antenna can detune it measurably.
+
+Power-supply sizing is the other real physical constraint: the Wi-Fi radio's transmit bursts draw current spikes (often 200-400mA for brief windows) far above the chip's average consumption, and a regulator or battery/cell that can supply the *average* current fine but can't source that instantaneous *peak* current will sag the supply rail below the brownout threshold precisely during transmission — exactly the mechanism covered in diagnostics — which is why production power budgets have to be sized against peak transient current, not average draw, with adequate bulk capacitance (typically 100µF+ electrolytic plus smaller ceramics) placed physically close to the chip to supply that transient locally rather than through supply-trace inductance.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Take the `production-boot.ino` skeleton and implement

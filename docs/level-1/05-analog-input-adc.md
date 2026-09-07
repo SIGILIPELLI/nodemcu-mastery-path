@@ -129,6 +129,14 @@ ratio for slow-changing physical quantities like light level or
 temperature, though it's too slow for anything that changes within a few
 milliseconds.
 
+## How It Actually Works
+
+`analogRead()` triggers a successive-approximation-register (SAR) ADC conversion: the ADC's internal comparator repeatedly halves a search range, comparing the input voltage against an internally generated reference voltage from a binary-weighted capacitor DAC, converging bit-by-bit (MSB first) to the closest digital value in roughly as many comparator cycles as there are output bits. ESP8266 exposes exactly one ADC pin (A0) with a 10-bit resolution (0–1023) over a fixed 0–1.0V input range at the die (extended to 0–3.3V on NodeMCU boards only because a 220kΩ/100kΩ resistor divider on the board itself scales the voltage down before it reaches the pin) — this is why A0 readings drift if you bypass the divider or feed more than 3.3V. ESP32 has multiple 12-bit ADC channels (0–4095) spread across two SAR ADC units, but ADC2 channels are unusable while Wi-Fi is active because the Wi-Fi driver claims the same ADC2 hardware for RF calibration.
+
+Quantization error is a real, unavoidable artifact here, not a rounding inconvenience: a 10-bit ADC over ~1V range has ~1mV per code step, so any input noise, ADC reference-voltage drift with temperature, or nonlinearity in the SAR comparator ladder shows up directly as jitter in consecutive readings — which is why production firmware oversamples (averaging N reads) to trade conversion speed for effective resolution, exploiting the fact that averaging uncorrelated noise reduces its standard deviation by roughly √N.
+
+*(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
+
 ## Exercise
 
 1. Wire a potentiometer (or a photoresistor + fixed resistor as a voltage

@@ -1940,6 +1940,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2455,6 +2477,10 @@ comes from hardware (MAC), configuration comes from a server keyed by
 that identity, and secrets are per-device rather than shared. Re-keying
 a compromised device means revoking one credential server-side, not
 re-flashing the whole fleet.</p>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Provisioning a fleet at scale means injecting a unique cryptographic identity per device during manufacturing, not just flashing identical firmware — typically a unique device certificate and private key pair generated either off-device (and written into a reserved flash/NVS partition during factory programming) or, in more secure designs, generated <em>on</em>-device using the chip's hardware RNG and never leaving it, with only a signed certificate request going out to be countersigned by a manufacturing CA. The mechanism that makes per-device secrets safe to store in flash at all is that these chips increasingly support flash encryption (a hardware AES engine that transparently encrypts/decrypts every flash read/write using a device-unique key burned into one-time-programmable eFuses) plus secure boot (each boot stage cryptographically verifying the signature of the next stage before executing it) — without both, a stolen device's flash chip can simply be desoldered and read out with a cheap SPI flash programmer, exposing every embedded secret in plaintext.</p>
+<p>Bulk provisioning tooling (jigs that flash and personalize hundreds of boards) has to solve a real hardware timing problem: putting the chip into UART bootloader mode reliably at scale (via GPIO0/EN sequencing, described in earlier modules) without a human pressing buttons requires a purpose-built fixture that drives those pins electrically, and factory test steps typically verify the RF chain (checking actual transmit power via a spectrum analyzer or calibrated RF test jig) precisely because the antenna-matching issues from device design don't show up in a simple continuity test — only an actual RF measurement catches a detuned antenna before it ships.</p>
+<p><em>(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)</em></p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Explain why <code>WiFi.macAddress()</code> is a better device-ID seed for a

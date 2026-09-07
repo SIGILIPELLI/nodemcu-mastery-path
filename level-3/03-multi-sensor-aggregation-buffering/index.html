@@ -1581,6 +1581,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2261,6 +2272,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2419,6 +2441,10 @@ without blocking the fast loop on the slow sensor.</p>
 <a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">count</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">count</span><span class="o">--</span><span class="p">;</span><span class="w"> </span><span class="c1">// oldest slot is now stale; next push will overwrite it</span>
 <a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="p">}</span>
 </code></pre></div>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Sampling multiple sensors on shared buses forces real hardware sequencing constraints: I2C and SPI are inherently serial and half-duplex-per-transaction, so "reading three I2C sensors" is never simultaneous — the master issues one complete START-address-data-STOP transaction per device, one after another, meaning your aggregation code's sampling timestamp already carries an inherent skew between sensors equal to however long each prior transaction took (clock-stretching slaves can add unpredictable extra delay here, since I2C lets a slave hold SCK low to demand more processing time before it's ready to clock out data). A circular/ring buffer used to smooth this out is typically implemented as a fixed-size array with head/tail indices wrapping via modulo arithmetic — the mechanism that makes it safe to write from one context while reading from another is that head and tail are only ever advanced by their own respective owner, so a producer ISR and a consumer loop can share the buffer without a lock, as long as neither wraps around and overtakes the other's pointer.</p>
+<p>Averaging/filtering buffered samples interacts directly with ADC/sensor quantization noise: because each raw sample carries independent quantization and thermal noise, a moving average genuinely reduces the <em>statistical</em> uncertainty of the reported value (standard error falls with √N) even though it does nothing to correct any <em>systematic</em> bias (like an uncalibrated ADC reference or sensor offset) — buffering trades responsiveness (lag equal to roughly your window size × sample interval) for reduced noise, a real signal-processing tradeoff, not just smoother-looking numbers.</p>
+<p><em>(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)</em></p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Compute the RAM cost of a 100-entry ring buffer of <code>SensorSample</code> and

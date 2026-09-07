@@ -1620,6 +1620,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2434,6 +2456,10 @@ useful is <em>actually</em> progressing, not just that <code>loop()</code> is sp
 <a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">  </span><span class="n">esp_task_wdt_reset</span><span class="p">();</span><span class="w"> </span><span class="c1">// or yield() on ESP8266</span>
 <a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="p">}</span>
 </code></pre></div>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>The hardware watchdog timer (WDT) is a free-running counter clocked independently of your main code path, wired directly to the chip's reset logic — if that counter reaches its terminal value without being reset ("fed"/"kicked") by a specific register write from your firmware, it triggers exactly the same electrical reset sequence as pressing the physical RST pin, which is why a watchdog-triggered restart looks identical to a power cycle in your boot logs (no exception, no stack trace, just a fresh <code>setup()</code>). These chips actually run <em>two</em> watchdogs layered on top of each other: a software/RTOS watchdog that checks whether each registered task (including the hidden Wi-Fi/lwIP task) has yielded within its allotted time slice, and beneath that a true hardware WDT that fires if even the software watchdog handler itself hangs — this is why a truly wedged CPU (stuck in a hard fault loop, say) still eventually recovers even when the software layer meant to catch it has itself failed.</p>
+<p><code>ESP.wdtFeed()</code>/the automatic feed inside Arduino core's background yield calls only resets the <em>counter</em>, not the underlying cause — a watchdog reset happening reliably at the same point in your code is the WDT correctly doing its job of surfacing a real blocking operation (a busy-wait loop, a hung I2C clock-stretch, a DNS lookup with no timeout) that starved the scheduler long enough to miss its own required feed interval; silencing the watchdog via <code>ESP.wdtDisable()</code> doesn't fix that underlying hang, it just removes the safety net that would otherwise force a recovery from it.</p>
+<p><em>(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)</em></p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Explain the difference between the ESP8266's hardware WDT and its

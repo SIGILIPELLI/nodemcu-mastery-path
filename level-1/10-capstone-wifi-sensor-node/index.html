@@ -1020,6 +1020,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2251,6 +2262,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2442,6 +2464,10 @@ live-updating view without writing any JavaScript or WebSocket code — a
 reasonable trade-off for a first project, even though a real production
 dashboard would use something more efficient (covered in Level 3's REST
 API module).</p>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>This capstone chains three independent hardware subsystems each with its own failure domain: the single-wire DHT timing loop (vulnerable to any interrupt jitter, including the Wi-Fi/lwIP stack's periodic housekeeping ticks), the 802.11 association/DHCP state machine (which runs as background firmware tasks interleaved with your <code>loop()</code> via the RTOS scheduler on ESP32 or cooperative yielding on ESP8266), and the HTTP client's TCP/IP stack (lwIP) building actual TCP segments with sequence numbers, checksums, and retransmission timers on top of the already-established Wi-Fi link. A failure in any layer surfaces identically as "it didn't work," which is why robust firmware checks <code>WiFi.status()</code>, the DHT read's boolean return, and the HTTP response code as three genuinely separate hardware/protocol states rather than one blob.</p>
+<p>The reason a single-threaded polling loop can juggle all this without an RTOS mental model: ESP8266's Arduino core secretly runs a cooperative scheduler under <code>loop()</code> — every call into a delay, network function, or <code>yield()</code> gives the hidden Wi-Fi/TCP stack a chance to run its own state machine a few more steps (processing incoming ACKs, sending keepalives, servicing the radio) before returning control to your code, which is precisely why blocking too long anywhere in your sensor-read logic can starve the network stack and eventually trip the watchdog even though your code "isn't touching Wi-Fi" at that moment.</p>
+<p><em>(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)</em></p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Fill in your WiFi credentials, set <code>DHT_PIN</code> to match your wiring, and

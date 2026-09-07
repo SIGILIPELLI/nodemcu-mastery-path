@@ -812,6 +812,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2424,6 +2446,10 @@ manual driver install for either chip on older Windows 10 builds.</p>
 </ol>
 <p>Only once compile succeeds should you try an actual <strong>Upload</strong> — which is
 exactly what the next module does with a real, visible-result sketch: Blink.</p>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Installing a board package isn't just adding an entry to a dropdown — it downloads a full toolchain: a cross-compiler (<code>xtensa-lx106-elf-gcc</code> for ESP8266, <code>xtensa-esp32-elf-gcc</code> for ESP32), the Espressif/Arduino core (C++ wrappers around the vendor SDK), <code>esptool.py</code> for flashing, and a <code>boards.txt</code>/<code>platform.txt</code> pair that tells the IDE exact compiler flags, flash size, and linker script to use. The linker script matters more than it looks: it defines memory regions (<code>.iram0.text</code>, <code>.irom0.text</code>, <code>.data</code>, <code>.bss</code>, <code>.dram0</code>) that map specific code and data to either fast internal RAM or memory-mapped flash accessed through the SPI cache — functions marked <code>ICACHE_RAM_ATTR</code> (ESP8266) or <code>IRAM_ATTR</code> (ESP32) are deliberately placed in RAM because flash reads pause during flash-write or Wi-Fi radio calibration operations, and code executing from flash at that instant would crash.</p>
+<p>The COM port your OS shows isn't the chip talking directly to USB — it's a USB-to-UART bridge IC (CH340, CP2102, or FTDI) translating USB packets into a 3.3V asynchronous serial line (TX/RX/RTS/DTR) wired straight into the ESP's UART0 peripheral and, critically, into GPIO0 and EN/RST through small transistor or diode reset circuits so the IDE can programmatically force the chip into bootloader mode without you pressing physical buttons. Baud rate mismatches at this layer aren't a "warning" — the UART's baud-rate generator divides a fixed reference clock, and if your selected rate doesn't match what the bootloader ROM auto-detected during its sync sequence, every byte after the handshake is genuinely misread at the bit level.</p>
+<p><em>(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)</em></p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Install both board packages (or just the one matching your hardware) via

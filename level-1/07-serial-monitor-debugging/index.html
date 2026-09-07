@@ -941,6 +941,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2261,6 +2272,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2413,6 +2435,10 @@ modules:</p>
 <a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span>
 <a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="p">}</span>
 </code></pre></div>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><code>Serial.println()</code> doesn't transmit instantly — it pushes bytes into the UART peripheral's hardware TX FIFO (a small on-chip buffer, typically 128 bytes on these chips), and a dedicated UART shift register clocks bits out one at a time at the configured baud rate, framed as start bit + 8 data bits + optional parity + stop bit(s), governed by a baud-rate divisor register that divides the peripheral clock to the target bit period. If you print faster than the UART can drain the FIFO (at 115200 baud, roughly 11,520 bytes/sec), <code>Serial.print()</code> blocks until space frees up — which is a real, measurable source of timing jitter in loops that do heavy logging, not just an IDE quirk.</p>
+<p>The USB-serial bridge chip (CH340/CP2102) on the other end resamples that UART bit stream into USB bulk-transfer packets, which is why serial monitors sometimes show garbled boot-time output at 74880 baud specifically — that's the ESP8266 boot ROM's own diagnostic UART rate (derived from an odd internal clock divider), different from whatever baud your sketch configures for <code>Serial.begin()</code>, so watching <em>boot</em> messages needs a different baud setting than watching your <em>app's</em> messages. <code>Serial.flush()</code> isn't "clear the buffer" — it blocks until the TX FIFO is physically empty and the last bit's stop period has elapsed, which matters when you're about to cut power or enter deep sleep and need guaranteed transmission before the UART clock domain shuts off.</p>
+<p><em>(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)</em></p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Run the basic Serial hello sketch, open <strong>Tools → Serial Monitor</strong>, set

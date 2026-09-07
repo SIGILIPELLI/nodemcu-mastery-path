@@ -1564,6 +1564,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,6 +2294,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2431,6 +2453,10 @@ records):</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">client</span><span class="p">.</span><span class="n">setBufferSizes</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span><span class="w"> </span><span class="mi">512</span><span class="p">);</span><span class="w"> </span><span class="c1">// BearSSL-documented tuning knob;</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">                                  </span><span class="c1">// trade generality for free heap.</span>
 </code></pre></div>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>TLS on these chips runs through mbedTLS (or BearSSL on ESP8266 Arduino core), and the handshake is a real, multi-round-trip cryptographic negotiation: ClientHello proposes supported cipher suites and a random nonce, ServerHello picks one and returns its own nonce plus its certificate chain, the client verifies that chain against embedded root CA certificates (a chain-of-trust check: each cert's signature is verified using the <em>next</em> cert's public key, up to a root CA your firmware must already trust), then both sides derive a shared master secret via ECDHE (elliptic-curve Diffie-Hellman — each side sends an ephemeral public key, and the shared secret is computed locally without ever transmitting it) and finally exchange Finished messages MAC'd with that derived key, which is what actually catches any tampering with the earlier plaintext handshake messages.</p>
+<p>On ESP32, this workload is offloaded to real hardware: dedicated AES, SHA, and RSA/ECC acceleration blocks execute the bulk cipher and much of the public-key math in a few thousand clock cycles instead of tens of thousands of software instruction cycles, which is the literal reason ESP32 TLS handshakes complete in a few hundred milliseconds. Certificate verification failing at "unable to get local issuer certificate" specifically means your embedded root CA store doesn't contain (or has expired relative to) the CA that actually signed the server's leaf certificate — a mismatch mbedTLS reports as a handshake alert, not an application error, because the failure happens before any application data is ever exchanged.</p>
+<p><em>(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)</em></p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Explain, in your own words, why <code>setInsecure()</code> protects against

@@ -986,6 +986,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2295,6 +2306,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2462,6 +2484,10 @@ dBm — closer to 0 is stronger, e.g. <code>-40</code> is excellent, <code>-80</
 <a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">  </span><span class="n">delay</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span>
 <a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="p">}</span>
 </code></pre></div>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p><code>WiFi.begin(ssid, password)</code> kicks off the full 802.11 client (station) association sequence in hardware/firmware, not a single handshake: the radio first performs active scanning (sending probe requests on each channel and listening for probe responses, or passively listening for beacons) to find the target AP's BSSID and capability set, then sends an 802.11 Authentication frame (open-system on WPA2-PSK networks — the "authentication" that actually matters happens next), then an Association Request/Response exchange that negotiates supported rates and capabilities and assigns an Association ID. Only after association does the real security handshake run: the WPA2 4-way handshake, where the AP and station each derive a Pairwise Transient Key from the pre-shared key (password put through PBKDF2 with the SSID as salt) plus nonces exchanged in EAPOL frames, without ever transmitting the password itself over the air — this is why a correct SSID/wrong-password failure looks identical over the air up until message 2 of that handshake fails its MIC check.</p>
+<p>Once associated, the chip still needs an IP: <code>WiFi.begin()</code> triggers a DHCP DORA exchange (Discover, Offer, Request, Acknowledge) as broadcast/unicast UDP frames on port 67/68, and the returned lease (IP, gateway, DNS, subnet) is what finally makes <code>WiFi.status() == WL_CONNECTED</code> true. Reconnection after a dropped AP isn't instant because the chip has to re-run scan+auth+associate+DHCP from scratch unless you've cached the channel/BSSID — which is why many sketches see multi-second reconnect gaps that look like "the code just isn't running."</p>
+<p><em>(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)</em></p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Fill in your own network's SSID and password in the basic connection

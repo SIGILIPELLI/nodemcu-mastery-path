@@ -1345,6 +1345,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2261,6 +2272,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-it-actually-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How It Actually Works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2447,6 +2469,10 @@ without reflashing:</p>
 "get with default" idiom — it returns the stored value if the key exists
 and is convertible, otherwise the fallback, which is exactly what you
 want for a config field added in a later firmware version.</p>
+<h2 id="how-it-actually-works">How It Actually Works<a class="headerlink" href="#how-it-actually-works" title="Permanent link">&para;</a></h2>
+<p>Persisting config to flash on these chips means writing to a reserved flash region through SPIFFS/LittleFS — a filesystem specifically designed around raw NOR flash's actual physical constraint: you can flip individual bits from 1 to 0 cheaply, but flipping 0 back to 1 requires erasing an entire sector (typically 4KB) at once, and flash sectors have a finite erase-cycle lifetime (on the order of 10,000–100,000 cycles) before they start failing. LittleFS handles this with wear leveling — it doesn't overwrite the same physical sector every time you save the same file, it writes new data to a different, less-worn sector and updates its own internal block-allocation metadata to point there, which is the real reason a "small JSON config" write is a much heavier flash operation than it looks: erase-then-program of a full sector, plus metadata bookkeeping, for what might be a 40-byte string.</p>
+<p>ArduinoJson's parsing, meanwhile, allocates a fixed-capacity memory pool up front (a <code>StaticJsonDocument&lt;N&gt;</code> or dynamically-sized <code>DynamicJsonDocument</code>) and builds its tree structure entirely inside that pool using offsets rather than pointers where possible — this matters concretely because these chips have only tens of KB of heap; a JSON document sized even slightly too small silently truncates or fails to parse rather than throwing an exception, because embedded C++ here typically runs without exception support at all, and running the calculator in ArduinoJson's own sizing tool against your actual payload is the only reliable way to avoid intermittent parse failures under memory pressure.</p>
+<p><em>(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)</em></p>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Write the serialize sketch and confirm (by tracing the code) the

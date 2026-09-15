@@ -135,6 +135,12 @@ The switch itself is a single write to the OTA-data partition (or `rboot`/`eboot
 
 *(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
 
+## 🔀 Related lessons on other tracks
+
+- [Edge AI — OTA Model Updates](https://sigilipelli.github.io/edge-ai-mastery-path/level-4/02-ota-model-updates/)
+- [Embedded Linux — 03 · OTA Updates (RAUC, SWUpdate, OSTree)](https://sigilipelli.github.io/embedded-linux-mastery-path/level-4/03-ota-updates/)
+- [Embedded — OTA Firmware Updates](https://sigilipelli.github.io/embedded-mastery-path/level-2/05-ota-updates/)
+
 ## Exercise
 
 1. Write the basic OTA sketch, flash it once (conceptually) over USB, and

@@ -180,6 +180,11 @@ The reason a single-threaded polling loop can juggle all this without an RTOS me
 
 *(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
 
+## 🔀 Related lessons on other tracks
+
+- [S32K Automotive — 10 · Capstone — Design a CAN Sensor Node](https://sigilipelli.github.io/s32k-mastery-path/level-1/10-capstone-can-sensor-node/)
+- [Embedded Python — 10 · Capstone — WiFi Sensor Logger](https://sigilipelli.github.io/embedded-python-mastery-path/level-1/10-capstone-wifi-sensor-logger/)
+
 ## Exercise
 
 1. Fill in your WiFi credentials, set `DHT_PIN` to match your wiring, and

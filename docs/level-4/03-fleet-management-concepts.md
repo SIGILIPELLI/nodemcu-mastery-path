@@ -145,6 +145,12 @@ Staged/canary OTA rollout across a fleet exploits the same rollback/pending-veri
 
 *(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
 
+## 🔀 Related lessons on other tracks
+
+- [Embedded Linux — 07 · Fleet Management & Provisioning](https://sigilipelli.github.io/embedded-linux-mastery-path/level-4/07-fleet-management/)
+- [Embedded — Fleet Management & Device Clouds](https://sigilipelli.github.io/embedded-mastery-path/level-4/09-fleet-management/)
+- [Embedded Python — Fleet Management & Remote Monitoring](https://sigilipelli.github.io/embedded-python-mastery-path/level-4/07-fleet-management/)
+
 ## Exercise
 
 1. Explain why the LWT message must be set at `connect()` time rather

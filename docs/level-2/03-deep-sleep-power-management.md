@@ -142,6 +142,11 @@ RTC memory (a few hundred bytes, separate from main SRAM which loses power) surv
 
 *(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
 
+## 🔀 Related lessons on other tracks
+
+- [Embedded Python — Deep Sleep & Battery Power](https://sigilipelli.github.io/embedded-python-mastery-path/level-2/03-deep-sleep-battery/)
+- [Embedded Linux — 08 · Power Management & Thermal](https://sigilipelli.github.io/embedded-linux-mastery-path/level-3/08-power-management-thermal/)
+
 ## Exercise
 
 1. On paper, wire GPIO16 to RST for an ESP8266 board and write the basic

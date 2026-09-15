@@ -204,6 +204,12 @@ The genuinely hard engineering property this capstone is really testing is that 
 
 *(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
 
+## 🔀 Related lessons on other tracks
+
+- [Embedded — Capstone — Production IoT Product](https://sigilipelli.github.io/embedded-mastery-path/level-4/10-capstone-production-iot/)
+- [Embedded Python — Capstone — Production IoT Product](https://sigilipelli.github.io/embedded-python-mastery-path/level-4/10-capstone-production-iot/)
+- [Product Lead — 08 · Basic Org Design for Product Teams](https://sigilipelli.github.io/product-lead-mastery-path/level-1/08-basic-org-design/)
+
 ## Exercise
 
 1. Add the staggered OTA check-in jitter from 4.04 so `checkAndApplyOta()`

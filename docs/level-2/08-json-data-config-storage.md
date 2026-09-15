@@ -184,6 +184,10 @@ ArduinoJson's parsing, meanwhile, allocates a fixed-capacity memory pool up fron
 
 *(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
 
+## 🔀 Related lessons on other tracks
+
+- [Pyspark — 05 · Reading Data (CSV, JSON, Parquet)](https://sigilipelli.github.io/pyspark-mastery-path/level-1/05-reading-data/)
+
 ## Exercise
 
 1. Write the serialize sketch and confirm (by tracing the code) the

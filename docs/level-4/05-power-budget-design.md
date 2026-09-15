@@ -169,6 +169,11 @@ Battery chemistry interacts with this at the hardware level too: a battery's own
 
 *(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
 
+## 🔀 Related lessons on other tracks
+
+- [Embedded Python — Deep Sleep & Battery Power](https://sigilipelli.github.io/embedded-python-mastery-path/level-2/03-deep-sleep-battery/)
+- [Embedded — Low-Power Design Deep Dive](https://sigilipelli.github.io/embedded-mastery-path/level-3/05-low-power-design/)
+
 ## Exercise
 
 1. Using the model function, compute estimated runtime for a 5000mAh

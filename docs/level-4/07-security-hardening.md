@@ -140,6 +140,12 @@ Once both are enabled, they also change your own update workflow at a hardware l
 
 *(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
 
+## 🔀 Related lessons on other tracks
+
+- [Cybersecurity — 03 · Linux Security Hardening](https://sigilipelli.github.io/cybersecurity-mastery-path/level-2/03-linux-security-hardening/)
+- [Embedded Linux — 08 · Security Hardening & CVE Management](https://sigilipelli.github.io/embedded-linux-mastery-path/level-4/08-security-hardening/)
+- [Embedded Python — Security Hardening — TLS & Secure Storage](https://sigilipelli.github.io/embedded-python-mastery-path/level-4/06-security-hardening/)
+
 ## Exercise
 
 1. Explain, in terms of what each actually verifies, why `setCACert()`

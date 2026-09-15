@@ -165,6 +165,11 @@ The broker connection is kept alive by a keepalive timer baked into the CONNECT 
 
 *(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)*
 
+## 🔀 Related lessons on other tracks
+
+- [Embedded — MQTT & IoT Messaging](https://sigilipelli.github.io/embedded-mastery-path/level-2/04-mqtt-iot-messaging/)
+- [Embedded Python — MQTT & IoT Messaging](https://sigilipelli.github.io/embedded-python-mastery-path/level-2/01-mqtt-iot-messaging/)
+
 ## Exercise
 
 1. Install Mosquitto locally and confirm it's running with

@@ -2153,6 +2153,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#related-lessons-on-other-tracks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔀 Related lessons on other tracks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2311,6 +2322,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#related-lessons-on-other-tracks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔀 Related lessons on other tracks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2438,6 +2460,12 @@ can be the right one at volume, or vice versa.</p>
 <p>BOM cost decisions at this layer trace directly back to real silicon and PCB tradeoffs from earlier modules: choosing a bare chip (ESP8266/ESP32 module without pre-certification) versus a pre-certified module isn't just a price-per-unit line item, it's trading your own NRE cost (antenna tuning, RF layout expertise, and the certification testing covered above) against a higher per-unit module price that already amortizes all of that — a decision whose right answer flips based purely on production volume, since certification/RF-engineering NRE is a fixed cost spread across however many units you build, while the module price premium is a per-unit variable cost. Flash size selection interacts with OTA strategy directly: choosing a smaller flash part to shave cents per unit can make dual-partition OTA (which needs roughly 2x the app image size in flash, plus filesystem space) physically infeasible, forcing either a more expensive part later or dropping OTA capability entirely — a hardware constraint discovered only once the firmware has grown past the smaller part's ceiling.</p>
 <p>Component tolerance and sourcing also carries a real electrical cost dimension: the crystal oscillator that clocks the whole chip has a tolerance spec (commonly ±10-40ppm) that directly affects how accurately the chip's internal timers (including the RTC timer used for deep-sleep wake intervals) hold real time — a cheaper, wider-tolerance crystal is a legitimate BOM cost saving for a device that just needs "roughly every hour," but a measurable accuracy problem for one whose deep-sleep wake schedule needs to line up tightly with an external event.</p>
 <p><em>(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)</em></p>
+<h2 id="related-lessons-on-other-tracks">🔀 Related lessons on other tracks<a class="headerlink" href="#related-lessons-on-other-tracks" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://sigilipelli.github.io/ai-ml-mastery-path/level-4/08-efficient-inference/">AI/ML — 08 · Cost Optimization &amp; Efficient Inference</a></li>
+<li><a href="https://sigilipelli.github.io/aws-mastery-path/level-4/06-cost-optimization-at-scale/">AWS — Cost Optimization at Scale</a></li>
+<li><a href="https://sigilipelli.github.io/azure-mastery-path/level-3/09-cost-management-optimization/">Azure — 09 · Cost Management &amp; Optimization</a></li>
+</ul>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>For a product needing 3 digital button inputs, compare the BOM cost

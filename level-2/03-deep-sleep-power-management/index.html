@@ -1222,6 +1222,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#related-lessons-on-other-tracks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔀 Related lessons on other tracks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2289,6 +2300,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#related-lessons-on-other-tracks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔀 Related lessons on other tracks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2435,6 +2457,11 @@ choosing one.</p>
 <p><code>ESP.deepSleep(microseconds)</code> doesn't pause the chip — it powers down almost the entire SoC (CPU, most SRAM, radio, most peripherals), leaving only the RTC domain running: a small low-power controller, a handful of bytes of RTC memory, and an RTC timer clocked by a separate, much slower internal oscillator (or an external 32.768kHz crystal on boards that have one) that keeps counting while everything else is dark, drawing microamps instead of the tens of milliamps active Wi-Fi operation needs. When the RTC timer reaches your requested count, it asserts a wake signal that triggers a full chip reset — deep sleep wake is not a resume, it's a cold boot that happens to skip straight past a longer power-on delay, which is why code after <code>deepSleep()</code> never runs and your sketch always restarts from <code>setup()</code>.</p>
 <p>RTC memory (a few hundred bytes, separate from main SRAM which loses power) survives deep sleep specifically because it sits in the always-powered RTC domain, which is why <code>RTC_DATA_ATTR</code> variables on ESP32 (or <code>ESP.rtcUserMemoryWrite/Read</code> on ESP8266) can persist a boot counter or last-sensor-value across sleep cycles while ordinary globals reset to zero every time. On ESP8266, deep sleep additionally requires physically wiring GPIO16 to the RST pin, because ESP8266's RTC controller has no independent path back to the reset logic — the wake pulse has to be routed externally through that jumper, unlike ESP32 which has the RTC-to-reset path built into the same die.</p>
 <p><em>(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)</em></p>
+<h2 id="related-lessons-on-other-tracks">🔀 Related lessons on other tracks<a class="headerlink" href="#related-lessons-on-other-tracks" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://sigilipelli.github.io/embedded-python-mastery-path/level-2/03-deep-sleep-battery/">Embedded Python — Deep Sleep &amp; Battery Power</a></li>
+<li><a href="https://sigilipelli.github.io/embedded-linux-mastery-path/level-3/08-power-management-thermal/">Embedded Linux — 08 · Power Management &amp; Thermal</a></li>
+</ul>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>On paper, wire GPIO16 to RST for an ESP8266 board and write the basic

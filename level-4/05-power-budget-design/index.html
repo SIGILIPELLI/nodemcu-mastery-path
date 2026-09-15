@@ -2041,6 +2041,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#related-lessons-on-other-tracks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔀 Related lessons on other tracks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2311,6 +2322,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#related-lessons-on-other-tracks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔀 Related lessons on other tracks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#exercise" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2509,6 +2531,11 @@ only energized during the awake window, rather than tied directly to
 <p>A real power budget has to account for each operating mode's actual current draw as a physical quantity, not a percentage: deep sleep draws single-digit to tens of microamps (RTC domain only, as covered earlier), active idle with Wi-Fi connected but not transmitting draws tens of milliamps (CPU plus radio in receive/listen mode for beacons), and active transmission draws hundreds of milliamps in short bursts — a battery-powered design's actual runtime is dominated almost entirely by how long the device spends in the <em>highest</em> current-draw state and how often, which is why waking briefly, transmitting, and returning to deep sleep as fast as possible (rather than staying "awake but idle" between transmissions) is the single highest-leverage firmware decision for battery life, since idle-but-connected current draw over minutes can dwarf the energy cost of the transmission burst itself.</p>
 <p>Battery chemistry interacts with this at the hardware level too: a battery's own internal resistance limits how much instantaneous current it can source before its terminal voltage sags — this is exactly the same brownout mechanism from device design and diagnostics, but now the "weak power supply" is the battery's own aging or chemistry rather than a bad regulator, which is why coin-cell-powered designs (high internal resistance) generally cannot tolerate a bursty high-current radio transmission at all without a supercapacitor or bulk capacitor buffering the transient locally, while a lower-internal-resistance LiPo pack can source the same transient current directly from the cell.</p>
 <p><em>(These examples were written and reasoned through at the register/protocol level but were not flashed to a physical board for this pass — verify timing-sensitive details against your exact chip datasheet before relying on them in production.)</em></p>
+<h2 id="related-lessons-on-other-tracks">🔀 Related lessons on other tracks<a class="headerlink" href="#related-lessons-on-other-tracks" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://sigilipelli.github.io/embedded-python-mastery-path/level-2/03-deep-sleep-battery/">Embedded Python — Deep Sleep &amp; Battery Power</a></li>
+<li><a href="https://sigilipelli.github.io/embedded-mastery-path/level-3/05-low-power-design/">Embedded — Low-Power Design Deep Dive</a></li>
+</ul>
 <h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Using the model function, compute estimated runtime for a 5000mAh

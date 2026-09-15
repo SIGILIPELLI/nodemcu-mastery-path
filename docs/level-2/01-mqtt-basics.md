@@ -1,3 +1,7 @@
+---
+description: "MQTT Basics for IoT Messaging — Level 1 sketches used a web server the device hosted itself, or plain HTTP requests the device made outward. That works…"
+---
+
 # 01 · MQTT Basics for IoT Messaging
 
 !!! note "Not flashed to hardware"

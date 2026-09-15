@@ -1,3 +1,7 @@
+---
+description: "Analog Input (ADC) — Digital pins only ever read HIGH or LOW — useful for buttons and switches, useless for anything that varies continuously, like a…"
+---
+
 # 05 · Analog Input (ADC)
 
 !!! note "Not flashed to hardware"

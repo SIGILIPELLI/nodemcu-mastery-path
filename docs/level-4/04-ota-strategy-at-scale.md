@@ -1,3 +1,7 @@
+---
+description: "OTA Update Strategy at Scale — Level 3.08 covered validating and rolling back a single device's OTA update. At fleet scale, the new problems are: not…"
+---
+
 # OTA Update Strategy at Scale
 
 !!! note "Not flashed to hardware"

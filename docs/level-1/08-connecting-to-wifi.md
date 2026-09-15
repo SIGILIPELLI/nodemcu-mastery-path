@@ -1,3 +1,7 @@
+---
+description: "Connecting to WiFi — Both chips can act as a station (STA, joining an existing WiFi network as a client — like your phone joining home WiFi) or an access…"
+---
+
 # 08 · Connecting to WiFi
 
 !!! note "Not flashed to hardware"

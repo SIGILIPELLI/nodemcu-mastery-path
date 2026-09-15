@@ -1,3 +1,7 @@
+---
+description: "JSON Data & Config Storage — Cloud IoT platforms, REST APIs (Level 3), and config files all tend to speak JSON. Rather than hand-parsing strings, the…"
+---
+
 # 08 · JSON Data & Config Storage
 
 !!! note "Not flashed to hardware"

@@ -1,3 +1,7 @@
+---
+description: "Watchdog Timers & Reliability — A device left in the field will eventually hit a bug you didn't reproduce on the bench: a library blocking forever, a heap…"
+---
+
 # 04 · Watchdog Timers & Reliability
 
 !!! note "Not flashed to hardware"

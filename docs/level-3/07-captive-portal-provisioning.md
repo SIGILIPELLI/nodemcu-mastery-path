@@ -1,3 +1,7 @@
+---
+description: "Captive Portal & WiFi Provisioning — Hard-coding a WiFi SSID and password in source works for one bench device, not for something you'll hand to someone…"
+---
+
 # Captive Portal & WiFi Provisioning
 
 !!! note "Not flashed to hardware"

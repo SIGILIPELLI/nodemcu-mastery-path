@@ -1,3 +1,7 @@
+---
+description: "Task Scheduling on a Single Core — A single-core sketch has exactly one loop(). Every delay() call blocks that loop entirely — no sensor reads, no MQTT…"
+---
+
 # Task Scheduling on a Single Core
 
 !!! note "Not flashed to hardware"

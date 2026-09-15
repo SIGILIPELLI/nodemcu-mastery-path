@@ -1,3 +1,7 @@
+---
+description: "Local Data Logging (SPIFFS/LittleFS) — A device that only publishes over WiFi loses every reading during an outage. Logging to the chip's onboard flash as…"
+---
+
 # Local Data Logging (SPIFFS/LittleFS)
 
 !!! note "Not flashed to hardware"

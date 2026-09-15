@@ -1,3 +1,7 @@
+---
+description: "GPIO Basics: Digital Read & Write — Module 03 used the board's built-in LED. This module wires up an external LED on a general-purpose pin, which is what…"
+---
+
 # 04 · GPIO Basics: Digital Read & Write
 
 !!! note "Not flashed to hardware"

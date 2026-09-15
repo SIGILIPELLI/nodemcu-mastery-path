@@ -1,3 +1,7 @@
+---
+description: "PWM Basics — Pulse-Width Modulation switches a digital pin on and off very fast and varies the fraction of time it's on (the 'duty cycle') to simulate an…"
+---
+
 # 06 · PWM Basics
 
 !!! note "Not flashed to hardware"

@@ -1,3 +1,7 @@
+---
+description: "I2C Peripherals — On NodeMCU-style ESP8266 boards, the default I2C pins are whatever you pass to Wire.begin(sda, scl) — commonly D2 (GPIO4, SDA) and D1…"
+---
+
 # 06 · I2C Peripherals
 
 !!! note "Not flashed to hardware"

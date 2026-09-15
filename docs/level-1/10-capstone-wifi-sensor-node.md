@@ -1,3 +1,7 @@
+---
+description: "Capstone — WiFi Sensor Node & Web Server — This is deliberately the simplest possible 'IoT device': no MQTT, no cloud platform, no persistence — just…"
+---
+
 # 10 · Capstone — WiFi Sensor Node & Web Server
 
 !!! note "Not flashed to hardware"

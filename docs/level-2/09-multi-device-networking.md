@@ -1,3 +1,7 @@
+---
+description: "Multi-Device Networking Patterns — Modules 01-08 mostly assumed a single device talking to a broker or cloud service. Real deployments often need devices…"
+---
+
 # 09 · Multi-Device Networking Patterns
 
 !!! note "Not flashed to hardware"

@@ -1,3 +1,7 @@
+---
+description: "First Blink Sketch — Almost every NodeMCU and ESP32 dev board has a small LED soldered onto the board itself, wired to a specific GPIO pin. The Arduino…"
+---
+
 # 03 · First Blink Sketch
 
 !!! note "Not flashed to hardware"

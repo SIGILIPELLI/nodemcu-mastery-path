@@ -1,3 +1,7 @@
+---
+description: "Connecting to a Cloud IoT Platform — Level 2's first module used a broker on your LAN. Real IoT projects usually publish to a cloud IoT platform instead…"
+---
+
 # 02 · Connecting to a Cloud IoT Platform
 
 !!! note "Not flashed to hardware"

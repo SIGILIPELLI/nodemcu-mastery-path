@@ -1,3 +1,7 @@
+---
+description: "What Is NodeMCU (ESP8266 vs ESP32) — In modern usage — including throughout this course — 'NodeMCU' almost always means the board, and you almost never…"
+---
+
 # 01 · What Is NodeMCU (ESP8266 vs ESP32)
 
 !!! note "Not flashed to hardware"

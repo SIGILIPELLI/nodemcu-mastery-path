@@ -1,3 +1,7 @@
+---
+description: "Deep Sleep & Power Management — A battery-powered sensor node that stays fully awake between readings burns power for no reason — an ESP8266/ESP32…"
+---
+
 # 03 · Deep Sleep & Power Management
 
 !!! note "Not flashed to hardware"

@@ -1,3 +1,7 @@
+---
+description: "Capstone — Production IoT Product Design — This is a systems design exercise: taking a battery-powered, fleet-deployed sensor product from Level 4's…"
+---
+
 # Capstone — Production IoT Product Design
 
 !!! note "Not flashed to hardware"

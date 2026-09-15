@@ -1,3 +1,7 @@
+---
+description: "Capstone — Secure Multi-Sensor IoT Gateway — Every piece is non-blocking (task-scheduling module), survives a network outage (local-logging module)…"
+---
+
 # Capstone — Secure Multi-Sensor IoT Gateway
 
 !!! note "Not flashed to hardware"

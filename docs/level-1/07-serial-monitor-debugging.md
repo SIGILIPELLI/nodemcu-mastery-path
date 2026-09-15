@@ -1,3 +1,7 @@
+---
+description: "Serial Monitor Debugging — On a NodeMCU/ESP32 project, the Serial Monitor isn't just a nice-to-have debugging aid — it's often your only window into what…"
+---
+
 # 07 · Serial Monitor Debugging
 
 !!! note "Not flashed to hardware"

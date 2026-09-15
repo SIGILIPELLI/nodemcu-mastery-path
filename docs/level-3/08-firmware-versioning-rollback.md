@@ -1,3 +1,7 @@
+---
+description: "Firmware Versioning & Rollback — Level 2 covered getting new firmware onto a device over the air. This module covers the harder half: knowing which…"
+---
+
 # Firmware Versioning & Rollback
 
 !!! note "Not flashed to hardware"

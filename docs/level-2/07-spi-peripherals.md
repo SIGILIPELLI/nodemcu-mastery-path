@@ -1,3 +1,7 @@
+---
+description: "SPI Peripherals — Where I2C (module 06) shares two wires among many addressed devices, SPI ('Serial Peripheral Interface') uses more wires but moves data…"
+---
+
 # 07 · SPI Peripherals
 
 !!! note "Not flashed to hardware"

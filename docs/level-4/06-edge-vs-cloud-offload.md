@@ -1,3 +1,7 @@
+---
+description: "Edge Processing vs. Cloud Offload — Raw sensor data can be sent upstream as-is, or partially processed on-device first. The right split depends on…"
+---
+
 # Edge Processing vs. Cloud Offload
 
 !!! note "Not flashed to hardware"

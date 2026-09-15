@@ -1,3 +1,7 @@
+---
+description: "Multi-Sensor Data Aggregation & Buffering — Every earlier module read one sensor and published immediately. Real devices usually carry several sensors…"
+---
+
 # 03 · Multi-Sensor Data Aggregation & Buffering
 
 !!! note "Not flashed to hardware"

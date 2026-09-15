@@ -1,3 +1,7 @@
+---
+description: "Designing a Production IoT Device — Everything in Levels 1-3 assumed a dev board, USB power, and you watching the Serial Monitor. A production device…"
+---
+
 # Designing a Production IoT Device
 
 !!! note "Not flashed to hardware"

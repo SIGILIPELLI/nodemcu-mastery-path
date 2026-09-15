@@ -1,3 +1,7 @@
+---
+description: "Cost Engineering & BOM Optimization — Level 4.01 framed ESP8266 vs. ESP32 as a capability question; at volume it's also a straight cost question — the…"
+---
+
 # Cost Engineering & BOM Optimization
 
 !!! note "Reference module"

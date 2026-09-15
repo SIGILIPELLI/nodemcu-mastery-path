@@ -1,3 +1,7 @@
+---
+description: "Provisioning at Scale — Level 3's captive portal is right for 'a person sets up one device.' Manufacturing 500 units needs each one to get a unique…"
+---
+
 # Provisioning at Scale
 
 !!! note "Not flashed to hardware"

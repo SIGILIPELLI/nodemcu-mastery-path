@@ -1,3 +1,7 @@
+---
+description: "Interrupts & Debouncing — Every sketch so far that reacts to a button has polled it — checking digitalRead() once per loop() iteration. That's fine when…"
+---
+
 # 05 · Interrupts & Debouncing
 
 !!! note "Not flashed to hardware"

@@ -1,3 +1,7 @@
+---
+description: "Certification & Regulatory Basics — A sketch running on a bare NodeMCU dev board on your desk needs no certification. The moment you sell a device…"
+---
+
 # Certification & Regulatory Basics
 
 !!! note "Reference module"

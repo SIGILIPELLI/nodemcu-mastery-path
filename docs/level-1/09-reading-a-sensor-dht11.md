@@ -1,3 +1,7 @@
+---
+description: "Reading a Sensor (DHT11 Temperature) — The DHT11 is a combined temperature/humidity sensor that communicates over a single digital data pin using its own…"
+---
+
 # 09 · Reading a Sensor (DHT11 Temperature)
 
 !!! note "Not flashed to hardware"

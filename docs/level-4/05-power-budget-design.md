@@ -1,3 +1,7 @@
+---
+description: "Power Budget Design for Battery Devices — 'Will this battery-powered sensor last the promised 6 months?' is a math problem before it's a firmware problem…"
+---
+
 # Power Budget Design for Battery Devices
 
 !!! note "Not flashed to hardware"

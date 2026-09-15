@@ -1,3 +1,7 @@
+---
+description: "Setting Up the Arduino IDE for ESP Boards — Both chip families are third-party cores, not bundled with the IDE by default, so you point the IDE at their…"
+---
+
 # 02 · Setting Up the Arduino IDE for ESP Boards
 
 !!! note "Not flashed to hardware"

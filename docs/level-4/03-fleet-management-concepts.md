@@ -1,3 +1,7 @@
+---
+description: "Fleet Management Concepts — One device you SSH-adjacent-debug by staring at Serial output. A fleet of thousands needs answers to questions no single…"
+---
+
 # Fleet Management Concepts
 
 !!! note "Not flashed to hardware"

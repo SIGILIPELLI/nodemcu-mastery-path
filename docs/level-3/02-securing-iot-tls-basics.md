@@ -1,3 +1,7 @@
+---
+description: "Securing IoT Communication (TLS Basics) — Every earlier module talked to a broker or server in the clear: anyone on the same network segment (a shared…"
+---
+
 # 02 · Securing IoT Communication (TLS Basics)
 
 !!! note "Not flashed to hardware"

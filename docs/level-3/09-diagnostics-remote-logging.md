@@ -1,3 +1,7 @@
+---
+description: "Diagnostics & Remote Logging — Once a board is in the field, USB Serial is gone. Diagnosing 'device #47 stopped reporting' needs telemetry the device…"
+---
+
 # Diagnostics & Remote Logging
 
 !!! note "Not flashed to hardware"

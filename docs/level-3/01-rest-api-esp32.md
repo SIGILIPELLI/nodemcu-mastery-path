@@ -1,3 +1,7 @@
+---
+description: "Building a REST API on the ESP32 — Level 1's capstone served a simple HTML status page. A REST API formalizes that into predictable, machine-consumable…"
+---
+
 # 01 · Building a REST API on the ESP32
 
 !!! note "Not flashed to hardware"

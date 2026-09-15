@@ -1,3 +1,7 @@
+---
+description: "Security Hardening for Production IoT — A cloud server sits in a datacenter you control access to. A field IoT device sits on someone else's shelf…"
+---
+
 # Security Hardening for Production IoT
 
 !!! note "Not flashed to hardware"

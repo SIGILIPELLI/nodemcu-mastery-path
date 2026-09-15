@@ -1,3 +1,7 @@
+---
+description: "OTA (Over-the-Air) Updates — Every sketch so far has been flashed over USB. That's fine on a desk, but once a board is deployed — mounted in a wall, on a…"
+---
+
 # 04 · OTA (Over-the-Air) Updates
 
 !!! note "Not flashed to hardware"

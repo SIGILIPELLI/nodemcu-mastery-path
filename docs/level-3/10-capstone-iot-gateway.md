@@ -242,7 +242,7 @@ Buffering and QoS choices in this design directly trade against flash wear and R
 
 ## 🔀 Related lessons on other tracks
 
-- [Freertos — Project — Multi-Sensor Gateway](https://sigilipelli.github.io/freertos-mastery-path/level-2/10-project-multi-sensor-gateway/)
+- [Freertos — Project — Multi-Sensor Gateway](https://learnmasterypath.com/freertos-mastery-path/level-2/10-project-multi-sensor-gateway/)
 
 ## Exercise
 

@@ -167,8 +167,8 @@ The broker connection is kept alive by a keepalive timer baked into the CONNECT 
 
 ## 🔀 Related lessons on other tracks
 
-- [Embedded — MQTT & IoT Messaging](https://sigilipelli.github.io/embedded-mastery-path/level-2/04-mqtt-iot-messaging/)
-- [Embedded Python — MQTT & IoT Messaging](https://sigilipelli.github.io/embedded-python-mastery-path/level-2/01-mqtt-iot-messaging/)
+- [Embedded — MQTT & IoT Messaging](https://learnmasterypath.com/embedded-mastery-path/level-2/04-mqtt-iot-messaging/)
+- [Embedded Python — MQTT & IoT Messaging](https://learnmasterypath.com/embedded-python-mastery-path/level-2/01-mqtt-iot-messaging/)
 
 ## Exercise
 

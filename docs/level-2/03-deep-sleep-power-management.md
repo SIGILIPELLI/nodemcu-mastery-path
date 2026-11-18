@@ -144,8 +144,8 @@ RTC memory (a few hundred bytes, separate from main SRAM which loses power) surv
 
 ## 🔀 Related lessons on other tracks
 
-- [Embedded Python — Deep Sleep & Battery Power](https://sigilipelli.github.io/embedded-python-mastery-path/level-2/03-deep-sleep-battery/)
-- [Embedded Linux — 08 · Power Management & Thermal](https://sigilipelli.github.io/embedded-linux-mastery-path/level-3/08-power-management-thermal/)
+- [Embedded Python — Deep Sleep & Battery Power](https://learnmasterypath.com/embedded-python-mastery-path/level-2/03-deep-sleep-battery/)
+- [Embedded Linux — 08 · Power Management & Thermal](https://learnmasterypath.com/embedded-linux-mastery-path/level-3/08-power-management-thermal/)
 
 ## Exercise
 

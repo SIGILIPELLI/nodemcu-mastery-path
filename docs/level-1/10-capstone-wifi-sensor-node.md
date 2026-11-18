@@ -182,8 +182,8 @@ The reason a single-threaded polling loop can juggle all this without an RTOS me
 
 ## 🔀 Related lessons on other tracks
 
-- [S32K Automotive — 10 · Capstone — Design a CAN Sensor Node](https://sigilipelli.github.io/s32k-mastery-path/level-1/10-capstone-can-sensor-node/)
-- [Embedded Python — 10 · Capstone — WiFi Sensor Logger](https://sigilipelli.github.io/embedded-python-mastery-path/level-1/10-capstone-wifi-sensor-logger/)
+- [S32K Automotive — 10 · Capstone — Design a CAN Sensor Node](https://learnmasterypath.com/s32k-mastery-path/level-1/10-capstone-can-sensor-node/)
+- [Embedded Python — 10 · Capstone — WiFi Sensor Logger](https://learnmasterypath.com/embedded-python-mastery-path/level-1/10-capstone-wifi-sensor-logger/)
 
 ## Exercise
 

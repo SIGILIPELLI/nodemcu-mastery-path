@@ -147,9 +147,9 @@ Staged/canary OTA rollout across a fleet exploits the same rollback/pending-veri
 
 ## 🔀 Related lessons on other tracks
 
-- [Embedded Linux — 07 · Fleet Management & Provisioning](https://sigilipelli.github.io/embedded-linux-mastery-path/level-4/07-fleet-management/)
-- [Embedded — Fleet Management & Device Clouds](https://sigilipelli.github.io/embedded-mastery-path/level-4/09-fleet-management/)
-- [Embedded Python — Fleet Management & Remote Monitoring](https://sigilipelli.github.io/embedded-python-mastery-path/level-4/07-fleet-management/)
+- [Embedded Linux — 07 · Fleet Management & Provisioning](https://learnmasterypath.com/embedded-linux-mastery-path/level-4/07-fleet-management/)
+- [Embedded — Fleet Management & Device Clouds](https://learnmasterypath.com/embedded-mastery-path/level-4/09-fleet-management/)
+- [Embedded Python — Fleet Management & Remote Monitoring](https://learnmasterypath.com/embedded-python-mastery-path/level-4/07-fleet-management/)
 
 ## Exercise
 

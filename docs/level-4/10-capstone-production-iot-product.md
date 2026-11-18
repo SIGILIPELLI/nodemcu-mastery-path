@@ -206,9 +206,9 @@ The genuinely hard engineering property this capstone is really testing is that 
 
 ## 🔀 Related lessons on other tracks
 
-- [Embedded — Capstone — Production IoT Product](https://sigilipelli.github.io/embedded-mastery-path/level-4/10-capstone-production-iot/)
-- [Embedded Python — Capstone — Production IoT Product](https://sigilipelli.github.io/embedded-python-mastery-path/level-4/10-capstone-production-iot/)
-- [Product Lead — 08 · Basic Org Design for Product Teams](https://sigilipelli.github.io/product-lead-mastery-path/level-1/08-basic-org-design/)
+- [Embedded — Capstone — Production IoT Product](https://learnmasterypath.com/embedded-mastery-path/level-4/10-capstone-production-iot/)
+- [Embedded Python — Capstone — Production IoT Product](https://learnmasterypath.com/embedded-python-mastery-path/level-4/10-capstone-production-iot/)
+- [Product Lead — 08 · Basic Org Design for Product Teams](https://learnmasterypath.com/product-lead-mastery-path/level-1/08-basic-org-design/)
 
 ## Exercise
 

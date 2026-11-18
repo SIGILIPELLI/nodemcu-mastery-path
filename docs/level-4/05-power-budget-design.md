@@ -171,8 +171,8 @@ Battery chemistry interacts with this at the hardware level too: a battery's own
 
 ## 🔀 Related lessons on other tracks
 
-- [Embedded Python — Deep Sleep & Battery Power](https://sigilipelli.github.io/embedded-python-mastery-path/level-2/03-deep-sleep-battery/)
-- [Embedded — Low-Power Design Deep Dive](https://sigilipelli.github.io/embedded-mastery-path/level-3/05-low-power-design/)
+- [Embedded Python — Deep Sleep & Battery Power](https://learnmasterypath.com/embedded-python-mastery-path/level-2/03-deep-sleep-battery/)
+- [Embedded — Low-Power Design Deep Dive](https://learnmasterypath.com/embedded-mastery-path/level-3/05-low-power-design/)
 
 ## Exercise
 

@@ -61,7 +61,7 @@ moment you have a board and USB cable.
 
 Start here → [Level 1 · Entry](level-1/index.md)
 
-🎥 **Prefer video?** Watch the [Mastery Path video series](https://youtube.com/@sigilipelli) on YouTube — Shorts and full walkthroughs of these lessons.
+🎥 **Prefer video?** Watch the [Mastery Path video series](https://youtube.com/@learnmasterypath) on YouTube — Shorts and full walkthroughs of these lessons.
 
 <!-- cross-link grid: added separately -->
 

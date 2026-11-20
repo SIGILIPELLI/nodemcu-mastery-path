@@ -1,3 +1,7 @@
+---
+description: "Level 1 (Entry) of the free NodeMCU/IoT Mastery Path. Get comfortable with the NodeMCU family of boards — ESP8266 and ESP32 — using the Arduino IDE and the…"
+---
+
 # Level 1 · Entry <span class="level-badge">Foundations</span>
 
 Goal: get comfortable with the NodeMCU family of boards — ESP8266 and ESP32 —

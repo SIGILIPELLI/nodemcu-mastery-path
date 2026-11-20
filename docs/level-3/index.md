@@ -1,3 +1,7 @@
+---
+description: "Level 3 (Advanced) of the free NodeMCU/IoT Mastery Path: Building a REST API on the ESP32, Securing IoT Communication (TLS Basics), Multi-Sensor Data…"
+---
+
 # Level 3 · Advanced
 
 ## Modules

@@ -11,8 +11,8 @@ description: "Diagnostics & Remote Logging — Once a board is in the field, USB
 
 ## You can't `Serial.println()` a deployed device
 
-Once a board is in the field, USB Serial is gone. Diagnosing "device
-#47 stopped reporting" needs telemetry the device pushes itself:
+Once a board is in the field, USB Serial is gone. Diagnosing
+"device #47 stopped reporting" needs telemetry the device pushes itself:
 uptime, free heap, WiFi signal, last reset reason, and structured log
 lines — sent somewhere you can actually query them.
 

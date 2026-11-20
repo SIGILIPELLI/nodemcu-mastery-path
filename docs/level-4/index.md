@@ -1,3 +1,7 @@
+---
+description: "Level 4 (Master) of the free NodeMCU/IoT Mastery Path: Designing a Production IoT Device, Provisioning at Scale, Fleet Management Concepts, OTA Update…"
+---
+
 # Level 4 · Master
 
 ## Modules

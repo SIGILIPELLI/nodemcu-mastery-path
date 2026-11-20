@@ -1,3 +1,7 @@
+---
+description: "Level 2 (Intermediate) of the free NodeMCU/IoT Mastery Path: MQTT Basics for IoT Messaging, Connecting to a Cloud IoT Platform, Deep Sleep & Power…"
+---
+
 # Level 2 · Intermediate
 
 ## Modules

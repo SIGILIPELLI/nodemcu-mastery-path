@@ -84,7 +84,7 @@ not_in_nav: |
 
 nav:
   - Home: index.md
-  - "💼 Interview Questions": interview-questions.md
+  - Interview Questions: interview-questions.md
   - "Level 1 · Entry":
       - Overview: level-1/index.md
       - "01 · What Is NodeMCU (ESP8266 vs ESP32)": level-1/01-what-is-nodemcu.md
@@ -133,5 +133,5 @@ nav:
       - "08 · Certification & Regulatory Basics": level-4/08-certification-regulatory-basics.md
       - "09 · Cost Engineering & BOM Optimization": level-4/09-cost-engineering-bom.md
       - "10 · Capstone — Production IoT Product Design": level-4/10-capstone-production-iot-product.md
-  - "🎯 Final Quiz": quiz.md
+  - Final Quiz: quiz.md
 

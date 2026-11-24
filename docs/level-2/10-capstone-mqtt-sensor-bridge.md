@@ -2,7 +2,7 @@
 description: "Capstone — MQTT Sensor-to-Cloud Bridge — A battery-friendly sensor node that: reads a DHT11 temperature/humidity sensor, packages the reading as a JSON…"
 ---
 
-# 10 · Capstone — MQTT Sensor-to-Cloud Bridge
+# 10 · Project — MQTT Sensor-to-Cloud Bridge
 
 !!! note "Not flashed to hardware"
     Combines the documented APIs from modules 01-08 of this level

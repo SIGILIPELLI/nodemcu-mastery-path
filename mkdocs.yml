@@ -96,7 +96,7 @@ nav:
       - "07 · Serial Monitor Debugging": level-1/07-serial-monitor-debugging.md
       - "08 · Connecting to WiFi": level-1/08-connecting-to-wifi.md
       - "09 · Reading a Sensor (DHT11 Temperature)": level-1/09-reading-a-sensor-dht11.md
-      - "10 · Capstone — WiFi Sensor Node & Web Server": level-1/10-capstone-wifi-sensor-node.md
+      - "10 · Project — WiFi Sensor Node & Web Server": level-1/10-capstone-wifi-sensor-node.md
   - "Level 2 · Intermediate":
       - Overview: level-2/index.md
       - "01 · MQTT Basics for IoT Messaging": level-2/01-mqtt-basics.md
@@ -108,7 +108,7 @@ nav:
       - "07 · SPI Peripherals": level-2/07-spi-peripherals.md
       - "08 · JSON Data & Config Storage": level-2/08-json-data-config-storage.md
       - "09 · Multi-Device Networking Patterns": level-2/09-multi-device-networking.md
-      - "10 · Capstone — MQTT Sensor-to-Cloud Bridge": level-2/10-capstone-mqtt-sensor-bridge.md
+      - "10 · Project — MQTT Sensor-to-Cloud Bridge": level-2/10-capstone-mqtt-sensor-bridge.md
   - "Level 3 · Advanced":
       - Overview: level-3/index.md
       - "01 · Building a REST API on the ESP32": level-3/01-rest-api-esp32.md
@@ -120,7 +120,7 @@ nav:
       - "07 · Captive Portal & WiFi Provisioning": level-3/07-captive-portal-provisioning.md
       - "08 · Firmware Versioning & Rollback": level-3/08-firmware-versioning-rollback.md
       - "09 · Diagnostics & Remote Logging": level-3/09-diagnostics-remote-logging.md
-      - "10 · Capstone — Secure Multi-Sensor IoT Gateway": level-3/10-capstone-iot-gateway.md
+      - "10 · Project — Secure Multi-Sensor IoT Gateway": level-3/10-capstone-iot-gateway.md
   - "Level 4 · Master":
       - Overview: level-4/index.md
       - "01 · Designing a Production IoT Device": level-4/01-production-iot-device-design.md

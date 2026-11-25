@@ -8,8 +8,7 @@ description: "Free NodeMCU/ESP8266/ESP32 and IoT development course from beginne
 A structured, module-wise NodeMCU and IoT development training program that
 takes you from your first blinking LED to designing production-grade,
 fleet-managed IoT devices — starting with the Arduino IDE and ESP8266/ESP32
-boards, with real, compilable Arduino C++ code in every module and a
-hands-on project at the end of each level.
+boards, with real, compilable Arduino C++ code in every module and a hands-on project at the end of Levels 1–3 and a capstone at the end of Level 4.
 
 **No hardware required to start.** Every Level 1 module walks through real
 Arduino-core APIs for the ESP8266/ESP32 with carefully reasoned, syntactically
